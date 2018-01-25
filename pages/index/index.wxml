@@ -1,0 +1,132 @@
+<!--index.wxml-->
+<view class="container">
+    <view>
+        <view>
+            Course Test
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Post</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Put</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+    <view>
+        <view>
+            File-Into Test
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Tes1t</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test2</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+    <view>
+        <view>
+            HomeWork
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Tes1t</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test2</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+</view>
+
+<view class="container">
+    <view>
+        <view>
+            Leson Test
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Post</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Put</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+    <view>
+        <view>
+            Notice Test
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Tes1t</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test2</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+    <view>
+        <view>
+            Student-performance
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Tes1t</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test2</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+    <view>
+        <view>
+            Wechat User
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Tes1t</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test2</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test3</button>
+        </view>
+        <view class="usermotto">
+            <button type='primary' bindtap='onBtn'>Test4</button>
+        </view>
+    </view>
+
+</view>
