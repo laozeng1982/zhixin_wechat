@@ -1,2 +1,37 @@
 <!--pages/course/course.wxml-->
-<text>pages/course/course.wxml</text>
+<view class="container">
+
+    <view class='gray-space'></view>
+
+    <form class='form-container' bindsubmit="onFormSubmit" bindreset="onFormReset">
+        <view class='items-container'>
+
+            <!-- 角色设置 -->
+            <view class='items-container'>
+                <label class="items-container" wx:for="{{displayItems}}" wx:key="{{index}}">
+                    <view class="item-box {{item.type==='textarea'?'column':'row'}}">
+                        <view id="{{item.id}}" class='item-name'>
+                            {{item.name}}
+                        </view>
+
+                        <view wx:if="{{item.type==='input'}}" class='item-input'>
+                            <input id="{{item.id}}" value="{{item.value}}" placeholder='{{item.tip}}'> </input>
+                        </view>
+                        <view wx:if="{{item.type==='picker'}}" class='item-picker' >
+                            <picker id="{{item.id}}" value="{{item.value}}"> {{item.tip}} </picker>
+                        </view>
+                        <view wx:if="{{item.type==='textarea'}}" >
+                            <textarea id="{{item.id}}" class='decription-item-text' value="{{item.value}}" show-confirm-bar='{{false}}' placeholder='{{item.tip}}'></textarea>
+                        </view>
+                    </view>
+                </label>
+            </view>
+        </view>
+
+        <view class="foot-box">
+            <button class='reset-btn' type='default' size='default' formType="reset">重置</button>
+            <button class='confirm-btn' type='primary' size='default' formType="submit">保存</button>
+        </view>
+    </form>
+
+</view>

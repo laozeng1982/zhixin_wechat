@@ -9,16 +9,34 @@ Page({
      */
     data: {
         authorities: [
-            { name: 'teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评' },
-            { name: 'parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业' },
-            { name: 'student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业' },
+            {
+                name: 'teacher',
+                value: '老师',
+                checked: false,
+                disabled: true,
+                description: '发布课程、通知开课、考勤管理、发布作业以及点评'
+            },
+            {
+                name: 'parent',
+                value: '家长',
+                checked: false,
+                disabled: true,
+                description: '代替小孩加入课程、查看老师评价、上传作业'
+            },
+            {
+                name: 'student',
+                value: '学生',
+                checked: false,
+                disabled: true,
+                description: '加入课程、查看课程、老师评价、上传作业'
+            },
         ],
     },
 
     /**
-   * 提交表单
-   * 需要在这里做验证
-   */
+     * 提交表单
+     * 需要在这里做验证
+     */
     onFormSubmit: function (e) {
         // TODO 表单校验
         // 根据入口不同，选择切换不同的Tab
@@ -57,6 +75,15 @@ Page({
         let userInfo = wx.getStorageSync("WeChatUser");
         for (let item of authorities) {
             item.checked = item.name === userInfo.currentAuth;
+        }
+
+        // 禁止未拥有的角色启动单选按钮
+        for (let role of userInfo.authorities) {
+            for (let item of authorities) {
+                if (role === item.name) {
+                    item.disabled = false;
+                }
+            }
         }
 
         this.setData({

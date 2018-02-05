@@ -82,11 +82,46 @@
     align-items: center;
 }
 
-.swiper-item {
-    height: 660rpx;
+.tab-item {
+    height: 100%;
     width: 100%;
     display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.course-tab-container {
+    display: flex;
+    height: 100rpx;
+    width: 100%;
     flex-direction: row;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    padding-left: 40rpx;
+    padding-right: 40rpx;
+}
+
+.course-tab-item {
+    width: 230rpx;
+    margin-left: 40rpx;
+    /* margin-right: 40rpx; */
+}
+
+.unselected {
+    color: #888;
+}
+
+.create-image-btn {
+    height: 256rpx;
+    width: 256rpx;
+}
+
+.create-text {
+    display: flex;
+    justify-content: space-around;
     align-content: center;
     align-items: center;
 }

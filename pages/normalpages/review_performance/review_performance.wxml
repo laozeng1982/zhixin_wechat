@@ -34,10 +34,10 @@
                         <!-- 文本框 -->
                         <view class="items-container" wx:if="{{item.name !='score'}}" id='{{item.name}}'>
                             <view wx:if="{{item.show}}">
-                                <view class='checkbox-item'>
+                                <view class='performance-item'>
                                     {{item.value}}
                                 </view>
-                                <textarea class='checkbox-item-text' id='{{item.name}}' placeholder='{{item.placeholder}}' show-confirm-bar="{{false}}" bindtap='onEditClicked'> </textarea>
+                                <textarea class='performance-item-text' id='{{item.name}}' placeholder='{{item.placeholder}}' show-confirm-bar="{{false}}" bindtap='onEditClicked'> </textarea>
                             </view>
                         </view>
 

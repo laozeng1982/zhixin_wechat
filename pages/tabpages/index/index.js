@@ -13,6 +13,29 @@ Page({
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
         tabData: [],
         currentTabIdx: 0,
+
+        subTabData: [],
+
+        displaySetting: [
+            {
+                type: "all_course",
+                name: "所有课程",
+                selected: true,
+                display: true
+            },
+            {
+                type: "everyday_lesson",
+                name: "每日课程安排",
+                selected: false,
+                display: true
+            },
+            {
+                type: "add_new",
+                name: "创建",
+                selected: false,
+                display: false
+            }
+        ]
     },
 
     /**
@@ -43,6 +66,44 @@ Page({
         this.setData({
             tabData: tabData
         });
+    },
+
+    createNewCourse: function () {
+        wx.navigateTo({
+            url: '../../normalpages/course/course' + "?model=newCourse",
+        });
+    },
+
+    /**
+     *
+     * @param e
+     */
+    onCourseTabItemSelected: function (e) {
+        console.log("selcted:", e.currentTarget.id);
+        let displaySetting = this.data.displaySetting;
+        for (let item of displaySetting) {
+            item.selected = item.type === e.currentTarget.id;
+        }
+
+        switch (e.currentTarget.id) {
+            case "all_course":
+                break;
+            case "everyday_lesson":
+                break;
+            case "add_new":
+                this.createNewCourse();
+                break;
+            default:
+                break;
+        }
+
+        this.setData({
+            displaySetting: displaySetting
+        });
+    },
+
+    onCreatedNewCourse: function (e) {
+        this.createNewCourse();
     },
 
     //事件处理函数
@@ -116,9 +177,21 @@ Page({
     onLoad: function () {
         this.makeTabData();
         let userInfoLocal = app.Util.loadData(app.Settings.Storage.WeChatUser);
+        let displaySetting = this.data.displaySetting;
         if (userInfoLocal) {
+            if (userInfoLocal.teacherCourseSet.length > 0) {
+                for (let item of displaySetting) {
+                    if (item.type === "add_new") {
+                        item.display = true;
+                    }
+                }
+            }
+
+            console.log(displaySetting);
+
             this.setData({
                 userInfo: userInfoLocal,
+                displaySetting: displaySetting,
                 hasUserInfo: true
             })
         } else if (this.data.canIUse) {

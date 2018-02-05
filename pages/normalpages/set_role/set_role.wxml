@@ -17,7 +17,7 @@
                 <radio-group id="authorities" name="authorities">
                     <label class="items-container" wx:for="{{authorities}}" wx:key="{{index}}">
                         <view class='checkbox-item'>
-                            <radio id="{{item.name}}" value="{{item.name}}" checked="{{item.checked}}" />{{item.value}}
+                            <radio id="{{item.name}}" value="{{item.name}}" checked="{{item.checked}}"  disabled='{{item.disabled}}'/>{{item.value}}
                         </view>
 
                         <view class='checkbox-item-text'>{{item.description}}</view>

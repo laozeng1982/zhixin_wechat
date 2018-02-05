@@ -9,23 +9,38 @@
     <view class='gray-space'></view>
 
     <!-- 课程tab -->
-    <view wx:if="{{tabData[0].selected}}" class='swiper-item'>
-        <view>
-            {{tabData[0].type}}
-            <button type='primary' bindtap='onReviewHomework'>批改作业</button>
-            <button type='primary' bindtap='onReviewLesson'>评价课堂表现</button>
+    <view wx:if="{{tabData[0].selected}}" class='tab-item'>
+        <view class='course-tab-container'>
+            <label wx:for="{{displaySetting}}" wx:key="{{index}}">
+                <view wx:if="{{item.display}}" id="{{item.type}}" class="course-tab-item {{item.selected?'':'unselected'}}" bindtap='onCourseTabItemSelected'>
+                    {{item.name}}
+                </view>
+            </label>
         </view>
+
+     
+            <button type='primary' bindtap='onReviewHomework'>批改作业Test</button>
+            <view>
+                {{tabData[0].type}}
+            </view>
+            <button type='primary' bindtap='onReviewLesson'>评价课堂表现Test</button>
+
+            <image class='create-image-btn' bindtap='onCreatedNewCourse' src='../../image/plus_64px1.png'> </image>
+            <view class='create-text'>
+                <text>创建课程</text>
+            </view>
+
+
     </view>
 
     <!-- 通知tab -->
-    <view wx:if="{{tabData[1].selected}}" class='swiper-item'>
+    <view wx:if="{{tabData[1].selected}}" class='tab-item'>
         {{tabData[1].type}}
     </view>
 
     <!-- 作业tab -->
-    <view wx:if="{{tabData[2].selected}}" class='swiper-item'>
+    <view wx:if="{{tabData[2].selected}}" class='tab-item'>
         {{tabData[2].type}}
-
     </view>
 
 </view>
