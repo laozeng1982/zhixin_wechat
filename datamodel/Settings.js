@@ -14,7 +14,7 @@ class Settings {
 class Storage {
     constructor() {
         // 用户信息
-        this.UserInfo = new Record(0, "UserInfo", "用户信息", true);
+        this.WeChatUser = new Record(0, "WeChatUser", "用户信息", true);
         // 用户个人身体测试数据
         this.UserProfile = new Record(1, "UserProfile", "身体指标", true);
         // 计划
@@ -65,6 +65,4 @@ class SyncedTag {
 
 module.exports = {
     Settings: Settings,
-    // Storage: Storage,
-    // SyncedTag: SyncedTag,
 };

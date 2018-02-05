@@ -1,31 +1,38 @@
 {
-  "pages":[
-    "pages/index/index",
-    "pages/logs/logs"
-  ],
-  "window": {
-    "navigationBarBackgroundColor": "#000000",
-    "navigationBarTextStyle": "white",
-    "backgroundColor": "#fff"
-  },
-  "tabBar": {
-    "backgroundColor": "#fff",
-    "selectedColor": "#000",
-    "color": "#888",
-    "height": "50rpx",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "iconPath": "pages/image/tabbar_home_unselected.png",
-        "selectedIconPath": "pages/image/tabbar_home_selected.png",
-        "text": "首页"
-      },
-      {
-        "pagePath": "pages/logs/logs",
-        "iconPath": "pages/image/tabbar_write_unselected.png",
-        "selectedIconPath": "pages/image/tabbar_write_selected.png",
-        "text": "我的"
-      }
-    ]
-  }
+    "pages": [
+        "pages/tabpages/index/index",
+        "pages/tabpages/setting/setting",
+        "pages/normalpages/course/course",
+        "pages/normalpages/userinfo/userinfo",
+        "pages/normalpages/lesson/lesson",
+        "pages/normalpages/set_homework/set_homework",
+        "pages/normalpages/set_avatar/set_avatar",
+        "pages/normalpages/set_role/set_role",
+        "pages/normalpages/review_performance/review_performance"
+    ],
+    "window": {
+        "navigationBarBackgroundColor": "#000000",
+        "navigationBarTextStyle": "white",
+        "backgroundColor": "#fff"
+    },
+    "tabBar": {
+        "backgroundColor": "#fff",
+        "selectedColor": "#000",
+        "color": "#888",
+        "height": "50rpx",
+        "list": [
+            {
+                "pagePath": "pages/tabpages/index/index",
+                "iconPath": "pages/image/tabbar_home_unselected.png",
+                "selectedIconPath": "pages/image/tabbar_home_selected.png",
+                "text": "首页"
+            },
+            {
+                "pagePath": "pages/tabpages/setting/setting",
+                "iconPath": "pages/image/tabbar_me_unselected.png",
+                "selectedIconPath": "pages/image/tabbar_me_selected.png",
+                "text": "我的"
+            }
+        ]
+    }
 }

@@ -1,0 +1,31 @@
+<!--index.wxml-->
+<view class="container">
+    <view class="tab">
+        <block wx:for="{{tabData}}" wx:key="{{index}}">
+            <view class="tab-list {{currentTabIdx===index ? 'current-highlight': ''}}" data-current="{{index}}" bindtap="onNavSwitch">{{item.name}}</view>
+        </block>
+    </view>
+
+    <view class='gray-space'></view>
+
+    <!-- 课程tab -->
+    <view wx:if="{{tabData[0].selected}}" class='swiper-item'>
+        <view>
+            {{tabData[0].type}}
+            <button type='primary' bindtap='onReviewHomework'>批改作业</button>
+            <button type='primary' bindtap='onReviewLesson'>评价课堂表现</button>
+        </view>
+    </view>
+
+    <!-- 通知tab -->
+    <view wx:if="{{tabData[1].selected}}" class='swiper-item'>
+        {{tabData[1].type}}
+    </view>
+
+    <!-- 作业tab -->
+    <view wx:if="{{tabData[2].selected}}" class='swiper-item'>
+        {{tabData[2].type}}
+
+    </view>
+
+</view>

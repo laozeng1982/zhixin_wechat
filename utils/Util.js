@@ -4,11 +4,30 @@
  *
  */
 import DataStructure from '../datamodel/DataStructure'
+import settings from '../datamodel/Settings'
 
 const _ = require('./underscore.modified');
 const BASE_URL = 'https://www.newpictown.com/';
 
 const Course = new DataStructure.Course();
+
+function formatTime(time) {
+    if (typeof time !== 'number' || time < 0) {
+        return time;
+    }
+
+    let hour = parseInt(time / 3600);
+    time = time % 3600;
+    let minute = parseInt(time / 60);
+    time = time % 60;
+    let second = time;
+
+    return ([hour, minute, second]).map(function (n) {
+        n = n.toString();
+        return n[1] ? n : '0' + n;
+    }).join(':');
+}
+
 
 /**
  * 将日期和时间转为指定格式，例如：2017-08-30 15:30:25
@@ -210,7 +229,7 @@ function loadData(dataType) {
         switch (dataType.id) {
             case 0:
                 // 0. UserInfo
-                requestData = new User.UserInfo();
+                requestData = new DataStructure.WeChatUser();
                 break;
             case 1:
                 // 1. UserProfile
@@ -231,7 +250,7 @@ function loadData(dataType) {
                 break;
             case 5:
                 // 5. PartsWithActions
-                requestData = new Body.PartsWithActions();
+                // requestData = new DataStructure.artsWithActions();
                 break;
             case 6:
                 // 6. SyncedTag
@@ -243,26 +262,6 @@ function loadData(dataType) {
     }
 
     return requestData;
-}
-
-/**
- *
- * @returns {*}
- */
-function loadPlan() {
-    let planSet = this.loadData(Settings.Storage.UserPlanSet);
-    let currentPlan = '';
-
-    // console.log("planSet:", planSet);
-
-    for (let plan of planSet) {
-        // 满足三个条件：有效的plan，且未过期和正在使用
-        if (typeof plan !== 'undefined' && dateDirection(plan.toDate) >= 0 && plan.currentUse) {
-            currentPlan = plan;
-        }
-    }
-
-    return (currentPlan === '') ? new PlanSet.Plan(getApp().userInfoLocal.userUID) : currentPlan;
 }
 
 /**
@@ -623,6 +622,7 @@ function updateData(type, data2Sever, data2Local) {
 
 
 module.exports = {
+    formatTime: formatTime,
     formatTimeToString: formatTimeToString,
     formatDateToString: formatDateToString,
     getDateFromString: getDateFromString,
@@ -636,7 +636,6 @@ module.exports = {
     isEqual: isEqual,
     underscore: _,
     loadData: loadData,
-    loadPlan: loadPlan,
     saveData: saveData,
     syncData: syncData,
 

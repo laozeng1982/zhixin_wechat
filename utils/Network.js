@@ -1,18 +1,16 @@
 /**
  * 网络请求类，这里是异步请求，那么get，post等不能直接写到对应的类里面
  */
-import Util from '../utils/util'
+import Util from './Util'
 
 const BASE_URL = "https://www.yongrui.wang/WeChatMiniProgram/";
 
-class network {
+class Network {
     constructor() {
 
     }
 
 }
-
-
 
 /**
  * 使用GET方法获取数据
@@ -191,5 +189,5 @@ function putData(type, data2Sever, data2Local) {
 }
 
 module.exports = {
-    network: network
+    Network: Network
 };
