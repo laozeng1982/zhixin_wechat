@@ -6,9 +6,13 @@
         "pages/normalpages/userinfo/userinfo",
         "pages/normalpages/lesson/lesson",
         "pages/normalpages/set_homework/set_homework",
+        "pages/normalpages/review_performance/review_performance",
         "pages/normalpages/set_avatar/set_avatar",
         "pages/normalpages/set_role/set_role",
-        "pages/normalpages/review_performance/review_performance"
+        "pages/normalpages/set_notice/set_notice",
+        "pages/normalpages/about/about",
+        "pages/normalpages/config/config",
+        "pages/normalpages/feedback/feedback"
     ],
     "window": {
         "navigationBarBackgroundColor": "#000000",

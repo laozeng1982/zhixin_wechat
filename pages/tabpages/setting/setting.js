@@ -26,7 +26,7 @@ Page({
                     {
                         img: "../../image/information_64px.png",
                         name: "通知推送",
-                        url: "plan_list/plan_list"
+                        url: "../../normalpages/set_notice/set_notice"
                     },
                 ]
             },
@@ -36,17 +36,17 @@ Page({
                     {
                         img: "../../image/support_64px.png",
                         name: "关于知新",
-                        url: "about/about"
+                        url: "../../normalpages/about/about"
                     },
                     {
                         img: "../../image/settings_64px.png",
                         name: "软件设置",
-                        url: "system/system"
+                        url: "../../normalpages/config/config"
                     },
                     {
                         img: "../../image/support_64px.png",
                         name: "提点建议",
-                        url: "feedback/feedback"
+                        url: "../../normalpages/feedback/feedback"
                     }
                 ]
             },
