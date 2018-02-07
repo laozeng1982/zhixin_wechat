@@ -9,19 +9,22 @@
             <!-- 角色设置 -->
             <view class='items-container'>
                 <label class="items-container" wx:for="{{displayItems}}" wx:key="{{index}}">
-                    <view class="item-box {{item.type==='textarea'?'column':'row'}}">
+                    <view class="item-box {{item.component.name==='textarea'?'column':'row'}}">
                         <view id="{{item.id}}" class='item-name'>
                             {{item.name}}
                         </view>
 
-                        <view wx:if="{{item.type==='input'}}" class='item-input'>
-                            <input id="{{item.id}}" value="{{item.value}}" placeholder='{{item.tip}}'> </input>
+                        <!-- 普通输入框 -->
+                        <view wx:if="{{item.component.name==='input'}}" class='item-input'>
+                            <input id="{{item.id}}" value="{{item.value}}" type='{{item.component.type}}' placeholder='{{item.tip}}'> </input>
                         </view>
-                        <view wx:if="{{item.type==='picker'}}" class='item-picker' >
+                        <!-- 下拉选择器 -->
+                        <view wx:if="{{item.component.name==='picker'}}" class='item-picker'>
                             <picker id="{{item.id}}" value="{{item.value}}"> {{item.tip}} </picker>
                         </view>
-                        <view wx:if="{{item.type==='textarea'}}" >
-                            <textarea id="{{item.id}}" class='decription-item-text' value="{{item.value}}" show-confirm-bar='{{false}}' placeholder='{{item.tip}}'></textarea>
+                        <!-- 文本输入框 -->
+                        <view wx:if="{{item.component.name==='textarea'}}" class='item-textarea'> 
+                            <textarea id="{{item.id}}" class='decription-item-text' value="{{item.value}}" show-confirm-bar='{{false}}' type='{{item.component.type}}' placeholder='{{item.tip}}'></textarea>
                         </view>
                     </view>
                 </label>

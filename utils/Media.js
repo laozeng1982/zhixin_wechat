@@ -218,6 +218,61 @@ function deleteVoice(host, voiceIndex) {
     });
 }
 
+function addImage(host) {
+    let evaluation = host.data.evaluation;
+    wx.chooseImage({
+        success: function (res) {
+            console.log(res);
+            for (let item of evaluation) {
+                if (item.name === host.data.currentEvaluationType) {
+                    for (let picturePath of res.tempFilePaths) {
+                        let fileInfo = new DataStructure.FileInfo();
+                        fileInfo.path = picturePath;
+                        fileInfo.time = Util.formatTimeToString(new Date);
+                        fileInfo.type = "Image";
+                        item.dataFileList.push(fileInfo);
+                    }
+                    item.imageFileAccount = item.dataFileList.length;
+                    break;
+                }
+            }
+            console.log(evaluation);
+            host.setData({
+                evaluation: evaluation,
+            });
+        },
+    });
+}
+
+function addVideo(host) {
+    let evaluation = host.data.evaluation;
+    wx.chooseVideo({
+        // sourceType: ['album', 'camera'],
+        // maxDuration: 60,
+        // camera: 'back',
+        success: function (res) {
+            console.log(res);
+            for (let item of evaluation) {
+                if (item.name === host.data.currentEvaluationType) {
+                    for (let picturePath of res.tempFilePaths) {
+                        let fileInfo = new DataStructure.FileInfo();
+                        fileInfo.path = picturePath;
+                        fileInfo.time = Util.formatTimeToString(new Date);
+                        fileInfo.type = "Video";
+                        item.dataFileList.push(fileInfo);
+                    }
+                    item.videoFileAccount = item.dataFileList.length;
+                    break;
+                }
+            }
+            console.log(evaluation);
+            host.setData({
+                evaluation: evaluation,
+            });
+        },
+    });
+}
+
 /**
  * 退出媒体控制
  * @param host
@@ -242,6 +297,8 @@ module.exports = {
     pausePlayVoice: pausePlayVoice,
     stopPlayVoice: stopPlayVoice,
     deleteVoice: deleteVoice,
+    addImage: addImage,
+    addVideo: addVideo,
     exitMedia: exitMedia
 
 };

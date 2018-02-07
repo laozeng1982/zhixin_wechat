@@ -1,3 +1,5 @@
+
+
 // pages/normalpages/review_homework/review_homework.js
 // 评价页面
 
@@ -28,6 +30,8 @@ Page({
                 show: true,
                 showMediaTool: false,
                 dataFileList: [],
+                imageFileAccount: 0,
+                videoFileAccount: 0,
                 placeholder: "",
                 description: ""
             },
@@ -37,6 +41,8 @@ Page({
                 show: true,
                 showMediaTool: false,
                 dataFileList: [],
+                imageFileAccount: 0,
+                videoFileAccount: 0,
                 placeholder: "",
                 description: ""
             },
@@ -46,6 +52,8 @@ Page({
                 show: true,
                 showMediaTool: false,
                 dataFileList: [],
+                imageFileAccount: 0,
+                videoFileAccount: 0,
                 placeholder: "",
                 description: ""
             },
@@ -108,6 +116,34 @@ Page({
 
     },
 
+    checkFileLimit: function (file_type) {
+        let fileAccount = 0;
+        let passedCheck = false;
+        for (let item of this.data.evaluation) {
+            if (item.name === this.data.currentEvaluationType) {
+                fileAccount = item.fileAccount;
+                break;
+            }
+        }
+        if (fileAccount === 9) {
+            let content = "数量超过九个";
+            if (file_type==="Image") {
+                content = '视频数量不能超过九个！';
+            } else if (file_type === "Video") {
+                content = '图片数量不能超过九个！';
+            }
+            wx.showModal({
+                title: 'Sorry',
+                content: content,
+            });
+            passedCheck = false;
+        } else {
+            passedCheck = true;
+        }
+
+        return passedCheck;
+    },
+
     onClick: function (e) {
         console.log("Image button clicked and click button is:", e.currentTarget.id);
         let evaluation = this.data.evaluation;
@@ -122,10 +158,19 @@ Page({
                 }
                 break;
             case "video":
+                if (this.checkFileLimit("Video")) {
+                    Media.addVideo(this);
+                }
                 break;
             case "camera":
+                if (this.checkFileLimit("Image")) {
+                    Media.addImage(this);
+                }
                 break;
             case "picture":
+                if (this.checkFileLimit("Image")) {
+                    Media.addImage(this);
+                }
                 break;
             case "save":
                 for (let item of evaluation) {
@@ -140,8 +185,6 @@ Page({
             default:
                 break;
         }
-
-
     },
 
     /**

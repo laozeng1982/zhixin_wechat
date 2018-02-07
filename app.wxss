@@ -161,6 +161,24 @@
     padding-right: 40rpx;
 }
 
+.item-textarea {
+    padding-left: 60rpx;
+    height: 200rpx;
+    background: #fff;
+    display: flex;
+    font-size: 32rpx;
+    color: #888;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.performance-item-image {
+    width: 200rpx;
+    height: 200rpx;
+    border-radius: 5%;
+}
+
 .checkbox-item {
     padding-left: 60rpx;
     width: 100%;
@@ -238,13 +256,23 @@
     font-size: 22rpx;
 }
 
-.audio-file-item {
+.audio-file-container {
     display: flex;
     justify-content: flex-start;
     align-content: center;
     align-items: center;
     flex-direction: row;
-    height: 60rpx;
+    height: 100rpx;
+}
+
+.image-file-container {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 200rpx;
+    width: 100%;
 }
 
 .decription-item-text {

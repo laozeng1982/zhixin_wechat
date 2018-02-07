@@ -37,7 +37,10 @@ Page({
                 name: "课程名字*",
                 display: true,
                 tip: "请输入",
-                type: "input",
+                component: {
+                    name: "input",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -46,7 +49,10 @@ Page({
                 name: "课程地址*",
                 display: true,
                 tip: "请选择",
-                type: "picker",
+                component: {
+                    name: "picker",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -55,7 +61,10 @@ Page({
                 name: "课程开始日期*",
                 display: true,
                 tip: "请选择",
-                type: "picker",
+                component: {
+                    name: "picker",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -64,7 +73,10 @@ Page({
                 name: "程结束日期*",
                 display: true,
                 tip: "请选择",
-                type: "picker",
+                component: {
+                    name: "picker",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -73,7 +85,10 @@ Page({
                 name: "重复规则*",
                 display: true,
                 tip: "请选择",
-                type: "picker",
+                component: {
+                    name: "picker",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -82,7 +97,10 @@ Page({
                 name: "课程描述*",
                 display: true,
                 tip: "请简要介绍一下课程",
-                type: "textarea",
+                component: {
+                    name: "textarea",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -91,7 +109,10 @@ Page({
                 name: "课程开始时间*",
                 display: true,
                 tip: "请选择",
-                type: "picker",
+                component: {
+                    name: "picker",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -100,7 +121,10 @@ Page({
                 name: "课程时长*",
                 display: true,
                 tip: "请选择",
-                type: "picker",
+                component: {
+                    name: "picker",
+                    type: "text"
+                },
                 value: "",
                 hasValue: false
             },
@@ -109,7 +133,10 @@ Page({
                 name: "上课学生人数上限*",
                 display: true,
                 tip: "请输入",
-                type: "input",
+                component: {
+                    name: "text",
+                    type: "number"
+                },
                 value: "",
                 hasValue: false
             }
