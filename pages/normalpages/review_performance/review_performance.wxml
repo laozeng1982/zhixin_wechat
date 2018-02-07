@@ -4,7 +4,7 @@
 
     <!-- 抬头 -->
     <view class='page-title'>
-        <text>当前评价{{student_name}}的{{pageType}}表现</text>
+        <text>{{student_name}}的{{pageType}}表现</text>
     </view>
 
     <view class='gray-space-small'></view>
@@ -43,46 +43,55 @@
 
                         <!-- 文件列表 -->
                         <view class='items-container' wx:if="{{item.show}}">
+
+                            <!-- 音频文件 -->
                             <view class='item-container' wx:for="{{item.dataFileList}}" wx:key="{{index}}" wx:for-item='dataFileItem'>
-                                <!-- 音频文件 -->
+
                                 <view wx:if="{{dataFileItem.type === 'Audio'}}" class='audio-file-container'>
-                                    <view id='{{index}}' style='{{dataFileItem.style}}' bindtap='onPlayVoice'> play </view>
-                                    <text id='{{index}}'> {{dataFileItem.name}} </text>
-                                    <icon id='{{index}}' type="cancel" size="30" bindtap='onDeleteVoice' />
+                                    <view></view>
+                                    <view id='{{index}}' class='audio-file-item-voice' style='{{dataFileItem.style}}' bindtap='onPlayVoice'> </view>
+                                    <view id='{{index}}' class='audio-file-item-text'> {{dataFileItem.name}} </view>
+                                    <icon id='{{index}}' class='audio-file-item-icon' type="cancel" size="30" bindtap='onDeleteVoice' />
                                 </view>
+                            </view>
 
-                                <!-- 图片文件 -->
-                                <view wx:if="{{dataFileItem.type === 'Image'}}">
+                            <!-- 图片文件 -->
+                            <view class='item-container' wx:for="{{item.dataFileList}}" wx:key="{{index}}" wx:for-item='dataFileItem'>
+                                <view wx:if="{{dataFileItem.type === 'Image'}}" class='image-file-container'>
                                     <!-- 三个一行，共九个 -->
-                                    <view wx:if="{{item.imageFileAccount > 0 && item.imageFileAccount < 4}}" class='image-file-container'>
+                                    <view wx:if="{{item.imageFileAccount > 0 && item.imageFileAccount < 4}}">
                                         <image class='performance-item-image' src='{{dataFileItem.path}}'>
                                         </image>
                                     </view>
 
-                                    <view wx:if="{{item.imageFileAccount > 3 && item.imageFileAccount < 7}}" class='image-file-container'>
+                                    <view wx:if="{{item.imageFileAccount > 3 && item.imageFileAccount < 7}}">
                                         <image class='performance-item-image' src='{{dataFileItem.path}}'>
                                         </image>
                                     </view>
-                                    <view wx:if="{{item.imageFileAccount > 6 }}" class='image-file-container'>
+
+                                    <view wx:if="{{item.imageFileAccount > 6 }}">
                                         <image class='performance-item-image' src='{{dataFileItem.path}}'>
                                         </image>
                                     </view>
                                 </view>
-                                <!-- 视频文件 -->
+                            </view>
+
+                            <!-- 视频文件 -->
+                            <view class='item-container' wx:for="{{item.dataFileList}}" wx:key="{{index}}" wx:for-item='dataFileItem'>
                                 <view wx:if="{{dataFileItem.type === 'Video'}}">
                                     <!-- 三个一行，共九个 -->
                                     <view wx:if="{{item.videoFileAccount > 0 && item.videoFileAccount < 4}}" class='image-file-container'>
-                                        <image class='performance-item-image' src='{{dataFileItem.path}}'>
-                                        </image>
+                                        <video class='performance-item-image' src='{{dataFileItem.path}}'>
+                                        </video>
                                     </view>
 
                                     <view wx:if="{{item.videoFileAccount > 3 && item.videoFileAccount < 7}}" class='image-file-container'>
-                                        <image class='performance-item-image' src='{{dataFileItem.path}}'>
-                                        </image>
+                                        <video class='performance-item-image' src='{{dataFileItem.path}}'>
+                                        </video>
                                     </view>
                                     <view wx:if="{{item.videoFileAccount > 6 }}" class='image-file-container'>
-                                        <image class='performance-item-image' src='{{dataFileItem.path}}'>
-                                        </image>
+                                        <video class='performance-item-image' src='{{dataFileItem.path}}'>
+                                        </video>
                                     </view>
                                 </view>
                             </view>

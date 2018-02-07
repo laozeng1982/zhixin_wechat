@@ -202,7 +202,6 @@
     align-items: center;
 }
 
-
 .performance-item {
     padding-left: 60rpx;
     width: 100%;
@@ -256,14 +255,32 @@
     font-size: 22rpx;
 }
 
+/* 评论语音样式 */
+
 .audio-file-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-content: center;
     align-items: center;
     flex-direction: row;
     height: 100rpx;
 }
+
+.audio-file-item-voice {
+    border: 1rpx solid #888;
+    border-radius: 5rpx;
+    padding-left: 40rpx;
+}
+
+.audio-file-item-text {
+    padding-right: 40rpx;
+}
+
+.audio-file-item-icon {
+    padding-right: 40rpx;
+}
+
+/* 评论的图片样式 */
 
 .image-file-container {
     display: flex;

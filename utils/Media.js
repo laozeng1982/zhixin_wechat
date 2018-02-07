@@ -66,7 +66,7 @@ function startRecordVoice(host) {
                 if (item.name === host.data.currentEvaluationType) {
                     item.dataFileList[item.dataFileList.length - 1].timeLength = voiceStatus.recordTime;
                     item.dataFileList[item.dataFileList.length - 1].name = voiceStatus.recordTime + "s";
-                    let width = parseInt(800 * voiceStatus.recordTime / 60);
+                    let width = parseInt(10 * voiceStatus.recordTime );
                     item.dataFileList[item.dataFileList.length - 1].style = "height: 40rpx; width: " + + width + "rpx";
                     console.log(item.name + ".dataFileList", item.dataFileList);
                     console.log(item.dataFileList[item.dataFileList.length - 1].style);
@@ -254,13 +254,11 @@ function addVideo(host) {
             console.log(res);
             for (let item of evaluation) {
                 if (item.name === host.data.currentEvaluationType) {
-                    for (let picturePath of res.tempFilePaths) {
                         let fileInfo = new DataStructure.FileInfo();
-                        fileInfo.path = picturePath;
+                        fileInfo.path = res.tempFilePath;
                         fileInfo.time = Util.formatTimeToString(new Date);
                         fileInfo.type = "Video";
                         item.dataFileList.push(fileInfo);
-                    }
                     item.videoFileAccount = item.dataFileList.length;
                     break;
                 }
