@@ -26,7 +26,6 @@ App({
                     success: response => {
                         console.log("openId response:", response);
                         let mpOpenId = response.data.mpOpenId;
-                        let sessionKey = response.data.sessionKey;
                         // 获取用户信息
                         wx.getSetting({
                             success: res => {
@@ -49,7 +48,6 @@ App({
                                             method: 'POST',
                                             data: {
                                                 mpOpenId: mpOpenId,
-                                                sessionKey: sessionKey,
                                                 encryptedData: res.encryptedData,
                                                 iv: res.iv
                                             },
