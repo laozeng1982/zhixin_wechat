@@ -66,8 +66,8 @@ function startRecordVoice(host) {
                 if (item.name === host.data.currentEvaluationType) {
                     item.dataFileList[item.dataFileList.length - 1].timeLength = voiceStatus.recordTime;
                     item.dataFileList[item.dataFileList.length - 1].name = voiceStatus.recordTime + "s";
-                    let width = parseInt(10 * voiceStatus.recordTime );
-                    item.dataFileList[item.dataFileList.length - 1].style = "height: 40rpx; width: " + + width + "rpx";
+                    let width = parseInt(10 * voiceStatus.recordTime);
+                    item.dataFileList[item.dataFileList.length - 1].style = "height: 40rpx; width: " + +width + "rpx";
                     console.log(item.name + ".dataFileList", item.dataFileList);
                     console.log(item.dataFileList[item.dataFileList.length - 1].style);
                     break;
@@ -144,7 +144,6 @@ function playVoice(host, voiceIndex) {
     }, 1000);
 
 
-
     // 播放文件
     wx.showToast({
         title: '点录音文件结束',
@@ -175,7 +174,7 @@ function playVoice(host, voiceIndex) {
  * 暂停播放音频
  */
 function pausePlayVoice(host) {
-    let voice
+    // let voice
     clearInterval(host.voicePlayTimeInterval);
     wx.pauseVoice();
     host.setData({
@@ -218,6 +217,10 @@ function deleteVoice(host, voiceIndex) {
     });
 }
 
+/**
+ * 添加图片
+ * @param host
+ */
 function addImage(host) {
     let evaluation = host.data.evaluation;
     wx.chooseImage({
@@ -236,7 +239,7 @@ function addImage(host) {
                     break;
                 }
             }
-            console.log(evaluation);
+            console.log("evaluation:", evaluation);
             host.setData({
                 evaluation: evaluation,
             });
@@ -244,6 +247,10 @@ function addImage(host) {
     });
 }
 
+/**
+ * 添加已有的视频
+ * @param host
+ */
 function addVideo(host) {
     let evaluation = host.data.evaluation;
     wx.chooseVideo({
@@ -254,16 +261,16 @@ function addVideo(host) {
             console.log(res);
             for (let item of evaluation) {
                 if (item.name === host.data.currentEvaluationType) {
-                        let fileInfo = new DataStructure.FileInfo();
-                        fileInfo.path = res.tempFilePath;
-                        fileInfo.time = Util.formatTimeToString(new Date);
-                        fileInfo.type = "Video";
-                        item.dataFileList.push(fileInfo);
+                    let fileInfo = new DataStructure.FileInfo();
+                    fileInfo.path = res.tempFilePath;
+                    fileInfo.time = Util.formatTimeToString(new Date);
+                    fileInfo.type = "Video";
+                    item.dataFileList.push(fileInfo);
                     item.videoFileAccount = item.dataFileList.length;
                     break;
                 }
             }
-            console.log(evaluation);
+            console.log("evaluation:", evaluation);
             host.setData({
                 evaluation: evaluation,
             });

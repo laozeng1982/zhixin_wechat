@@ -78,11 +78,18 @@ App({
                                         if (this.userInfoReadyCallback) {
                                             this.userInfoReadyCallback(res);
                                         }
+                                    },
+                                    fail: function () {
+                                        console.log("Failed to get OpenId");
                                     }
                                 })
                                 // }
                             }
                         })
+                    },
+                    fail: function (res) {
+                        console.log(res);
+                        console.log("Failed to get OpenId");
                     }
                 })
             }

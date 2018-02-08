@@ -1,5 +1,3 @@
-
-
 // pages/normalpages/review_homework/review_homework.js
 // 评价页面
 
@@ -121,13 +119,13 @@ Page({
         let passedCheck = false;
         for (let item of this.data.evaluation) {
             if (item.name === this.data.currentEvaluationType) {
-                fileAccount = item.fileAccount;
+                fileAccount = file_type === "Image" ? item.imageFileAccount : item.videoFileAccount;
                 break;
             }
         }
         if (fileAccount === 9) {
             let content = "数量超过九个";
-            if (file_type==="Image") {
+            if (file_type === "Image") {
                 content = '视频数量不能超过九个！';
             } else if (file_type === "Video") {
                 content = '图片数量不能超过九个！';
@@ -212,32 +210,78 @@ Page({
     },
 
     /**
-     * 播放录音
+     * 点击文件响应
      * @param e
      */
-    onPlayVoice: function (e) {
-        console.log("to playVoice:", e.currentTarget.id);
-        let voiceStatus = this.data.voiceStatus;
-        if (!voiceStatus.playing) {
-            Media.playVoice(this, parseInt(e.currentTarget.id));
-        } else {
-            Media.stopPlayVoice(this);
+    onPlayFile: function (e) {
+        // 文件id
+        let currentFileIdx = e.currentTarget.id;
+
+        let evaluation = this.data.evaluation;
+
+        let currentFileType = "";
+
+        // 用于图片浏览
+        let currentImageUrl = "";
+        let imageUrls = [];
+
+        // 获取当前点击项的类别
+        for (let item of evaluation) {
+            if (item.name === this.data.currentEvaluationType) {
+                currentFileType = item.dataFileList[currentFileIdx].type;
+                if (currentFileType === "Image") {
+                    currentImageUrl = item.dataFileList[currentFileIdx].path;
+                    for (let file of item.dataFileList) {
+                        if (file.type === "Image") {
+                            imageUrls.push(file.path);
+                        }
+                    }
+                }
+                break;
+            }
         }
 
+        console.log(currentImageUrl,imageUrls);
+
+        console.log("playFile:", e.currentTarget.id, "and it's type is:", currentFileType);
+
+        switch (currentFileType) {
+            case "Audio":
+                // let voiceStatus = this.data.voiceStatus;
+                if (!this.data.voiceStatus.playing) {
+                    Media.playVoice(this, parseInt(e.currentTarget.id));
+                } else {
+                    Media.stopPlayVoice(this);
+                }
+                break;
+            case "Image":
+                wx.previewImage({
+                    current: currentImageUrl, // 当前显示图片的http链接
+                    urls: imageUrls // 需要预览的图片http链接列表
+                });
+                break;
+            case "Video":
+                break;
+            default:
+                console.log("File ", e.currentTarget.id, "can not be played!");
+                break;
+        }
     },
 
     /**
-     * 删除录音
+     * 删除文件响应
      * @param e
      */
-    onDeleteVoice: function (e) {
+    onDeleteFile: function (e) {
         // console.log(e.currentTarget.id);
-        let currentIdx = e.currentTarget.id;
+        // 文件id
+        let currentFileIdx = e.currentTarget.id;
         let evaluation = this.data.evaluation;
         for (let item of evaluation) {
             if (item.name === this.data.currentEvaluationType) {
-                item.dataFileList.splice(currentIdx, 1);
-                console.log(item.name, currentIdx, item.dataFileList);
+                item.dataFileList.splice(currentFileIdx, 1);
+                console.log(item.name, "file number", currentFileIdx, "was deleted!");
+                console.log("after deleted, file list:", item.dataFileList);
                 break;
             }
         }
@@ -246,6 +290,7 @@ Page({
             evaluation: evaluation
         });
     },
+
 
     /**
      * 提交表单
