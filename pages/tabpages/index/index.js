@@ -187,8 +187,6 @@ Page({
                 }
             }
 
-            console.log(displaySetting);
-
             this.setData({
                 userInfo: userInfoLocal,
                 displaySetting: displaySetting,

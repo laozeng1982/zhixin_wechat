@@ -6,34 +6,123 @@
     <form class='form-container' bindsubmit="onFormSubmit" bindreset="onFormReset">
         <view class='items-container'>
 
-            <!-- 角色设置 -->
-            <view class='items-container'>
-                <label class="items-container" wx:for="{{displayItems}}" wx:key="{{index}}">
-                    <view class="item-box {{item.component.name==='textarea'?'column':'row'}}">
-                        <view id="{{item.id}}" class='item-name'>
-                            {{item.name}}
-                        </view>
-
-                        <!-- 普通输入框 -->
-                        <view wx:if="{{item.component.name==='input'}}" class='item-input'>
-                            <input id="{{item.id}}" value="{{item.value}}" type='{{item.component.type}}' placeholder='{{item.tip}}'> </input>
-                        </view>
-                        <!-- 下拉选择器 -->
-                        <view wx:if="{{item.component.name==='picker'}}" class='item-picker'>
-                            <picker id="{{item.id}}" value="{{item.value}}"> {{item.tip}} </picker>
-                        </view>
-                        <!-- 文本输入框 -->
-                        <view wx:if="{{item.component.name==='textarea'}}" class='item-textarea'> 
-                            <textarea id="{{item.id}}" class='decription-item-text' value="{{item.value}}" show-confirm-bar='{{false}}' type='{{item.component.type}}' placeholder='{{item.tip}}'></textarea>
-                        </view>
-                    </view>
-                </label>
+            <!-- 课程名设置 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[0].name}}
+                </view>
+                <view class='item-input'>
+                    <input id="{{displayItems[0].id}}" name="{{displayItems[0].id}}" value="{{displayItems[0].component.value}}" type='text' placeholder='{{displayItems[0].tip}}'> </input>
+                </view>
             </view>
+
+            <!-- 上课地点设置 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[1].name}}
+                </view>
+                <view class='item-picker'>
+                    <view id="{{displayItems[1].id}}" name="{{displayItems[1].id}}" bindtap='onSelectAddress'> {{displayItems[1].component.value}} </view>
+                    <image class='image-arrow' src='../../image/right_arrow.png'></image>
+                </view>
+
+            </view>
+
+            <!-- 课程开始日期 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[2].name}}
+                </view>
+
+                <picker id="{{displayItems[2].id}}" name="{{displayItems[2].id}}" mode='date' value="{{displayItems[2].component.value}}" bindchange='onPickerChange'>
+                    <view class='item-picker'>
+                        <view class='item-picker-text'>{{displayItems[2].component.value}}</view>
+                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                    </view>
+                </picker>
+            </view>
+
+            <!-- 课程结束日期 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[3].name}}
+                </view>
+
+                <picker id="{{displayItems[3].id}}" name="{{displayItems[3].id}}" mode='date' value="{{displayItems[3].component.value}}" bindchange='onPickerChange'>
+                    <view class='item-picker'>
+                        <view class='item-picker-text'>{{displayItems[3].component.value}}</view>
+                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                    </view>
+                </picker>
+            </view>
+
+            <!-- 重复规则 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[4].name}}
+                </view>
+
+                <picker id="{{displayItems[4].id}}" name="{{displayItems[4].id}}" mode='multiSelector' range='{{recurringRuleArray}}' value="{{recurringRuleIdx}}" bindchange='onPickerChange' bindcolumnchange="onPeriodPickerColumnChange">
+                    <view class='item-picker'>
+                        <view class='item-picker-text'>{{displayItems[4].component.value}}</view>
+                        <image class='image-arrow' src='../../image/right_arrow.png'></image>
+                    </view>
+                </picker>
+            </view>
+
+            <!-- 每次课开始的时间 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[5].name}}
+                </view>
+
+                <picker id="{{displayItems[5].id}}" name="{{displayItems[5].id}}" mode='time' value="{{displayItems[5].component.value}}" bindchange='onPickerChange'>
+                    <view class='item-picker'>
+                        <view class='item-picker-text'>{{displayItems[5].component.value}}</view>
+                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                    </view>
+                </picker>
+            </view>
+
+            <!-- 每次课时间长度 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[6].name}}
+                </view>
+
+                <picker id="{{displayItems[6].id}}" name="{{displayItems[6].id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
+                    <view class='item-picker'>
+                        <view class='item-picker-text'>{{displayItems[6].component.value}} </view>
+                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                    </view>
+                </picker>
+            </view>
+
+            <!-- 上课学生人数上限 -->
+            <view class="item-box row">
+                <view class='item-name'>
+                    {{displayItems[7].name}}
+                </view>
+                <view class='item-input'>
+                    <input id="{{displayItems[7].id}}" name="{{displayItems[7].id}}" value="{{displayItems[7].component.value}}" type='number' placeholder='{{displayItems[7].tip}}'> </input>
+                </view>
+            </view>
+
+            <!-- 文本输入框 -->
+            <view class="item-box column">
+                <view class='item-name'>
+                    {{displayItems[8].name}}
+                </view>
+                <view class='item-textarea'>
+                    <textarea id="{displayItems[8].id}}" name="{{displayItems[6].id}}" class='decription-item-text' value="{{displayItems[8].component.value}}" show-confirm-bar='{{false}}' type='text' placeholder='{{displayItems[8].tip}}'></textarea>
+                </view>
+            </view>
+
         </view>
 
         <view class="foot-box">
-            <button class='reset-btn' type='default' size='default' formType="reset">重置</button>
-            <button class='confirm-btn' type='primary' size='default' formType="submit">保存</button>
+            <!-- <button class='reset-btn' type='default' size='default' formType="reset">重置</button> -->
+            <button class='confirm-btn' type='primary' size='default' formType="submit">确定</button>
         </view>
     </form>
 

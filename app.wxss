@@ -148,9 +148,10 @@
 
 .item-picker {
     display: flex;
+    flex-direction: row;
     align-items: center;
     height: 100rpx;
-    padding-right: 60rpx;
+    padding-right: 40rpx;
     /* width: 300rpx; */
 }
 
@@ -159,6 +160,7 @@
     align-items: center;
     width: 400rpx;
     padding-right: 40rpx;
+    text-align: right;
 }
 
 .item-textarea {

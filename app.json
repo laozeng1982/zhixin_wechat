@@ -12,7 +12,8 @@
         "pages/normalpages/set_notice/set_notice",
         "pages/normalpages/about/about",
         "pages/normalpages/config/config",
-        "pages/normalpages/feedback/feedback"
+        "pages/normalpages/feedback/feedback",
+        "pages/normalpages/set_location/set_location"
     ],
     "window": {
         "navigationBarBackgroundColor": "#000000",

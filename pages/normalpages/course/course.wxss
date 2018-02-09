@@ -1,1 +1,23 @@
 /* pages/course/course.wxss */
+
+
+.picker-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100rpx;
+    padding-right: 60rpx;
+    /* width: 300rpx; */
+}
+
+.image-arrow {
+    width: 64rpx;
+    height: 64rpx;
+}
+
+.item-picker-text {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+}

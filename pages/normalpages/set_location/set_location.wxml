@@ -1,0 +1,49 @@
+<!--pages/normalpages/set_location/set_location.wxml-->
+
+<view class="container">
+
+    <view class='gray-space'></view>
+
+    <form class='form-container' bindsubmit="onFormSubmit" bindreset="onFormReset">
+        <view class='items-container'>
+
+            <!-- 角色设置 -->
+            <view class='items-container'>
+                <view class='item-box'>
+                    <view class='item-text'>
+                        <text>请选择当前角色</text>
+                    </view>
+                </view>
+
+                <radio-group id="authorities" name="authorities">
+                    <label class="items-container" wx:for="{{authorities}}" wx:key="{{index}}">
+                        <view class='checkbox-item'>
+                            <radio id="{{item.name}}" value="{{item.name}}" checked="{{item.checked}}" disabled='{{item.disabled}}' />{{item.value}}
+                        </view>
+
+                        <view class='checkbox-item-text'>{{item.description}}</view>
+                    </label>
+                </radio-group>
+
+            </view>
+
+        </view>
+
+        <map id="map" longitude="113.324520" latitude="23.099994" scale="14" controls="{{controls}}" bindcontroltap="controltap" markers="{{markers}}" bindmarkertap="markertap" polyline="{{polyline}}" bindregionchange="regionchange" show-location style="width: 100%; height: 300px;"></map>
+
+        <view class="foot-box">
+            <button class='reset-btn' type='default' size='default' formType="reset">重置</button>
+            <button class='confirm-btn' type='primary' size='default' formType="submit">保存</button>
+        </view>
+    </form>
+
+</view>
+
+<view class="section">
+    <view class="section__title">省市区选择器</view>
+    <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+        <view class="picker">
+            当前选择：{{region[0]}}，{{region[1]}}，{{region[2]}}
+        </view>
+    </picker>
+</view>

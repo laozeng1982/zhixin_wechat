@@ -22,7 +22,8 @@ App({
                 console.log("login res: ", res.code);
                 // 发送 res.code 到后台换取 openId, sessionKey, unionId
                 wx.request({
-                    url: 'https://www.newpictown.com/WeChatMiniProgram/user/weChatMPOpenIdByJSCode/' + res.code,
+                    url: 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPOpenIdByJSCode/' + res.code,
+                    // 获取OpenId成功
                     success: response => {
                         console.log("openId response:", response);
                         let mpOpenId = response.data.mpOpenId;
@@ -44,7 +45,7 @@ App({
                                         userInfoLocal.avatarUrl = res.userInfo.avatarUrl;
 
                                         wx.request({
-                                            url: 'https://www.newpictown.com/WeChatMiniProgram/user/weChatMPUnionIdQuery',
+                                            url: 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPUnionIdQuery',
                                             method: 'POST',
                                             data: {
                                                 mpOpenId: mpOpenId,
@@ -79,14 +80,18 @@ App({
                                             this.userInfoReadyCallback(res);
                                         }
                                     },
-                                    fail: function () {
-                                        console.log("Failed to get OpenId");
+                                    fail: res => {
+                                        console.log("Failed to get OpenId.", res);
                                     }
                                 })
                                 // }
+                            },
+                            fail: res => {
+                                console.log("Failed to getSetting, res:", res);
                             }
                         })
                     },
+                    // 获取OpenId失败
                     fail: function (res) {
                         console.log(res);
                         console.log("Failed to get OpenId");

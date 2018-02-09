@@ -348,7 +348,7 @@ Page({
             evaluation[3].value = "本次作业待提高的部分";
             evaluation[3].placeholder = "今天" + this.data.student_name + "的作业，还有可以提高的地方，比如...";
         } else {
-            pageType = "课堂";
+            pageType = "课堂表现";
 
             evaluation[1].placeholder = "给" + this.data.student_name + "的课堂表现一个总体评价吧。";
             evaluation[2].placeholder = "今天" + this.data.student_name + "在课上表现很好的地方有...";
