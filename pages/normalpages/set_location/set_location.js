@@ -56,8 +56,8 @@ Page({
             type: 'gcj02',
             success: function (res) {
                 console.log(res);
-                markers[0].latitude = res.latitude
-                markers[0].longitude = res.longitude
+                markers[0].latitude = res.latitude;
+                markers[0].longitude = res.longitude;
                 wx.openLocation({
                     latitude: res.latitude,
                     longitude: res.longitude,

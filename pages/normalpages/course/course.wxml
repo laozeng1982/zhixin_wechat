@@ -3,7 +3,8 @@
 
     <view class='gray-space'></view>
 
-    <form class='form-container' bindsubmit="onFormSubmit" bindreset="onFormReset">
+    <!-- bindreset="onFormReset" -->
+    <form class='form-container' bindsubmit="onFormSubmit">
         <view class='items-container'>
 
             <!-- 课程名设置 -->
@@ -12,8 +13,9 @@
                     {{displayItems[0].name}}
                 </view>
                 <view class='item-input'>
-                    <input id="{{displayItems[0].id}}" name="{{displayItems[0].id}}" value="{{displayItems[0].component.value}}" type='text' placeholder='{{displayItems[0].tip}}'> </input>
+                    <input id="{{displayItems[0].id}}" name="{{displayItems[0].id}}" type='text' placeholder='{{displayItems[0].tip}}'> </input>
                 </view>
+
             </view>
 
             <!-- 上课地点设置 -->
@@ -21,6 +23,7 @@
                 <view class='item-name'>
                     {{displayItems[1].name}}
                 </view>
+
                 <view class='item-picker'>
                     <view id="{{displayItems[1].id}}" name="{{displayItems[1].id}}" bindtap='onSelectAddress'> {{displayItems[1].component.value}} </view>
                     <image class='image-arrow' src='../../image/right_arrow.png'></image>
@@ -34,7 +37,7 @@
                     {{displayItems[2].name}}
                 </view>
 
-                <picker id="{{displayItems[2].id}}" name="{{displayItems[2].id}}" mode='date' value="{{displayItems[2].component.value}}" bindchange='onPickerChange'>
+                <picker id="{{displayItems[2].id}}" name="{{displayItems[2].id}}" mode='date' bindchange='onPickerChange'>
                     <view class='item-picker'>
                         <view class='item-picker-text'>{{displayItems[2].component.value}}</view>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
@@ -48,7 +51,7 @@
                     {{displayItems[3].name}}
                 </view>
 
-                <picker id="{{displayItems[3].id}}" name="{{displayItems[3].id}}" mode='date' value="{{displayItems[3].component.value}}" bindchange='onPickerChange'>
+                <picker id="{{displayItems[3].id}}" name="{{displayItems[3].id}}" mode='date' bindchange='onPickerChange'>
                     <view class='item-picker'>
                         <view class='item-picker-text'>{{displayItems[3].component.value}}</view>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
@@ -62,12 +65,17 @@
                     {{displayItems[4].name}}
                 </view>
 
-                <picker id="{{displayItems[4].id}}" name="{{displayItems[4].id}}" mode='multiSelector' range='{{recurringRuleArray}}' value="{{recurringRuleIdx}}" bindchange='onPickerChange' bindcolumnchange="onPeriodPickerColumnChange">
+                <view id="{{displayItems[4].id}}" name="{{displayItems[4].id}}" class='item-picker' bindtap='onSetRecurringRules'>
+                    <view class='item-picker-text'>{{displayItems[4].component.value}}</view>
+                    <image class='image-arrow' src='../../image/right_arrow.png'></image>
+                </view>
+
+                <!-- <picker id="{{displayItems[4].id}}" name="{{displayItems[4].id}}" mode='multiSelector' range='{{recurringRuleArray}}' value="{{recurringRuleIdx}}" bindchange='onPickerChange' bindcolumnchange="onPeriodPickerColumnChange">
                     <view class='item-picker'>
                         <view class='item-picker-text'>{{displayItems[4].component.value}}</view>
                         <image class='image-arrow' src='../../image/right_arrow.png'></image>
                     </view>
-                </picker>
+                </picker> -->
             </view>
 
             <!-- 每次课开始的时间 -->
@@ -76,7 +84,7 @@
                     {{displayItems[5].name}}
                 </view>
 
-                <picker id="{{displayItems[5].id}}" name="{{displayItems[5].id}}" mode='time' value="{{displayItems[5].component.value}}" bindchange='onPickerChange'>
+                <picker id="{{displayItems[5].id}}" name="{{displayItems[5].id}}" mode='time' bindchange='onPickerChange'>
                     <view class='item-picker'>
                         <view class='item-picker-text'>{{displayItems[5].component.value}}</view>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
@@ -92,7 +100,7 @@
 
                 <picker id="{{displayItems[6].id}}" name="{{displayItems[6].id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
                     <view class='item-picker'>
-                        <view class='item-picker-text'>{{displayItems[6].component.value}} </view>
+                        <view class='item-picker-text'>{{timeList[timeListIdx]}} </view>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
                     </view>
                 </picker>
@@ -104,7 +112,7 @@
                     {{displayItems[7].name}}
                 </view>
                 <view class='item-input'>
-                    <input id="{{displayItems[7].id}}" name="{{displayItems[7].id}}" value="{{displayItems[7].component.value}}" type='number' placeholder='{{displayItems[7].tip}}'> </input>
+                    <input id="{{displayItems[7].id}}" name="{{displayItems[7].id}}" type='number' placeholder='{{displayItems[7].tip}}'> </input>
                 </view>
             </view>
 
@@ -114,7 +122,7 @@
                     {{displayItems[8].name}}
                 </view>
                 <view class='item-textarea'>
-                    <textarea id="{displayItems[8].id}}" name="{{displayItems[6].id}}" class='decription-item-text' value="{{displayItems[8].component.value}}" show-confirm-bar='{{false}}' type='text' placeholder='{{displayItems[8].tip}}'></textarea>
+                    <textarea id="{displayItems[8].id}}" name="{{displayItems[8].id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' placeholder='{{displayItems[8].tip}}'></textarea>
                 </view>
             </view>
 

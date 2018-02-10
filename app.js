@@ -106,6 +106,13 @@ App({
 
     Util: util,
     Settings: Settings,    // 全局同步标志
+
+    // 定义全局变量
+    tempData: {
+        recurringRules: {},
+        location: {}
+    },
+
     globalData: {
         // 定义一些全局变量，在页面跳转的时候判断，方便其他的JS通过app调用
 

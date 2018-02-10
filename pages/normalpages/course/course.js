@@ -176,7 +176,11 @@ Page({
         });
     },
 
-
+    onSetRecurringRules: function (e) {
+        wx.navigateTo({
+            url: '../set_recurring/set_recurring',
+        });
+    },
 
     makeArray: function (number) {
         let array = [];
@@ -229,10 +233,12 @@ Page({
     onPickerChange: function (e) {
         console.log(e.currentTarget.id, e.detail.value);
         let displayItems = this.data.displayItems;
+        let timeListIdx = this.data.timeListIdx;
         for (let item of displayItems) {
             if (item.id === e.currentTarget.id) {
                 if (item.id === "duration") {
                     item.component.value = this.data.timeList[parseInt(e.detail.value)];
+                    timeListIdx = parseInt(e.detail.value);
                 } else if (item.id === "recurringRule") {
                     let recurringRuleArray = this.data.recurringRuleArray;
                     let recurringRuleIdx = this.data.recurringRuleIdx;
@@ -249,6 +255,7 @@ Page({
         }
 
         this.setData({
+            timeListIdx: timeListIdx,
             displayItems: displayItems
         });
     },
