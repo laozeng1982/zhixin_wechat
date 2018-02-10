@@ -2,6 +2,11 @@
 
 /* 全局通用的一些样式 */
 
+button{
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+
 .container {
     height: 100%;
     display: flex;

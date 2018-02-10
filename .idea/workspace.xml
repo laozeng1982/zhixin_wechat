@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bb6752d-29ce-4efe-b011-19cd7f3a8e0b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/datamodel/DataStructure.js" afterPath="$PROJECT_DIR$/datamodel/DataStructure.js" />
-      <change beforePath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.js" afterPath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.wxml" />
-      <change beforePath="$PROJECT_DIR$/utils/Util.js" afterPath="$PROJECT_DIR$/utils/Util.js" />
+      <change beforePath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.wxss" afterPath="$PROJECT_DIR$/pages/normalpages/set_location/set_location.wxss" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -25,8 +24,8 @@
             <file leaf-file-name="DataStructure.js" pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/datamodel/DataStructure.js">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="688">
-                    <caret line="383" column="22" lean-forward="false" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="22" />
+                  <state relative-caret-position="750">
+                    <caret line="384" column="2" lean-forward="false" selection-start-line="384" selection-start-column="2" selection-end-line="384" selection-end-column="2" />
                     <folding>
                       <element signature="n#!!doc" expanded="true" />
                     </folding>
@@ -57,8 +56,15 @@
         <entry file="file://$PROJECT_DIR$/pages/normalpages/review_performance/review_performance.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="5880">
-              <caret line="281" column="40" lean-forward="false" selection-start-line="281" selection-start-column="40" selection-end-line="281" selection-end-column="40" />
-              <folding />
+              <caret line="369" column="0" lean-forward="false" selection-start-line="369" selection-start-column="0" selection-end-line="369" selection-end-column="0" />
+              <folding>
+                <marker date="1518178230450" expanded="true" signature="10203:10250" ph="{...}" />
+                <marker date="1518178230450" expanded="true" signature="10275:10383" ph="{&quot;options&quot;: options...}" />
+                <marker date="1518178230450" expanded="true" signature="10398:10435" ph="/** 生命周期函数--监听页面初次渲染完成 ...*/" />
+                <marker date="1518178230450" expanded="true" signature="10476:10509" ph="/** 生命周期函数--监听页面显示 ...*/" />
+                <marker date="1518178230450" expanded="true" signature="10549:10582" ph="/** 生命周期函数--监听页面隐藏 ...*/" />
+                <marker date="1518178230450" expanded="true" signature="10652:10685" ph="/** 生命周期函数--监听页面卸载 ...*/" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -78,11 +84,12 @@
       <file leaf-file-name="Media.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/Media.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5628">
-              <caret line="271" column="13" lean-forward="false" selection-start-line="271" selection-start-column="13" selection-end-line="271" selection-end-column="13" />
+            <state relative-caret-position="5103">
+              <caret line="308" column="2" lean-forward="false" selection-start-line="308" selection-start-column="2" selection-end-line="308" selection-end-column="2" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#21#53#0" expanded="true" />
+                <marker date="1518178230454" expanded="true" signature="8505:8534" ph="{&quot;startRecordVoice&quot;: startRecordVoice...}" />
               </folding>
             </state>
           </provider>
@@ -104,10 +111,21 @@
       <file leaf-file-name="course.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/course.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="250" column="58" lean-forward="true" selection-start-line="250" selection-start-column="58" selection-end-line="250" selection-end-column="58" />
+            <state relative-caret-position="4284">
+              <caret line="350" column="2" lean-forward="false" selection-start-line="350" selection-start-column="2" selection-end-line="350" selection-end-column="2" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <marker date="1518265307299" expanded="true" signature="7807:7816" ph="{...}" />
+                <marker date="1518265307299" expanded="true" signature="7823:7856" ph="/** 生命周期函数--监听页面加载 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8128:8175" ph="{&quot;title&quot;: coursePageTitle...}" />
+                <marker date="1518265307299" expanded="true" signature="8256:8296" ph="{&quot;options&quot;: options...}" />
+                <marker date="1518265307299" expanded="true" signature="8311:8348" ph="/** 生命周期函数--监听页面初次渲染完成 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8389:8422" ph="/** 生命周期函数--监听页面显示 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8462:8495" ph="/** 生命周期函数--监听页面隐藏 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8535:8568" ph="/** 生命周期函数--监听页面卸载 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8610:8649" ph="/** 页面相关事件处理函数--监听用户下拉动作 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8700:8732" ph="/** 页面上拉触底事件的处理函数 ...*/" />
+                <marker date="1518265307299" expanded="true" signature="8779:8807" ph="/** 用户点击右上角分享 ...*/" />
               </folding>
             </state>
           </provider>
@@ -116,8 +134,8 @@
       <file leaf-file-name="set_location.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/set_location/set_location.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="336">
-              <caret line="40" column="26" lean-forward="true" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+            <state relative-caret-position="294">
+              <caret line="38" column="24" lean-forward="true" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -126,8 +144,8 @@
       <file leaf-file-name="set_location.wxml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/set_location/set_location.wxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="31" column="6" lean-forward="true" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+            <state relative-caret-position="714">
+              <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -136,11 +154,12 @@
       <file leaf-file-name="Util.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/Util.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="644" column="35" lean-forward="false" selection-start-line="644" selection-start-column="35" selection-end-line="644" selection-end-column="35" />
+            <state relative-caret-position="13377">
+              <caret line="658" column="0" lean-forward="false" selection-start-line="658" selection-start-column="0" selection-end-line="658" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#50#104#0" expanded="true" />
+                <marker date="1518265307302" expanded="true" signature="19620:19921" ph="{&quot;formatTime&quot;: formatTime...}" />
               </folding>
             </state>
           </provider>
@@ -235,9 +254,9 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="2018" />
-    <option name="y" value="514" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="1672" />
+    <option name="y" value="-8" />
     <option name="width" value="1696" />
     <option name="height" value="1026" />
   </component>
@@ -318,7 +337,7 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHubDesktop/app-1.0.13/resources/app/git/cmd/git.exe" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
@@ -449,25 +468,27 @@
       <workItem from="1518146649474" duration="12024000" />
       <workItem from="1518234225468" duration="964000" />
       <workItem from="1518241835579" duration="3310000" />
+      <workItem from="1518268987505" duration="771000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="148541000" />
+    <option name="totallyTimeSpent" value="149312000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="1672" y="-8" width="1696" height="1026" extended-state="7" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25211418" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25181597" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23594266" sideWeight="0.5021142" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23564593" sideWeight="0.5021142" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -502,7 +523,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3780">
           <caret line="181" column="9" lean-forward="true" selection-start-line="181" selection-start-column="9" selection-end-line="181" selection-end-column="9" />
-          <folding />
+          <folding>
+            <marker date="1518178230450" expanded="true" signature="10203:10250" ph="{...}" />
+            <marker date="1518178230450" expanded="true" signature="10275:10383" ph="{&quot;options&quot;: options...}" />
+            <marker date="1518178230450" expanded="true" signature="10398:10435" ph="/** 生命周期函数--监听页面初次渲染完成 ...*/" />
+            <marker date="1518178230450" expanded="true" signature="10476:10509" ph="/** 生命周期函数--监听页面显示 ...*/" />
+            <marker date="1518178230450" expanded="true" signature="10549:10582" ph="/** 生命周期函数--监听页面隐藏 ...*/" />
+            <marker date="1518178230450" expanded="true" signature="10652:10685" ph="/** 生命周期函数--监听页面卸载 ...*/" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -609,6 +637,7 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#50#104#0" expanded="true" />
+            <marker date="1518265307302" expanded="true" signature="19620:19921" ph="{&quot;formatTime&quot;: formatTime...}" />
           </folding>
         </state>
       </provider>
@@ -772,65 +801,85 @@
     <entry file="file://$PROJECT_DIR$/pages/normalpages/review_performance/review_performance.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5880">
-          <caret line="281" column="40" lean-forward="false" selection-start-line="281" selection-start-column="40" selection-end-line="281" selection-end-column="40" />
-          <folding />
+          <caret line="369" column="0" lean-forward="false" selection-start-line="369" selection-start-column="0" selection-end-line="369" selection-end-column="0" />
+          <folding>
+            <marker date="1518178230450" expanded="true" signature="10203:10250" ph="{...}" />
+            <marker date="1518178230450" expanded="true" signature="10275:10383" ph="{&quot;options&quot;: options...}" />
+            <marker date="1518178230450" expanded="true" signature="10398:10435" ph="/** 生命周期函数--监听页面初次渲染完成 ...*/" />
+            <marker date="1518178230450" expanded="true" signature="10476:10509" ph="/** 生命周期函数--监听页面显示 ...*/" />
+            <marker date="1518178230450" expanded="true" signature="10549:10582" ph="/** 生命周期函数--监听页面隐藏 ...*/" />
+            <marker date="1518178230450" expanded="true" signature="10652:10685" ph="/** 生命周期函数--监听页面卸载 ...*/" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/Media.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5628">
-          <caret line="271" column="13" lean-forward="false" selection-start-line="271" selection-start-column="13" selection-end-line="271" selection-end-column="13" />
+        <state relative-caret-position="5103">
+          <caret line="308" column="2" lean-forward="false" selection-start-line="308" selection-start-column="2" selection-end-line="308" selection-end-column="2" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#21#53#0" expanded="true" />
+            <marker date="1518178230454" expanded="true" signature="8505:8534" ph="{&quot;startRecordVoice&quot;: startRecordVoice...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/course/course.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="250" column="58" lean-forward="true" selection-start-line="250" selection-start-column="58" selection-end-line="250" selection-end-column="58" />
+        <state relative-caret-position="4284">
+          <caret line="350" column="2" lean-forward="false" selection-start-line="350" selection-start-column="2" selection-end-line="350" selection-end-column="2" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datamodel/DataStructure.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="383" column="22" lean-forward="false" selection-start-line="383" selection-start-column="22" selection-end-line="383" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <marker date="1518265307299" expanded="true" signature="7807:7816" ph="{...}" />
+            <marker date="1518265307299" expanded="true" signature="7823:7856" ph="/** 生命周期函数--监听页面加载 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8128:8175" ph="{&quot;title&quot;: coursePageTitle...}" />
+            <marker date="1518265307299" expanded="true" signature="8256:8296" ph="{&quot;options&quot;: options...}" />
+            <marker date="1518265307299" expanded="true" signature="8311:8348" ph="/** 生命周期函数--监听页面初次渲染完成 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8389:8422" ph="/** 生命周期函数--监听页面显示 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8462:8495" ph="/** 生命周期函数--监听页面隐藏 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8535:8568" ph="/** 生命周期函数--监听页面卸载 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8610:8649" ph="/** 页面相关事件处理函数--监听用户下拉动作 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8700:8732" ph="/** 页面上拉触底事件的处理函数 ...*/" />
+            <marker date="1518265307299" expanded="true" signature="8779:8807" ph="/** 用户点击右上角分享 ...*/" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/set_location/set_location.wxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="31" column="6" lean-forward="true" selection-start-line="31" selection-start-column="6" selection-end-line="31" selection-end-column="6" />
+        <state relative-caret-position="714">
+          <caret line="34" column="0" lean-forward="false" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/utils/Util.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="644" column="35" lean-forward="false" selection-start-line="644" selection-start-column="35" selection-end-line="644" selection-end-column="35" />
+        <state relative-caret-position="13377">
+          <caret line="658" column="0" lean-forward="false" selection-start-line="658" selection-start-column="0" selection-end-line="658" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#50#104#0" expanded="true" />
+            <marker date="1518265307302" expanded="true" signature="19620:19921" ph="{&quot;formatTime&quot;: formatTime...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datamodel/DataStructure.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="384" column="2" lean-forward="false" selection-start-line="384" selection-start-column="2" selection-end-line="384" selection-end-column="2" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/normalpages/set_location/set_location.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="40" column="26" lean-forward="true" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+        <state relative-caret-position="294">
+          <caret line="38" column="24" lean-forward="true" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
           <folding />
         </state>
       </provider>

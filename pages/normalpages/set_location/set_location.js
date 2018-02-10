@@ -10,24 +10,9 @@ Page({
      * 页面的初始数据
      */
     data: {
-        userLocation: {}
-    },
-
-    /**
-     * 选择位置
-     */
-    chooseLocation: function () {
-        let host = this;
-        wx.chooseLocation({
-            success: function (res) {
-                console.log(res);
-                host.setData({
-                    hasLocation: true,
-                    location: app.Util.formatLocation(res.longitude, res.latitude),
-                    locationAddress: res.address
-                })
-            }
-        });
+        markers: [],
+        userLocation: {},
+        selectedLocation: {}
     },
 
     /**
@@ -35,6 +20,7 @@ Page({
      */
     initLocation: function () {
         let userLocation = new DataStructure.Location();
+        let selectedLocation = new DataStructure.Location();
         let host = this;
         wx.getLocation({
             type: 'gcj02',
@@ -43,15 +29,67 @@ Page({
                 userLocation.latitude = res.latitude;
                 userLocation.longitude = res.longitude;
 
+                selectedLocation.latitude = res.latitude;
+                selectedLocation.longitude = res.longitude;
+
                 console.log(userLocation);
 
                 host.setData({
-                    userLocation: userLocation
+                    userLocation: userLocation,
+                    selectedLocation: selectedLocation
                 });
             },
         });
+    },
 
+    /**
+     * 响应选择位置
+     */
+    onChooseLocation: function () {
+        let host = this;
 
+        wx.chooseLocation({
+            success: function (res) {
+                console.log(res);
+                let selectedLocation = new DataStructure.Location();
+                selectedLocation.latitude = res.latitude;
+                selectedLocation.longitude = res.longitude;
+                selectedLocation.address = res.address;
+                selectedLocation.name = res.name;
+                let markers = host.data.markers;
+
+                let marker = {
+                    latitude: res.latitude,
+                    longitude: res.longitude,
+                    // callout: {
+                    //     content: res.name
+                    // }
+                    label: res.name
+                }
+
+                markers.push(marker);
+
+                host.setData({
+                    markers: markers,
+                    selectedLocation: selectedLocation
+                });
+            }
+        });
+    },
+
+    onMarkertap: function (e) {
+        console.log(e);
+
+    },
+
+    /**
+     * 响应重置地图函数
+     */
+    onResetLocation: function () {
+        let selectedLocation = app.Util.deepClone(this.data.userLocation);
+        this.setData({
+            selectedLocation: selectedLocation
+        });
     },
 
     /**
