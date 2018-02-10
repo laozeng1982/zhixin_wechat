@@ -1,85 +1,64 @@
 // pages/normalpages/set_location/set_location.js
+
+import DataStructure from '../../../datamodel/DataStructure'
+
+const app = getApp();
+
 Page({
 
     /**
      * 页面的初始数据
      */
     data: {
-        markers: [{
-            iconPath: "/resources/others.png",
-            id: 0,
-            latitude: 0,
-            longitude: 0,
-            width: 50,
-            height: 50
-        }],
-        polyline: [{
-            points: [{
-                longitude: 0,
-                latitude: 0
-            }, {
-                longitude: 0,
-                latitude: 0
-            }],
-            color: "#FF0000DD",
-            width: 2,
-            dottedLine: true
-        }],
-        controls: [{
-            id: 1,
-            // iconPath: '/resources/location.png',
-            position: {
-                left: 0,
-                top: 300 - 50,
-                width: 50,
-                height: 50
-            },
-            clickable: true
-        }]
+        userLocation: {}
     },
-    regionchange(e) {
-        console.log(e.type)
-    },
-    markertap(e) {
-        console.log(e.markerId)
-    },
-    controltap(e) {
-        console.log(e.controlId)
+
+    /**
+     * 选择位置
+     */
+    chooseLocation: function () {
+        let host = this;
+        wx.chooseLocation({
+            success: function (res) {
+                console.log(res);
+                host.setData({
+                    hasLocation: true,
+                    location: app.Util.formatLocation(res.longitude, res.latitude),
+                    locationAddress: res.address
+                })
+            }
+        });
     },
 
     /**
      * 根据用户信息初始化
      */
     initLocation: function () {
-        let markers = this.data.markers;
+        let userLocation = new DataStructure.Location();
+        let host = this;
         wx.getLocation({
             type: 'gcj02',
             success: function (res) {
                 console.log(res);
-                markers[0].latitude = res.latitude;
-                markers[0].longitude = res.longitude;
-                wx.openLocation({
-                    latitude: res.latitude,
-                    longitude: res.longitude,
-                })
+                userLocation.latitude = res.latitude;
+                userLocation.longitude = res.longitude;
+
+                console.log(userLocation);
+
+                host.setData({
+                    userLocation: userLocation
+                });
             },
         });
-        this.setData({
-            markers: markers
-        });
-    },
 
-    bindRegionChange: function (e) {
-        console.log('picker发送选择改变，携带值为', e.detail.value);
-        this.setData({
-            region: e.detail.value
-        })
+
     },
 
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+
         this.initLocation();
     },
 

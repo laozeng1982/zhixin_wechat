@@ -37,7 +37,7 @@ class WeChatUser {
         this.authorities = [];  // (Array[GrantedAuthority], optional),     （权限字段，自定义类型，可选，默认：空）
         this.currentAuth = "";  // （当前角色，字符串，可选，默认：空）
 
-        this.weChatInfo = { unionId: "" };  // (WeChatUserBasic, optional)    （用户微信基本账号信息，自定义类）
+        this.weChatInfo = {unionId: ""};  // (WeChatUserBasic, optional)    （用户微信基本账号信息，自定义类）
 
     }
 
@@ -178,7 +178,7 @@ class Role {
 class Course {
     constructor() {
         this.name = "";    //(string, optional),    （本课程名字，字符串，必须，默认：空）
-        this.address = "";  //(string, optional),   （本课程上课地址，字符串，必须，默认：空）
+        this.location = new Location(); // （本课程上课地址，字符串，必须，默认：空）
 
         this.startDate = "";    //(Calendar, optional), （本课程开始日期，字符串，必须，默认：空）
         this.endDate = "";    //(Calendar, optional),   （本课程结束日期，字符串，必须，默认：空）
@@ -205,6 +205,19 @@ class Course {
         this.id = -1; // (integer, optional),  （id，整形，可选，默认：-1）
 
     }
+}
+
+/**
+ * 位置信息，与微信保持一致
+ */
+class Location {
+    constructor() {
+        this.name = "";       // 位置名称
+        this.address = "";    // 详细地址
+        this.latitude = "";   // 纬度，浮点数，范围为-90~90，负数表示南纬
+        this.longitude = "";   // 经度，浮点数，范围为-180~180，负数表示西经
+    }
+
 }
 
 /**
@@ -367,5 +380,6 @@ module.exports = {
     Lesson: Lesson,
     Homework: Homework,
     Notice: Notice,
-    FileInfo: FileInfo
+    FileInfo: FileInfo,
+    Location: Location
 };

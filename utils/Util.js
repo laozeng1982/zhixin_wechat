@@ -99,6 +99,21 @@ function formatNumber(n) {
     return n[1] ? n : '0' + n;
 }
 
+function formatLocation(longitude, latitude) {
+    if (typeof longitude === 'string' && typeof latitude === 'string') {
+        longitude = parseFloat(longitude);
+        latitude = parseFloat(latitude)
+    }
+
+    longitude = longitude.toFixed(2)
+    latitude = latitude.toFixed(2)
+
+    return {
+        longitude: longitude.toString().split('.'),
+        latitude: latitude.toString().split('.')
+    }
+}
+
 /**
  * 检查当前选择日期与今天的关系
  * 过期，则返回：-1
@@ -627,6 +642,7 @@ module.exports = {
     formatDateToString: formatDateToString,
     getDateFromString: getDateFromString,
     formatStringDate: formatStringDate,
+    formatLocation: formatLocation,
     formatNumber: formatNumber,
     dateDirection: dateDirection,
     datesDistance: datesDistance,
