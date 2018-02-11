@@ -2,7 +2,6 @@
 //获取应用实例
 
 import DataStructure from '../../../datamodel/DataStructure'
-import util from "../../../utils/Util";
 
 const app = getApp();
 
@@ -11,38 +10,7 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        tabData: [],
-        currentTabIdx: 0,
-
-        subTabData: [],
-
-        displaySetting: [
-            {
-                type: "all_course",
-                name: "所有课程",
-                selected: true,
-                display: true
-            },
-            {
-                type: "everyday_lesson",
-                name: "每日课程安排",
-                selected: false,
-                display: true
-            },
-            {
-                type: "add_new",
-                name: "创建",
-                selected: false,
-                display: false
-            }
-        ]
-    },
-
-    /**
-     * 生成tab页面
-     */
-    makeTabData: function () {
-        let tabData = [
+        tabData: [
             {
                 type: "course",
                 name: "课程",
@@ -61,7 +29,44 @@ Page({
                 data: [],
                 selected: false
             }
-        ];
+        ],
+        currentTabIdx: 0,
+
+        subTabData: [],
+
+        displaySetting: [
+            {
+                type: "all_course",
+                name: "所有课程",
+                selected: true,
+                display: true
+            },
+            {
+                type: "everyday_lesson",
+                name: "每日课程",
+                selected: false,
+                display: true
+            },
+            {
+                type: "add_new",
+                name: "创建课程",
+                selected: true,
+                display: false
+            }
+        ]
+    },
+
+    /**
+     * 生成tab页面
+     */
+    makeTabData: function (role) {
+
+        let tabData = this.data.tabData;
+
+        if (role !=="teacher") {
+            tabData[1].name = "通知";
+            tabData[2].name = "作业回复";
+        }
 
         this.setData({
             tabData: tabData
@@ -75,6 +80,24 @@ Page({
     },
 
     /**
+     * 处理切换tab事件
+     * @param e
+     */
+    onTabSwitch: function (e) {
+        let currentTabIdx = e.currentTarget.dataset.current;
+        let tabData = this.data.tabData;
+
+        for (let idx = 0; idx < tabData.length; idx++) {
+            tabData[idx].selected = (idx === currentTabIdx);
+        }
+
+        this.setData({
+            tabData: tabData,
+            currentTabIdx: currentTabIdx
+        });
+    },
+
+    /**
      *
      * @param e
      */
@@ -82,7 +105,11 @@ Page({
         console.log("selcted:", e.currentTarget.id);
         let displaySetting = this.data.displaySetting;
         for (let item of displaySetting) {
-            item.selected = item.type === e.currentTarget.id;
+            if (item.type === "add_new") {
+                item.selected = true;
+            } else {
+                item.selected = item.type === e.currentTarget.id;
+            }
         }
 
         switch (e.currentTarget.id) {
@@ -106,44 +133,6 @@ Page({
         this.createNewCourse();
     },
 
-    //事件处理函数
-    onBtn: function () {
-        let wechatUser = new DataStructure.WeChatUser();
-        let tmpUser = {};
-        tmpUser.dateOfBirth = "1982-08-30";  // (Calendar, optional),
-        tmpUser.email = "25471915@qq.com";  // (string, optional),
-        tmpUser.enName = "JianGe";  // (string, optional),
-        tmpUser.enabled = true;  // (boolean, optional),
-        tmpUser.gender = "Male";  // (string, optional) = ['Unknown', 'Male', 'Female'],
-        tmpUser.weChatInfo = {
-            mpOpenId: "1234",// (string, optional),
-            oaOpenId: "5678", // (string, optional),
-            unionId: "12345678"  // (string, optional)
-        };
-
-        wechatUser.cloneDataFrom(tmpUser);
-        console.log("wechatUser", wechatUser);
-        wechatUser.validate();
-    },
-
-    /**
-     * 处理切换tab事件
-     * @param e
-     */
-    onNavSwitch: function (e) {
-        let currentTabIdx = e.currentTarget.dataset.current;
-        let tabData = this.data.tabData;
-
-        for (let idx = 0; idx < tabData.length; idx++) {
-            tabData[idx].selected = (idx === currentTabIdx);
-        }
-
-        this.setData({
-            tabData: tabData,
-            currentTabIdx: currentTabIdx
-        });
-    },
-
     /**
      * 评价某堂课
      */
@@ -162,66 +151,11 @@ Page({
         });
     },
 
-    getUserInfo: function (e) {
-        console.log(e);
-        app.globalData.userInfoLocal = e.detail.userInfo;
-        this.setData({
-            userInfo: e.detail.userInfoLocal,
-            hasUserInfo: true
-        });
-    },
-
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function () {
-        this.makeTabData();
-        let userInfoLocal = app.Util.loadData(app.Settings.Storage.WeChatUser);
-        let displaySetting = this.data.displaySetting;
-        if (userInfoLocal) {
-            if (userInfoLocal.teacherCourseSet.length > 0) {
-                for (let item of displaySetting) {
-                    if (item.type === "add_new") {
-                        item.display = true;
-                    }
-                }
-            }
 
-            this.setData({
-                userInfo: userInfoLocal,
-                displaySetting: displaySetting,
-                hasUserInfo: true
-            })
-        } else if (this.data.canIUse) {
-            // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-            // 所以此处加入 callback 以防止这种情况
-            app.userInfoReadyCallback = res => {
-                this.setData({
-                    userInfo: res.userInfo,
-                    hasUserInfo: true
-                })
-            }
-        } else {
-            // 在没有 open-type=getUserInfo 版本的兼容处理
-            wx.getUserInfo({
-                success: res => {
-                    app.globalData.userInfoLocal = res.userInfo;
-                    this.setData({
-                        userInfo: res.userInfo,
-                        hasUserInfo: true
-                    })
-                }
-            })
-        }
-
-        // let indexPageTitle = '所有课程';
-        // wx.setNavigationBarTitle({
-        //     title: indexPageTitle,
-        // });
-
-        this.setData({
-            userInfoLocal: userInfoLocal
-        });
     },
 
     /**
@@ -235,6 +169,47 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
+        let userInfoLocal = app.Util.loadData(app.Settings.Storage.WeChatUser);
+        app.currentAuth = userInfoLocal.currentAuth;
+        let roleName = "";
+
+        switch (userInfoLocal.currentAuth) {
+            case "teacher":
+                roleName = "老师";
+                break;
+            case "parent":
+                roleName = "家长";
+                break;
+            case "student":
+                roleName = "学生";
+                break;
+            default:
+                break;
+        }
+
+        this.makeTabData(userInfoLocal.currentAuth);
+
+        let indexPageTitle = roleName + '首页';
+        wx.setNavigationBarTitle({
+            title: indexPageTitle,
+        });
+
+        // 判断是否需要显示新建课程
+        let displaySetting = this.data.displaySetting;
+        if (userInfoLocal.teacherCourseSet.length > 0) {
+            for (let item of displaySetting) {
+                if (item.type === "add_new") {
+                    item.display = true;
+                }
+            }
+        }
+
+        this.setData({
+            userInfo: userInfoLocal,
+            userInfoLocal: userInfoLocal,
+            displaySetting: displaySetting,
+            hasUserInfo: true
+        });
 
     },
 

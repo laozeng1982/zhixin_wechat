@@ -12,13 +12,9 @@ Page({
      */
     data: {
         currentCourse: {},
-        displayItems: {},
+        courseItems: {},
         timeList: [],
         timeListIdx: 0,
-        periodArray: ["周", "月", "年"],
-        periodItemArray: [1, 2, 3, 4, 5, 6, 7],
-        recurringRuleArray: [["每"], ["周", "月", "年"], [1, 2, 3, 4, 5, 6, 7], ["次课"]],
-        recurringRuleIdx: [0, 0, 0, 0]
 
     },
 
@@ -37,7 +33,7 @@ Page({
             console.log("courseId", courseId);
         }
 
-        let displayItems = [
+        let courseItems = [
             {
                 // 0
                 id: "name",
@@ -68,22 +64,22 @@ Page({
             },
             {
                 // 2
-                id: "startDate",
-                name: "课程开始日期*",
+                id: "classroom",
+                name: "教室地址*",
                 display: true,
-                tip: "请选择",
+                tip: "请输入或选择",
                 component: {
                     name: "picker",
                     type: "text",
-                    mode: "date",
-                    value: "请选择",
+                    mode: "region",
+                    value: "请输入或选择",
                     hasValue: false
                 },
             },
             {
                 // 3
-                id: "endDate",
-                name: "程结束日期*",
+                id: "startDate",
+                name: "起止日期*",
                 display: true,
                 tip: "请选择",
                 component: {
@@ -96,6 +92,20 @@ Page({
             },
             {
                 // 4
+                id: "endDate",
+                name: "起止日期*",
+                display: true,
+                tip: "请选择",
+                component: {
+                    name: "picker",
+                    type: "text",
+                    mode: "date",
+                    value: "请选择",
+                    hasValue: false
+                },
+            },
+            {
+                // 5
                 id: "recurringRule",
                 name: "重复规则*",
                 display: true,
@@ -109,7 +119,7 @@ Page({
                 },
             },
             {
-                // 5
+                // 6
                 id: "startTime",
                 name: "每次课开始时间*",
                 display: true,
@@ -123,7 +133,7 @@ Page({
                 },
             },
             {
-                // 6
+                // 7
                 id: "duration",
                 name: "课程时长*",
                 display: true,
@@ -137,7 +147,7 @@ Page({
                 },
             },
             {
-                // 7
+                // 8
                 id: "totalStudentNumber",
                 name: "上课学生人数上限*",
                 display: true,
@@ -151,7 +161,7 @@ Page({
                 },
             },
             {
-                // 8
+                // 9
                 id: "description",
                 name: "课程描述",
                 display: true,
@@ -170,7 +180,7 @@ Page({
         let timeList = [45 + " 分钟", 50 + " 分钟", 55 + " 分钟", 60 + " 分钟", 75 + " 分钟", 90 + " 分钟", 100 + " 分钟", 120 + " 分钟"];
 
         this.setData({
-            displayItems: displayItems,
+            courseItems: courseItems,
             timeList: timeList,
             currentCourse: course
         });
@@ -182,71 +192,19 @@ Page({
         });
     },
 
-    makeArray: function (number) {
-        let array = [];
-        for (let idx = 1; idx < number + 1; idx++) {
-            array.push(idx);
-        }
-
-        return array;
-    },
-
-    onPeriodPickerColumnChange: function (e) {
-        console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
-        let recurringRuleIdx = this.data.recurringRuleIdx;
-        let recurringRuleArray = this.data.recurringRuleArray;
-        if (e.detail.column === 1) {
-            recurringRuleIdx[1] = e.detail.value;
-            switch (e.detail.value) {
-                // 周
-                case 0:
-                    recurringRuleArray[2] = this.makeArray(7);
-                    recurringRuleIdx[2] = 1;
-                    break;
-                // 月
-                case 1:
-                    recurringRuleArray[2] = this.makeArray(31);
-                    recurringRuleIdx[2] = 4;
-                    break;
-                // 年
-                case 2:
-                    recurringRuleArray[2] = this.makeArray(365);
-                    recurringRuleIdx[2] = 53;
-                    break;
-                default:
-                    break;
-            }
-        } else if (e.detail.column === 2) {
-            recurringRuleIdx[2] = e.detail.value;
-        }
-
-        this.setData({
-            recurringRuleIdx: recurringRuleIdx,
-            recurringRuleArray: recurringRuleArray
-        });
-    },
-
     /**
      * 响应Picker选择
      * @param e
      */
     onPickerChange: function (e) {
         console.log(e.currentTarget.id, e.detail.value);
-        let displayItems = this.data.displayItems;
+        let courseItems = this.data.courseItems;
         let timeListIdx = this.data.timeListIdx;
-        for (let item of displayItems) {
+        for (let item of courseItems) {
             if (item.id === e.currentTarget.id) {
                 if (item.id === "duration") {
                     item.component.value = this.data.timeList[parseInt(e.detail.value)];
                     timeListIdx = parseInt(e.detail.value);
-                } else if (item.id === "recurringRule") {
-                    let recurringRuleArray = this.data.recurringRuleArray;
-                    let recurringRuleIdx = this.data.recurringRuleIdx;
-
-                    item.component.value = recurringRuleArray[0][recurringRuleIdx[0]] +
-                        recurringRuleArray[1][recurringRuleIdx[1]] +
-                        recurringRuleArray[2][recurringRuleIdx[2]] +
-                        recurringRuleArray[3][recurringRuleIdx[3]];
                 } else {
                     item.component.value = e.detail.value;
                 }
@@ -256,26 +214,16 @@ Page({
 
         this.setData({
             timeListIdx: timeListIdx,
-            displayItems: displayItems
+            courseItems: courseItems
         });
     },
 
     /**
-     * 跳转到选择地址页面
+     * 响应选择位置
      */
-    onSelectAddress: function (e) {
-        wx.navigateTo({
-            url: '../set_location/set_location',
-        });
-
-        
-    },
-
-    /**
- * 响应选择位置
- */
     onChooseLocation: function () {
         let host = this;
+        let courseItems =this.data.courseItems;
 
         wx.chooseLocation({
             success: function (res) {
@@ -294,7 +242,7 @@ Page({
             }
         });
 
-       
+
     },
 
 

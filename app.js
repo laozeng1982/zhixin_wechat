@@ -55,11 +55,11 @@ App({
                                                 iv: res.iv
                                             },
                                             success: response => {
-                                                userInfoLocal.weChatInfo.unionId = response.data;
+                                                userInfoLocal.weChatInfo.unionId = response.data.weChatInfo.unionId;
                                                 util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
 
                                                 //    去注册页面     userInfoLocal.id === -1 || 
-                                                // if (typeof response.data.id === "undefined") {
+                                                // if (userInfoLocal.id === -1 || typeof response.data.id === "undefined") {
 
                                                 //     host.tempData.unionId = response.data.weChatInfo.unionId;
                                                 //     wx.hideLoading();
@@ -108,6 +108,7 @@ App({
 
     Util: util,
     Settings: Settings,    // 全局同步标志
+    currentAuth:"",
 
     // 定义全局变量
     tempData: {

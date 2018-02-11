@@ -2,9 +2,10 @@
 
 /* 全局通用的一些样式 */
 
-button{
-  margin-top: 20rpx;
-  margin-bottom: 20rpx;
+button {
+    margin-top: 20rpx;
+    margin-bottom: 20rpx;
+    width: 90%;
 }
 
 .container {
@@ -123,11 +124,9 @@ button{
 
 .item-box {
     width: 100%;
-    /* height: 100rpx; */
     background: #fff;
     display: flex;
     align-content: center;
-    align-items: center;
     justify-content: space-between;
     border-bottom: 1rpx solid #eee;
 }
@@ -146,17 +145,19 @@ button{
 .item-name {
     display: flex;
     align-items: center;
-    height: 100rpx;
-    width: 400rpx;
-    padding-left: 40rpx;
+    height: 90rpx;
+    width: 300rpx;
+    padding-left: 20rpx;
+    font-size: 32rpx;
 }
 
 .item-picker {
     display: flex;
     flex-direction: row;
     align-items: center;
-    height: 100rpx;
-    padding-right: 40rpx;
+    height: 90rpx;
+    padding-right: 20rpx;
+    font-size: 32rpx;
     /* width: 300rpx; */
 }
 
@@ -166,6 +167,7 @@ button{
     width: 400rpx;
     padding-right: 40rpx;
     text-align: right;
+    font-size: 32rpx;
 }
 
 .item-textarea {
@@ -312,13 +314,10 @@ button{
 }
 
 .decription-item-text {
-    padding-left: 60rpx;
     height: 200rpx;
     background: #fff;
     display: flex;
     font-size: 32rpx;
-    color: #888;
     flex-direction: row;
     align-content: center;
-    align-items: center;
 }
