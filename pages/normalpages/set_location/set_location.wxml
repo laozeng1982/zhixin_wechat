@@ -26,8 +26,8 @@
     <map id="map" longitude="{{selectedLocation.longitude}}" latitude="{{selectedLocation.latitude}}" class='map' show-location markers="{{markers}}" bindmarkertap="onMarkertap"></map>
 
     <view class="btn-area">
-  <button type='primary' bindtap='onChooseLocation'>选择位置</button>
-    <button type='default' bindtap='onResetLocation'>重置</button>
+        <button type='primary' bindtap='onChooseLocation'>选择位置</button>
+        <button type='default' bindtap='onResetLocation'>重置</button>
     </view>
 
 </view>

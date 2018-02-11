@@ -24,8 +24,8 @@
                     {{displayItems[1].name}}
                 </view>
 
-                <view class='item-picker'>
-                    <view id="{{displayItems[1].id}}" name="{{displayItems[1].id}}" bindtap='onSelectAddress'> {{displayItems[1].component.value}} </view>
+                <view class='item-picker' bindtap='onChooseLocation'>
+                    <view id="{{displayItems[1].id}}" name="{{displayItems[1].id}}" > {{selectedLocation.name}} </view>
                     <image class='image-arrow' src='../../image/right_arrow.png'></image>
                 </view>
 

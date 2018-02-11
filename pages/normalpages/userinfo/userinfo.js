@@ -163,6 +163,8 @@ Page({
             return;
         }
 
+
+
         // 收集其他信息
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
             userInfo.cnName = e.detail.value.cnName;
@@ -176,6 +178,25 @@ Page({
         if (typeof e.detail.value.email !== 'undefined' && e.detail.value.email !== '') {
             userInfo.email = e.detail.value.email;
         }
+
+        // 去服务器注册
+        wx.request({
+            url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
+            method: 'POST',
+            data: {
+                "weChatInfo": {
+                    "unionId": app.tempData.unionId
+                },
+                "gender": e.detail.value.gender
+            },
+            success: res => {
+                userInfo.id = res.id;
+                console.log("successed, res:", res);
+            },
+            fail: res => {
+                console.log("failed, res:", res);
+            }
+        });
 
         // 准备跳转页面及保存数据
         let tabUrl = '';

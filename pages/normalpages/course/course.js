@@ -267,7 +267,36 @@ Page({
         wx.navigateTo({
             url: '../set_location/set_location',
         });
+
+        
     },
+
+    /**
+ * 响应选择位置
+ */
+    onChooseLocation: function () {
+        let host = this;
+
+        wx.chooseLocation({
+            success: function (res) {
+                console.log(res);
+                let selectedLocation = new DataStructure.Location();
+                selectedLocation.latitude = res.latitude;
+                selectedLocation.longitude = res.longitude;
+                selectedLocation.address = res.address;
+                selectedLocation.name = res.name;
+
+                host.setData({
+                    selectedLocation: selectedLocation
+                });
+
+                console.log(host.data.selectedLocation);
+            }
+        });
+
+       
+    },
+
 
     /**
      * 提交表单

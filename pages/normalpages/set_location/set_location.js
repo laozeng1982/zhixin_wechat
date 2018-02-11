@@ -61,13 +61,15 @@ Page({
                 let marker = {
                     latitude: res.latitude,
                     longitude: res.longitude,
-                    // callout: {
-                    //     content: res.name
-                    // }
+                    callout: {
+                        content: res.name
+                    },
                     label: res.name
                 }
 
                 markers.push(marker);
+
+                console.log("markers",markers);
 
                 host.setData({
                     markers: markers,
@@ -76,6 +78,7 @@ Page({
             }
         });
     },
+
 
     onMarkertap: function (e) {
         console.log(e);
@@ -96,7 +99,6 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
         this.initLocation();
     },
 

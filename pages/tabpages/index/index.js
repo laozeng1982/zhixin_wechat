@@ -218,6 +218,10 @@ Page({
         // wx.setNavigationBarTitle({
         //     title: indexPageTitle,
         // });
+
+        this.setData({
+            userInfoLocal: userInfoLocal
+        });
     },
 
     /**

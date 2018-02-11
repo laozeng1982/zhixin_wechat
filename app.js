@@ -17,6 +17,8 @@ App({
         //     title: '同步数据',
         // });
 
+        let host = this;
+
         wx.login({
             success: res => {
                 console.log("login res: ", res.code);
@@ -55,18 +57,18 @@ App({
                                             success: response => {
                                                 userInfoLocal.weChatInfo.unionId = response.data;
                                                 util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
-                                                if (userInfoLocal.currentAuth === "") {
-                                                    wx.hideLoading();
-                                                    wx.redirectTo({
-                                                        url: '/pages/normalpages/userinfo/userinfo' + '?model=register',
-                                                    });
-                                                }
+
+                                                //    去注册页面     userInfoLocal.id === -1 || 
                                                 // if (typeof response.data.id === "undefined") {
+
+                                                //     host.tempData.unionId = response.data.weChatInfo.unionId;
                                                 //     wx.hideLoading();
                                                 //     wx.redirectTo({
                                                 //         url: '/pages/normalpages/userinfo/userinfo' + '?model=register',
                                                 //     });
+
                                                 // }
+
                                                 console.log("unionId response:", response);
                                             },
                                             fail: response => {
@@ -109,6 +111,7 @@ App({
 
     // 定义全局变量
     tempData: {
+        unionId: "",
         recurringRules: {},
         location: {}
     },
