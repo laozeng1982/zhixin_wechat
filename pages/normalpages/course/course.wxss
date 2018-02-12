@@ -1,13 +1,11 @@
 /* pages/course/course.wxss */
 
-
 .picker-container {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 100rpx;
     padding-right: 60rpx;
-    /* width: 300rpx; */
 }
 
 .image-arrow {
@@ -20,4 +18,6 @@
     align-items: center;
     align-content: center;
     justify-content: space-around;
+    text-align:right;
+    font-size: 32rpx;
 }

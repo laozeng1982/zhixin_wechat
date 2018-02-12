@@ -24,7 +24,7 @@
             </label>
         </view>
 
-        <!-- 点击所有课程 -->
+        <!-- 所有课程标签 -->
         <view wx:if="{{displaySetting[0].selected}}" class='course-content'>
 
             <!-- 1.1、没有课程的时候 -->
@@ -40,9 +40,15 @@
             </view>
 
             <!-- 1.2、有课程，显示列表 -->
-            <view wx:else>
 
-            </view>
+            <scroll-view wx:else class="scroll-view-container" scroll-y style="width: 100%">
+                <view wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container'>
+                    <view id='{{index}}'>
+                        {{item.name}} {{item.location.address}}
+                    </view>
+                </view>
+            </scroll-view>
+
         </view>
 
         <!-- 点击每日课程 -->

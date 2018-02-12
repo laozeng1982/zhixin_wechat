@@ -43,12 +43,9 @@ Page({
 
         console.log("in initPageUserInfo", userInfo);
 
-        // 根据服务器获取值来初始化界面
-        if (userInfo.id === -1) {
-            // 默认值
-            if (typeof userInfo.dateOfBirth === 'undefined' || userInfo.dateOfBirth === "") {
-                userInfo.dateOfBirth = '1990-08-30';
-            }
+        // 默认值
+        if (typeof userInfo.dateOfBirth === 'undefined' || userInfo.dateOfBirth === "") {
+            userInfo.dateOfBirth = '1990-08-30';
         }
 
         // 以下信息，如果本地有信息，根据本地信息初始化，如果没有给个默认值
@@ -265,8 +262,21 @@ Page({
      * 恢复到未修改之前
      */
     onFormReset: function () {
+        let userInfo = wx.getStorageSync("WeChatUser");
+        let authorities = this.data.authorities;
+        // 重置角色选项
+        if (userInfo.authorities.length > 0) {
+            for (let auth of authorities) {
+                for (let item of userInfo.authorities) {
+                    if (auth.name === item) {
+                        auth.checked = true;
+                    }
+                }
+            }
+        }
         this.setData({
-            userInfo: wx.getStorageSync("WeChatUser"),
+            userInfo: userInfo,
+            authorities: authorities
         });
     },
 

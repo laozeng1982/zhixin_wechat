@@ -216,6 +216,7 @@ class Location {
         this.address = "";    // 详细地址
         this.latitude = "";   // 纬度，浮点数，范围为-90~90，负数表示南纬
         this.longitude = "";   // 经度，浮点数，范围为-180~180，负数表示西经
+        this.room = "";
     }
 
 }
@@ -226,7 +227,8 @@ class Location {
 class Lesson {
     constructor() {
         this.name = "";  // (string, optional), （本节课名字，字符串，可选，默认：课程名字）
-        this.address = "";  // (string, optional),   （本节课上课地址，字符串，可选，默认：课程的地址）
+        this.location = new Location();  // (string, optional),   （本节课上课地址，字符串，可选，默认：课程的地址）
+
         this.course = "";  // (Course, optional),   （本节课所属的课程，自定义类，可选，默认：空）
 
         this.dateTime = "";  // (Calendar, optional),   （本节课上课日期，字符串，可选，默认：空）2017-10-02 17:00

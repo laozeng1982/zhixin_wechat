@@ -53,7 +53,6 @@
                     <picker id="{{courseItems[3].id}}" name="{{courseItems[3].id}}" mode='date' bindchange='onPickerChange'>
                         <view class='item-picker'>
                             <view class='item-picker-text'>{{courseItems[3].component.value}} </view>
-                            <!-- <image class='image-arrow' src='../../image/down_arrow.png'></image> -->
                         </view>
                     </picker>
 
@@ -105,9 +104,12 @@
                     {{courseItems[7].name}}
                 </view>
 
-                <picker id="{{courseItems[7].id}}" name="{{courseItems[7].id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
+                <!-- <view class='item-picker'> -->
+                    <input class='item-picker-text' id="{{courseItems[7].id}}" name="{{courseItems[7].id}}" value='{{timeList[timeListIdx]}}'> 分钟</input>
+                <!-- </view> -->
+                <picker id="{{courseItems[7].id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
+                    
                     <view class='item-picker'>
-                        <view class='item-picker-text'>{{timeList[timeListIdx]}} </view>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
                     </view>
                 </picker>
@@ -124,7 +126,7 @@
             </view>
 
             <!-- 文本输入框 -->
-            <view class="item-box column">
+            <view class="item-big-box column">
                 <view class='item-name'>
                     {{courseItems[9].name}}
                 </view>

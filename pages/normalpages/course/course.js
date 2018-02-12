@@ -44,7 +44,7 @@ Page({
             },
             {
                 // 2
-                id: "classroom",
+                id: "room",
                 name: "教室地址*",
                 display: true,
                 tip: "请输入或选择",
@@ -158,6 +158,7 @@ Page({
         ],
         timeList: [],
         timeListIdx: 0,
+        selectedLocation: new DataStructure.Location()
 
     },
 
@@ -184,11 +185,7 @@ Page({
             console.log("courseId", courseId);
         }
 
-
-
-
-
-        let timeList = [45 + " 分钟", 50 + " 分钟", 55 + " 分钟", 60 + " 分钟", 75 + " 分钟", 90 + " 分钟", 100 + " 分钟", 120 + " 分钟"];
+        let timeList = [45, 50, 55, 60, 75, 90, 100, 120];
 
         this.setData({
             courseItems: courseItems,
@@ -213,13 +210,23 @@ Page({
         let timeListIdx = this.data.timeListIdx;
         for (let item of courseItems) {
             if (item.id === e.currentTarget.id) {
-                if (item.id === "duration") {
-                    item.component.value = this.data.timeList[parseInt(e.detail.value)];
-                    timeListIdx = parseInt(e.detail.value);
-                } else {
-                    item.component.value = e.detail.value;
+                switch (item.id === "duration") {
+                    case "duration":
+                        item.component.value = this.data.timeList[parseInt(e.detail.value)];
+                        timeListIdx = parseInt(e.detail.value);
+                        break;
+                    case "startDate":
+
+                        break;
+                    case "endDate":
+                        break;
+                    default:
+                        item.component.value = e.detail.value;
+                        break;
+
                 }
 
+                break;
             }
         }
 
@@ -253,7 +260,6 @@ Page({
             }
         });
 
-
     },
 
 
@@ -262,6 +268,78 @@ Page({
      */
     onFormSubmit: function (e) {
         console.log(e.detail.value);
+        let course = new DataStructure.Course();
+
+        // 先收集信息，因为重复规则用的view控件，无法在e.detail.value中体现
+        for (let item in e.detail.value) {
+            console.log(item, ":", e.detail.value[item]);
+
+            // 如果有，直接添加
+            if (course.hasOwnProperty(item)) {
+                course[item] = e.detail.value[item];
+            } else if (item === "address") {
+                // 经纬度直接拷贝
+                let selectedLocation = this.data.selectedLocation;
+                course.location.latitude = selectedLocation.latitude;
+                course.location.longitude = selectedLocation.longitude;
+
+                // 如果用户手动输入，则需要拷贝输入的内容
+                if (selectedLocation.address === "") {
+                    course.location.address = e.detail.value[item];
+                } else {
+                    course.location.address = selectedLocation.address;
+                }
+
+                if (selectedLocation.name === "") {
+                    course.location.name = e.detail.value[item];
+                } else {
+                    course.location.name = selectedLocation.name;
+                }
+
+            } else if (item === "room") {
+                course.location.room = e.detail.value[item];
+            }
+
+            if (item !== "description") {
+
+            }
+        }
+
+        console.log(course);
+
+        // 先检查信息，有为空的即弹出信息提示用户
+        for (let item in e.detail.value) {
+            console.log(item, ":", e.detail.value[item]);
+            if (item !== "description") {
+                if (e.detail.value[item] === "") {
+                    for (let courseItem of this.data.courseItems) {
+                        if (courseItem.id === item) {
+                            let tips = courseItem.name.split("*")[0];
+                            wx.showModal({
+                                title: '缺少必要信息',
+                                content: "请输入" + tips,
+                            });
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (course.status === "") {
+            course.status = "Preparing";
+        }
+
+        // 根据页面进入情况保存
+        if (this.data.options.model === "newCourse") {
+            let userInfo = wx.getStorageSync("WeChatUser");
+            userInfo.teacherCourseSet.push(course);
+            app.Util.saveData(app.Settings.Storage.WeChatUser, userInfo);
+        } else {
+
+        }
+
+        wx.navigateBack({});
     },
 
     /**
