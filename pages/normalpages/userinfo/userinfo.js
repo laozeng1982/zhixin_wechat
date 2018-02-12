@@ -24,9 +24,9 @@ Page({
         genderChArray: ["男", "女", "不确定"],
         genderEnArray: ["Male", "Female", "Unknown"],
         authorities: [
-            { name: 'teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评' },
-            { name: 'student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业' },
-            { name: 'parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业' },
+            {name: 'teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评'},
+            {name: 'student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业'},
+            {name: 'parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业'},
         ],
         genderIdx: 0,
         userInfo: {}
@@ -49,7 +49,7 @@ Page({
             if (typeof userInfo.dateOfBirth === 'undefined' || userInfo.dateOfBirth === "") {
                 userInfo.dateOfBirth = '1990-08-30';
             }
-        } 
+        }
 
         // 以下信息，如果本地有信息，根据本地信息初始化，如果没有给个默认值
         if (userInfo.gender === 'Male') {
@@ -93,14 +93,9 @@ Page({
      */
     onPickerChange: function (e) {
         let genderIdx = this.data.genderIdx;
-        var userInfo = this.data.userInfo;
         switch (e.target.id) {
-            case "dateOfBirth":
-                userInfo.dateOfBirth = e.detail.value;
-                break;
             case "gender":
                 genderIdx = parseInt(e.detail.value);
-                userInfo.gender = this.data.genderEnArray[genderIdx];
                 break;
             default:
                 break;
@@ -108,7 +103,6 @@ Page({
 
         this.setData({
             genderIdx: genderIdx,
-            userInfo: userInfo
         });
     },
 
@@ -151,16 +145,17 @@ Page({
             for (let item of e.detail.value.authorities) {
                 switch (item) {
                     case "teacher":
-                        roleSet.push({ id: 2 });
+                        roleSet.push({id: 2});
                         break;
                     case "student":
-                        roleSet.push({ id: 3 });
+                        roleSet.push({id: 3});
                         break;
                     case "parent":
-                        roleSet.push({ id: 4 });
+                        roleSet.push({id: 4});
                         break;
 
-                    default: break;
+                    default:
+                        break;
                 }
             }
 
@@ -173,7 +168,11 @@ Page({
             return;
         }
 
-        // 1.4、收集其他信息
+        // 1.4、收集生日
+        userInfo.dateOfBirth = e.detail.value.dateOfBirth;
+
+        // 1.5、收集其他信息
+
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
             userInfo.cnName = e.detail.value.cnName;
         }
@@ -202,13 +201,12 @@ Page({
             }
         };
 
-        console.log("userData:", userData);
-
         // 准备跳转页面及保存数据
         let tabUrl = '';
 
         if (this.data.options.model === "register") {
             console.log("go to register on server!");
+            console.log("userData:", userData);
             // 去服务器注册
             wx.request({
                 url: 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat',
@@ -219,12 +217,12 @@ Page({
                     // 后台创建或更新，并同步保存到本地
                     console.log("saved userInfo:", userInfo);
                     wx.setStorageSync("WeChatUser", userInfo);
-                    console.log("successed, res:", res);
+                    console.log("Post succeeded, res.data:", res.data);
                 },
                 fail: res => {
                     // 失败也要保存本地
                     wx.setStorageSync("WeChatUser", userInfo);
-                    console.log("failed, res:", res);
+                    console.log("Post failed, res:", res);
                 }
             });
 
@@ -236,7 +234,7 @@ Page({
             // 这里PUT方法，要给id
             userData.id = userInfo.id;
 
-            console.log(userData);
+            console.log("userData:", userData);
 
             wx.request({
                 url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
@@ -244,16 +242,16 @@ Page({
                 header: app.tempData.request_header,
                 data: userData,
                 success: res => {
-                    console.log("successed, res:", res);
+                    console.log("Put succeeded, res.data:", res.data);
                 },
                 fail: res => {
-                    console.log("failed, res:", res);
+                    console.log("Put failed, res:", res);
                 }
             });
 
             // 失败也要保存本地
             wx.setStorageSync("WeChatUser", userInfo);
-            
+
             tabUrl = '../../tabpages/setting/setting';
         }
 
@@ -288,8 +286,6 @@ Page({
                 displayControl[item] = true;
             }
         }
-
-        // console.log("displayControl:", displayControl);
 
         // 设置标题
         wx.setNavigationBarTitle({

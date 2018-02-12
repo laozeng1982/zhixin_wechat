@@ -76,15 +76,16 @@ App({
                                                 if (typeof response.data.id !== "undefined") {
                                                     userInfoLocal.id = response.data.id;
                                                 }
-                                                
-                                                userInfoLocal.weChatInfo.unionId = response.data.weChatInfo.unionId;
 
-                                                // util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
+                                                userInfoLocal.weChatInfo.unionId = response.data.weChatInfo.unionId;
 
                                                 console.log("unionId response.data:", response.data);
                                                 // 判断本地是否数据    
                                                 if (userInfoLocal.id === -1) {
                                                     // 如果未注册，不返回id，去注册页面
+
+                                                    // 先保存，然后在另外一个页面再调用
+                                                    util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
                                                     if (typeof response.data.id === "undefined") {
                                                         wx.hideLoading();
 
@@ -96,7 +97,30 @@ App({
                                                         wx.hideLoading();
                                                     }
                                                 } else {
-                                                    // 有的话就先不管了，直接进入正常页面
+                                                    // 有的话，先提取信息，直接进入正常页面
+                                                    let authorities = [];
+                                                    for (let item of response.data.roleSet) {
+                                                        switch (item.id) {
+                                                            case 2:
+                                                                authorities.push("teacher");
+                                                                break;
+                                                            case 3:
+                                                                authorities.push("student");
+                                                                break;
+                                                            case 4:
+                                                                authorities.push("parent");
+                                                                break;
+                                                            default:
+                                                                break;
+                                                        }
+
+
+                                                    }
+
+                                                    userInfoLocal.authorities = authorities;
+
+                                                    util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
+
                                                     wx.hideLoading();
                                                 }
 
