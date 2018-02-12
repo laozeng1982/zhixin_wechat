@@ -138,8 +138,11 @@ button {
 }
 
 .item-text {
+    display: flex;
     padding-left: 60rpx;
     width: 200rpx;
+    height: 100rpx;
+    align-items: center;
 }
 
 .item-name {

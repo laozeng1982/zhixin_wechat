@@ -13,9 +13,9 @@ App({
 
         // 登录
         // 等待服务器反应
-        // wx.showLoading({
-        //     title: '同步数据',
-        // });
+        wx.showLoading({
+            title: '同步数据',
+        });
 
         let host = this;
 
@@ -55,19 +55,46 @@ App({
                                                 iv: res.iv
                                             },
                                             success: response => {
+                                                // 形成其他request要的header
+                                                let userAuth = response.data.weChatInfo.unionId + ":password";
+                                                let arrayBuffer = new ArrayBuffer(userAuth.length * 2);
+                                                let bufferView = new Uint16Array(arrayBuffer);
+                                                for (let i = 0, strLen = userAuth.length; i < strLen; i++) {
+                                                    bufferView[i] = userAuth.charCodeAt(i);
+                                                }
+
+                                                let basicAuth = "Basic " + wx.arrayBufferToBase64(bufferView);
+
+                                                let request_header = {
+                                                    Authorization: basicAuth
+                                                }
+
+                                                console.log(request_header);
+
+                                                host.tempData.request_header = request_header;
+                                                host.tempData.unionId = response.data.weChatInfo.unionId;
+
                                                 userInfoLocal.weChatInfo.unionId = response.data.weChatInfo.unionId;
                                                 util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
 
-                                                //    去注册页面     userInfoLocal.id === -1 || 
-                                                // if (userInfoLocal.id === -1 || typeof response.data.id === "undefined") {
+                                                // 判断本地是否数据    
+                                                if (userInfoLocal.id === -1) {
+                                                    // 如果未注册，不返回id，去注册页面
+                                                    if (typeof response.data.id === "undefined") {
+                                                        wx.hideLoading();
 
-                                                //     host.tempData.unionId = response.data.weChatInfo.unionId;
-                                                //     wx.hideLoading();
-                                                //     wx.redirectTo({
-                                                //         url: '/pages/normalpages/userinfo/userinfo' + '?model=register',
-                                                //     });
+                                                        wx.redirectTo({
+                                                            url: '/pages/normalpages/userinfo/userinfo' + '?model=register',
+                                                        });
+                                                    } else {
+                                                        // 如果返回id，表示本地删除过小程序，找回用户信息，在获取了用户id之后，更新用户信息，这步必须的。
 
-                                                // }
+                                                        wx.hideLoading();
+                                                    }
+                                                } else {
+                                                    // 有的话就先不管了，直接进入正常页面
+                                                    wx.hideLoading();
+                                                }
 
                                                 console.log("unionId response:", response);
                                             },
@@ -108,7 +135,7 @@ App({
 
     Util: util,
     Settings: Settings,    // 全局同步标志
-    currentAuth:"",
+    currentAuth: "",
 
     // 定义全局变量
     tempData: {

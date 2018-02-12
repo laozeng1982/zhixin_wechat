@@ -25,8 +25,8 @@ Page({
         genderEnArray: ["Male", "Female", "Unknown"],
         authorities: [
             { name: 'teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评' },
-            { name: 'parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业' },
             { name: 'student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业' },
+            { name: 'parent', value: '家长', checked: false, description: '代替小孩加入课程、查看老师评价、上传作业' },
         ],
         genderIdx: 0,
         userInfo: {}
@@ -49,42 +49,28 @@ Page({
             if (typeof userInfo.dateOfBirth === 'undefined' || userInfo.dateOfBirth === "") {
                 userInfo.dateOfBirth = '1990-08-30';
             }
+        } 
 
-            if (userInfo.gender === 'Male') {
-                genderIdx = 0;
-            } else if (userInfo.gender === 'Female') {
-                genderIdx = 1;
-            } else if (userInfo.gender === 'Unknown') {
-                genderIdx = 2;
-            } else {
-                genderIdx = 0;
-                userInfo.gender = 'Male';
-            }
+        // 以下信息，如果本地有信息，根据本地信息初始化，如果没有给个默认值
+        if (userInfo.gender === 'Male') {
+            genderIdx = 0;
+        } else if (userInfo.gender === 'Female') {
+            genderIdx = 1;
+        } else if (userInfo.gender === 'Unknown') {
+            genderIdx = 2;
+        } else {
+            genderIdx = 0;
+            userInfo.gender = 'Male';
+        }
 
-            if (userInfo.authorities.length > 0) {
-                for (let auth of authorities) {
-                    for (let item of userInfo.authorities) {
-                        if (auth.name === item) {
-                            auth.checked = true;
-                        }
+        if (userInfo.authorities.length > 0) {
+            for (let auth of authorities) {
+                for (let item of userInfo.authorities) {
+                    if (auth.name === item) {
+                        auth.checked = true;
                     }
                 }
-
             }
-
-        } else {
-            // 根据localStorage来初始化
-            if (userInfo.gender === 'Male') {
-                genderIdx = 0;
-            } else if (userInfo.gender === 'Female') {
-                genderIdx = 1;
-            } else if (userInfo.gender === 'Unknown') {
-                genderIdx = 2;
-            } else {
-                genderIdx = 0;
-                userInfo.gender = 'Male';
-            }
-
         }
 
         this.setData({
@@ -141,7 +127,9 @@ Page({
         console.log('form发生了submit事件，携带数据为：', e.detail.value);
         let userInfo = this.data.userInfo;
 
-        // 校验表单信息
+        // 1、校验表单信息
+
+        // 1.1、收集昵称
         if (e.detail.value.nickName !== '') {
             userInfo.nickName = e.detail.value.nickName;
         } else {
@@ -152,9 +140,31 @@ Page({
             return;
         }
 
+        // 1.2、收集性别
+        userInfo.gender = e.detail.value.gender;
+
+        // 1.3、收集角色
+        let roleSet = [];
         if (e.detail.value.authorities.length !== 0) {
             userInfo.authorities = e.detail.value.authorities;
             userInfo.currentAuth = e.detail.value.authorities[0];
+            for (let item of e.detail.value.authorities) {
+                switch (item) {
+                    case "teacher":
+                        roleSet.push({ id: 2 });
+                        break;
+                    case "student":
+                        roleSet.push({ id: 3 });
+                        break;
+                    case "parent":
+                        roleSet.push({ id: 4 });
+                        break;
+
+                    default: break;
+                }
+            }
+
+            console.log("roleSet:", roleSet);
         } else {
             wx.showModal({
                 title: 'Warning',
@@ -163,9 +173,7 @@ Page({
             return;
         }
 
-
-
-        // 收集其他信息
+        // 1.4、收集其他信息
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
             userInfo.cnName = e.detail.value.cnName;
         }
@@ -179,42 +187,73 @@ Page({
             userInfo.email = e.detail.value.email;
         }
 
-        // 去服务器注册
-        wx.request({
-            url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
-            method: 'POST',
-            data: {
-                "weChatInfo": {
-                    "unionId": app.tempData.unionId
-                },
-                "gender": e.detail.value.gender
-            },
-            success: res => {
-                userInfo.id = res.id;
-                console.log("successed, res:", res);
-            },
-            fail: res => {
-                console.log("failed, res:", res);
+        // 准备提交到后端服务器上的数据
+        let userData = {
+            nickName: userInfo.nickName,
+            cnName: userInfo.cnName,
+            enName: userInfo.enName,
+            gender: userInfo.gender,
+            dateOfBirth: userInfo.dateOfBirth,
+            mobileNumber: userInfo.mobileNumber,
+            email: userInfo.email,
+            roleSet: roleSet,
+            weChatInfo: {
+                unionId: app.tempData.unionId
             }
-        });
+        };
+
+        console.log("userData:", userData);
 
         // 准备跳转页面及保存数据
         let tabUrl = '';
 
         if (this.data.options.model === "register") {
+            console.log("go to register on server!");
+            // 去服务器注册
+            wx.request({
+                url: 'https://www.yongrui.wang/WeChatMiniProgram/user/viaWeChat',
+                method: 'POST',
+                data: userData,
+                success: res => {
+                    userInfo.id = res.data.id;
+                    // 后台创建或更新，并同步保存到本地
+                    console.log("saved userInfo:", userInfo);
+                    wx.setStorageSync("WeChatUser", userInfo);
+                    console.log("successed, res:", res);
+                },
+                fail: res => {
+                    // 失败也要保存本地
+                    wx.setStorageSync("WeChatUser", userInfo);
+                    console.log("failed, res:", res);
+                }
+            });
+
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
             tabUrl = '../../tabpages/index/index';
-            userInfo.id = -1;
         } else {
             // 由更新页面进入，页面设置完成，跳转到设置
-            // 应对用户删除本地存储，在获取了用户id之后，更新用户信息，这步必须的。
+            console.log(app.tempData.request_header);
+            // 这里PUT方法，要给id
+            userData.id = userInfo.id;
+
+            wx.request({
+                url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
+                method: 'PUT',
+                header: app.tempData.request_header,
+                data: userData,
+                success: res => {
+                    console.log("successed, res:", res);
+                },
+                fail: res => {
+                    console.log("failed, res:", res);
+                }
+            });
+
+            // 失败也要保存本地
+            wx.setStorageSync("WeChatUser", userInfo);
+            
             tabUrl = '../../tabpages/setting/setting';
         }
-
-        // 后台创建或更新，并同步保存到本地
-        // app.Util.syncData(null, "user", data, userInfo);
-        console.log("saved userInfo:", userInfo);
-        wx.setStorageSync("WeChatUser", userInfo);
 
         wx.switchTab({
             url: tabUrl,

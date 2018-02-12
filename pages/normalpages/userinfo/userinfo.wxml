@@ -131,7 +131,7 @@
             <view class='items-container' wx:if="{{displayControl.authorities}}">
                 <view class='item-box'>
                     <view class='item-text'>
-                        <text>角色*</text>
+                        角色*
                     </view>
                 </view>
 
