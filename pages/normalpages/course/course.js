@@ -11,29 +11,9 @@ Page({
      * 页面的初始数据
      */
     data: {
+        options: {},
         currentCourse: {},
-        courseItems: {},
-        timeList: [],
-        timeListIdx: 0,
-
-    },
-
-    /**
-     * 初始化页面数据
-     */
-    initPageCourse: function (options) {
-        let course = {};
-
-        // 创建新课程
-        if (options.model === "newCourse") {
-            course = new DataStructure.Course();
-        } else {
-            // 修改已有新课程
-            let courseId = parseInt(options.model.split("=")[1]);
-            console.log("courseId", courseId);
-        }
-
-        let courseItems = [
+        courseItems: [
             {
                 // 0
                 id: "name",
@@ -175,7 +155,38 @@ Page({
                 },
             },
 
-        ];
+        ],
+        timeList: [],
+        timeListIdx: 0,
+
+    },
+
+    /**
+     * 初始化页面数据
+     */
+    initPageCourse: function (options) {
+        let course = {};
+        let courseItems = this.data.courseItems;
+        let userInfo = app.Util.loadData(app.Settings.Storage.WeChatUser);
+
+        if (userInfo.teacherCourseSet.length === 0) {
+
+        }
+
+        // 创建新课程
+        if (options.model === "newCourse") {
+            course = new DataStructure.Course();
+        } else {
+            // 修改已有新课程
+            let courseId = parseInt(options.model.split("=")[1]);
+
+            console.log(userInfo);
+            console.log("courseId", courseId);
+        }
+
+
+
+
 
         let timeList = [45 + " 分钟", 50 + " 分钟", 55 + " 分钟", 60 + " 分钟", 75 + " 分钟", 90 + " 分钟", 100 + " 分钟", 120 + " 分钟"];
 
@@ -223,7 +234,7 @@ Page({
      */
     onChooseLocation: function () {
         let host = this;
-        let courseItems =this.data.courseItems;
+        let courseItems = this.data.courseItems;
 
         wx.chooseLocation({
             success: function (res) {
@@ -257,7 +268,24 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        this.setData({
+            options: options
+        });
+    },
+
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady: function () {
+
+    },
+
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow: function () {
         // 根据入口设置标签栏
+        let options = this.data.options;
         let coursePageTitle = "";
         if (options.model === "newCourse") {
             coursePageTitle = '创建新课程';
@@ -275,20 +303,6 @@ Page({
         this.setData({
             options: options
         });
-    },
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady: function () {
-
-    },
-
-    /**
-     * 生命周期函数--监听页面显示
-     */
-    onShow: function () {
-
     },
 
     /**

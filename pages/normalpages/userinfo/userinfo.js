@@ -236,6 +236,8 @@ Page({
             // 这里PUT方法，要给id
             userData.id = userInfo.id;
 
+            console.log(userData);
+
             wx.request({
                 url: 'https://www.yongrui.wang/WeChatMiniProgram/user/',
                 method: 'PUT',

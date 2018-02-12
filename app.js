@@ -27,7 +27,7 @@ App({
                     url: 'https://www.yongrui.wang/WeChatMiniProgram/user/weChatMPOpenIdByJSCode/' + res.code,
                     // 获取OpenId成功
                     success: response => {
-                        console.log("openId response:", response);
+                        console.log("openId response.data:", response.data);
                         let mpOpenId = response.data.mpOpenId;
                         // 获取用户信息
                         wx.getSetting({
@@ -73,10 +73,15 @@ App({
 
                                                 host.tempData.request_header = request_header;
                                                 host.tempData.unionId = response.data.weChatInfo.unionId;
-
+                                                if (typeof response.data.id !== "undefined") {
+                                                    userInfoLocal.id = response.data.id;
+                                                }
+                                                
                                                 userInfoLocal.weChatInfo.unionId = response.data.weChatInfo.unionId;
-                                                util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
 
+                                                // util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
+
+                                                console.log("unionId response.data:", response.data);
                                                 // 判断本地是否数据    
                                                 if (userInfoLocal.id === -1) {
                                                     // 如果未注册，不返回id，去注册页面
@@ -88,7 +93,6 @@ App({
                                                         });
                                                     } else {
                                                         // 如果返回id，表示本地删除过小程序，找回用户信息，在获取了用户id之后，更新用户信息，这步必须的。
-
                                                         wx.hideLoading();
                                                     }
                                                 } else {
@@ -96,7 +100,6 @@ App({
                                                     wx.hideLoading();
                                                 }
 
-                                                console.log("unionId response:", response);
                                             },
                                             fail: response => {
                                                 console.log("failed response:", response);
@@ -140,7 +143,8 @@ App({
     // 定义全局变量
     tempData: {
         unionId: "",
-        recurringRules: {},
+        recurringRulesArray: [],
+        recurringRulesString: "",
         location: {}
     },
 
