@@ -63,7 +63,7 @@ Page({
 
         let tabData = this.data.tabData;
 
-        if (role !=="teacher") {
+        if (role !== "teacher") {
             tabData[1].name = "通知";
             tabData[2].name = "作业回复";
         }
@@ -134,6 +134,18 @@ Page({
     },
 
     /**
+     * 课程页面，选择课程，带入课程的索引，跳转课程修改页面
+     * @param e
+     */
+    onCourseSelected: function (e) {
+        let url = '../../normalpages/course/course' + "?model=modifyCourseId_" + e.target.id;
+
+        wx.navigateTo({
+            url: url,
+        });
+    },
+
+    /**
      * 评价某堂课
      */
     onReviewLesson: function (e) {
@@ -200,6 +212,12 @@ Page({
             for (let item of displaySetting) {
                 if (item.type === "add_new") {
                     item.display = true;
+                }
+                // 其他页面跳转回来时，当前显示哪一个次级Tab
+                if (item.type === "all_course" && app.tempData.currentCourseSubTab === "all_course") {
+                    item.selected = true;
+                } else if (item.type === "everyday_lesson" && app.tempData.currentCourseSubTab === "everyday_lesson") {
+                    item.selected = true;
                 }
             }
         }

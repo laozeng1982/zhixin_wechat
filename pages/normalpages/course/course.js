@@ -13,6 +13,7 @@ Page({
     data: {
         options: {},
         currentCourse: {},
+        currentCourseIdx: 0,
         courseItems: [
             {
                 // 0
@@ -156,9 +157,11 @@ Page({
             },
 
         ],
+
+        // 以下用于控件临时显示
         timeList: [],
         timeListIdx: 0,
-        selectedLocation: new DataStructure.Location()
+        selectedLocation: {}
 
     },
 
@@ -166,31 +169,59 @@ Page({
      * 初始化页面数据
      */
     initPageCourse: function (options) {
-        let course = {};
+        console.log("Course Page onShow call");
+        let currentCourse = {};    // 当前页面要用的课程
+        let currentCourseIdx = this.data.currentCourseIdx;   // 当前页面课程的索引
         let courseItems = this.data.courseItems;
+        // 从本地读取数据，用来初始化页面显示课程
         let userInfo = app.Util.loadData(app.Settings.Storage.WeChatUser);
 
-        if (userInfo.teacherCourseSet.length === 0) {
-
-        }
-
-        // 创建新课程
+        // 1、根据页面进入入口，判断如何初始化，提取当前应该显示的课程
         if (options.model === "newCourse") {
-            course = new DataStructure.Course();
+            // 1.1、创建新课程
+            if (userInfo.teacherCourseSet.length === 0) {
+                // 当前没有课程
+                currentCourse = new DataStructure.Course();
+            } else {
+                // 当前有课程，直接弹出最后一个，保存的时候直接push，始终操作的是最后一个
+                currentCourse = userInfo.teacherCourseSet.pop();
+            }
         } else {
-            // 修改已有新课程
-            let courseId = parseInt(options.model.split("=")[1]);
+            //1.2、修改已有新课程
+            // 解析课程id
+            console.log(options);
+            currentCourseIdx = parseInt(options.model.split("_")[1]);
 
-            console.log(userInfo);
-            console.log("courseId", courseId);
+            // 直接提取
+            currentCourse = userInfo.teacherCourseSet[currentCourseIdx];
+
         }
+
+        console.log("currentCourseIdx:", currentCourseIdx);
+        console.log("currentCourse:", currentCourse);
+
+        // 2、根据课程初始化页面数据
+        for (let item in currentCourse) {
+            for (let displayItem of courseItems)
+                if (displayItem.id === item) {
+                    displayItem.component.value = currentCourse[item];
+                }
+        }
+
+        let selectedLocation = currentCourse.location;
 
         let timeList = [45, 50, 55, 60, 75, 90, 100, 120];
 
+        // for ()
+
         this.setData({
+            userInfo: userInfo,
+            currentCourse: currentCourse,
+            currentCourseIdx: currentCourseIdx,
+
             courseItems: courseItems,
             timeList: timeList,
-            currentCourse: course
+            selectedLocation: selectedLocation,
         });
     },
 
@@ -245,7 +276,6 @@ Page({
 
         wx.chooseLocation({
             success: function (res) {
-                console.log(res);
                 let selectedLocation = new DataStructure.Location();
                 selectedLocation.latitude = res.latitude;
                 selectedLocation.longitude = res.longitude;
@@ -256,12 +286,11 @@ Page({
                     selectedLocation: selectedLocation
                 });
 
-                console.log(host.data.selectedLocation);
+                console.log("Get Location:", host.data.selectedLocation);
             }
         });
 
     },
-
 
     /**
      * 提交表单
@@ -270,7 +299,7 @@ Page({
         console.log(e.detail.value);
         let course = new DataStructure.Course();
 
-        // 先收集信息，因为重复规则用的view控件，无法在e.detail.value中体现
+        // 1、先收集信息，因为重复规则用的view控件，无法在e.detail.value中体现
         for (let item in e.detail.value) {
             console.log(item, ":", e.detail.value[item]);
 
@@ -307,7 +336,7 @@ Page({
 
         console.log(course);
 
-        // 先检查信息，有为空的即弹出信息提示用户
+        ///2、先检查信息，有为空的即弹出信息提示用户
         for (let item in e.detail.value) {
             console.log(item, ":", e.detail.value[item]);
             if (item !== "description") {
@@ -326,18 +355,23 @@ Page({
             }
         }
 
+        // 3、根据开课的时间来判断状态
         if (course.status === "") {
             course.status = "Preparing";
         }
 
-        // 根据页面进入情况保存
+        // 4.1、根据页面进入情况整理需要保存的UserInfo
+        let userInfo = wx.getStorageSync("WeChatUser");
         if (this.data.options.model === "newCourse") {
-            let userInfo = wx.getStorageSync("WeChatUser");
+            // userInfo.teacherCourseSet.pop();
             userInfo.teacherCourseSet.push(course);
-            app.Util.saveData(app.Settings.Storage.WeChatUser, userInfo);
         } else {
-
+            let currentCourseIdx = this.data.currentCourseIdx;
+            userInfo.teacherCourseSet.splice(currentCourseIdx, 1, course);
         }
+
+        // 4.2、保存
+        app.Util.saveData(app.Settings.Storage.WeChatUser, userInfo);
 
         wx.navigateBack({});
     },

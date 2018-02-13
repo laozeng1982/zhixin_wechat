@@ -126,7 +126,33 @@ App({
                                                         wx.hideLoading();
                                                     }
                                                 } else {
-                                                    // 有的话，直接进入正常页面
+                                                    // 有的话也要同步，万一多设备登录
+                                                    for (let item in response.data) {
+                                                        if (userInfoLocal.hasOwnProperty(item)) {
+                                                            userInfoLocal[item] = response.data[item];
+                                                        }
+                                                    }
+
+                                                    let authorities = [];
+                                                    for (let item of response.data.roleSet) {
+                                                        switch (item.id) {
+                                                            case 2:
+                                                                authorities.push("teacher");
+                                                                break;
+                                                            case 3:
+                                                                authorities.push("student");
+                                                                break;
+                                                            case 4:
+                                                                authorities.push("parent");
+                                                                break;
+                                                            default:
+                                                                break;
+                                                        }
+                                                    }
+
+                                                    userInfoLocal.authorities = authorities;
+
+                                                    util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
                                                     wx.hideLoading();
                                                 }
 
@@ -171,6 +197,7 @@ App({
     // 定义全局变量
     tempData: {
         unionId: "",
+        currentCourseSubTab: "all_course",
         recurringRulesArray: [],
         recurringRulesString: "",
         location: {}

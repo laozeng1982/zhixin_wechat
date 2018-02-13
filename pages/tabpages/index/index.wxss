@@ -106,8 +106,35 @@
 }
 
 .course-content-container {
-
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
 }
 
+.course-list-item-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
 
+.course-list-item-name {
+    display: flex;
+    align-items: center;
+    height: 90rpx;
+    width: 300rpx;
+    padding-left: 20rpx;
+    font-size: 32rpx;
+}
 
+.course-list-item-value {
+    display: flex;
+    align-items: center;
+    height: 90rpx;
+    width: 100%;
+    padding-left: 20rpx;
+    font-size: 32rpx;
+}

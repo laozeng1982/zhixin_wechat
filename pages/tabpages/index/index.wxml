@@ -42,11 +42,38 @@
             <!-- 1.2、有课程，显示列表 -->
 
             <scroll-view wx:else class="scroll-view-container" scroll-y style="width: 100%">
-                <view wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container'>
-                    <view id='{{index}}'>
-                        {{item.name}} {{item.location.address}}
+                <view wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container' bindtap='onCourseSelected'>
+                    <!-- 第一行 -->
+                    <view id='{{index}}' class='course-list-item-container'>
+                        <view class='course-list-item-name'>
+                            课程名字：
+                        </view>
+                        <view class='course-list-item-value'>
+                            {{item.name}}
+                        </view>
                     </view>
+                    <!-- 第二行 -->
+                    <view id='{{index}}' class='course-list-item-container'>
+                        <view class='course-list-item-name'>
+                            上课时间：
+                        </view>
+                        <view class='course-list-item-value'>
+                            {{item.startTime}}
+                        </view>
+                    </view>
+                    <!-- 第三行 -->
+                    <view id='{{index}}' class='course-list-item-container'>
+                        <view class='course-list-item-name'>
+                            上课地址：
+                        </view>
+                        <view class='course-list-item-value'>
+                            {{item.location.address}}
+                        </view>
+                    </view>
+                    <view class='gray-space-small'></view>
                 </view>
+
+                
             </scroll-view>
 
         </view>
