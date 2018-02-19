@@ -2,6 +2,8 @@
 //获取应用实例
 
 import DataStructure from '../../../datamodel/DataStructure'
+import DateTimeUtils from '../../../utils/DateTimeUtils'
+import StorageUtils from '../../../utils/StorageUtils'
 
 const app = getApp();
 
@@ -10,7 +12,8 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        tabData: [
+        // 首页Tab
+        indexTabData: [
             {
                 type: "course",
                 name: "课程",
@@ -32,9 +35,8 @@ Page({
         ],
         currentTabIdx: 0,
 
-        subTabData: [],
-
-        displaySetting: [
+        // 课程页面的Tab
+        courseTabData: [
             {
                 type: "all_course",
                 name: "所有课程",
@@ -53,7 +55,28 @@ Page({
                 selected: true,
                 display: false
             }
-        ]
+        ],
+
+        // 以下是控制每日课程的显示
+        showMonthView: true,
+
+        today: '',
+        todayMonth: '',
+        todayYear: '',
+        selectedDate: '',
+        selectedWeek: '',
+        currentYear: '',
+        currentMonth: '',
+        currentDate: '',
+
+
+        // 保存当月的日期
+        dateList: [],
+
+        // 日历滑动
+        calendars: [1, 2, 3],
+        lastCalendarId: 0,
+        duration: 1000,
     },
 
     /**
@@ -61,15 +84,29 @@ Page({
      */
     makeTabData: function (role) {
 
-        let tabData = this.data.tabData;
+        let indexTabData = this.data.indexTabData;
 
         if (role !== "teacher") {
-            tabData[1].name = "通知";
-            tabData[2].name = "作业回复";
+            indexTabData[1].name = "通知";
+            indexTabData[2].name = "作业回复";
         }
 
+        let userInfo = StorageUtils.loadUserInfo();
+
+        let today = new Date();
+        let currentYear = today.getFullYear();
+        let currentMonth = today.getMonth() + 1;
+        let currentDate = today.getDate();
+
+        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth);
+
         this.setData({
-            tabData: tabData
+            today: today,
+            currentYear: currentYear,
+            currentMonth: currentMonth,
+            currentDate: currentDate,
+            dateList: dateList,
+            indexTabData: indexTabData
         });
     },
 
@@ -80,19 +117,19 @@ Page({
     },
 
     /**
-     * 处理切换tab事件
+     * 处理切换主Tab事件
      * @param e
      */
-    onTabSwitch: function (e) {
+    onIndexTabSwitch: function (e) {
         let currentTabIdx = e.currentTarget.dataset.current;
-        let tabData = this.data.tabData;
+        let indexTabData = this.data.indexTabData;
 
-        for (let idx = 0; idx < tabData.length; idx++) {
-            tabData[idx].selected = (idx === currentTabIdx);
+        for (let idx = 0; idx < indexTabData.length; idx++) {
+            indexTabData[idx].selected = (idx === currentTabIdx);
         }
 
         this.setData({
-            tabData: tabData,
+            indexTabData: indexTabData,
             currentTabIdx: currentTabIdx
         });
     },
@@ -102,9 +139,9 @@ Page({
      * @param e
      */
     onCourseTabItemSelected: function (e) {
-        console.log("selcted:", e.currentTarget.id);
-        let displaySetting = this.data.displaySetting;
-        for (let item of displaySetting) {
+        console.log("selected:", e.currentTarget.id);
+        let courseTabData = this.data.courseTabData;
+        for (let item of courseTabData) {
             if (item.type === "add_new") {
                 item.selected = true;
             } else {
@@ -125,7 +162,7 @@ Page({
         }
 
         this.setData({
-            displaySetting: displaySetting
+            courseTabData: courseTabData
         });
     },
 
@@ -138,10 +175,184 @@ Page({
      * @param e
      */
     onCourseSelected: function (e) {
-        let url = '../../normalpages/course/course' + "?model=modifyCourseId_" + e.target.id;
+        console.log(e);
+        let url = '../../normalpages/course/course' + "?model=modifyCourseId_" + e.currentTarget.id;
 
         wx.navigateTo({
             url: url,
+        });
+    },
+
+    /**
+     * 日历控制的核心函数
+     * @param e
+     */
+    selectDate: function (e) {
+        console.log(e.currentTarget.dataset.date);
+
+        let selectedDate = e.currentTarget.dataset.date;
+        let selectedWeek = [];
+
+        for (let week of this.data.dateList) {
+            for (let day of week) {
+                if (day.value === selectedDate.value) {
+                    selectedWeek = week;
+                    break;
+                }
+            }
+        }
+
+        let selectedDateCourse = [];
+
+        // 读取每个课程，如果这个课程包含了当前选中日期，则显示
+        // 这里需要使用重组后Course
+
+        let userInfo = StorageUtils.loadUserInfo();
+
+        for (let course of userInfo.teacherCourseSet) {
+            if (DateTimeUtils.checkDate(course.startDate, selectedDate.value, course.endDate)) {
+                selectedDateCourse.push(course);
+            }
+        }
+
+        console.log("Selected Date's CourseSet: ", selectedDateCourse);
+
+        this.setData({
+            selectedDateCourse: selectedDateCourse,
+            selectedDate: selectedDate.value,
+            selectedWeek: selectedWeek,
+            showMonthView: selectedDateCourse.length <= 0
+        });
+
+    },
+
+    /**
+     * 移动月的操作，整月移动
+     */
+    moveMonth: function (isNext) {
+        let currentYear = this.data.currentYear;
+        let currentMonth = this.data.currentMonth;
+        let currentDate = this.data.currentDate;
+
+        if (isNext === "next") {
+            currentYear = currentMonth + 1 === 13 ? currentYear + 1 : currentYear;
+            currentMonth = currentMonth + 1 === 13 ? 1 : currentMonth + 1;
+            currentDate = 1;
+        } else if (isNext === "last") {
+            currentYear = currentMonth - 1 ? currentYear : currentYear - 1;
+            currentMonth = currentMonth - 1 ? currentMonth - 1 : 12;
+            currentDate = 1;
+        } else if (isNext === "now") {
+            let now = new Date();
+            currentYear = now.getFullYear();
+            currentMonth = now.getMonth() + 1;
+            currentDate = now.getDate();
+        }
+
+        console.log("move to: ", currentYear, "年", currentMonth, "月", currentDate, "日");
+        let dataList = DateTimeUtils.getDateList(currentYear, currentMonth);
+
+        this.setData({
+            currentYear: currentYear,
+            currentMonth: currentMonth,
+            currentDate: currentDate,
+            showMonthView: true,
+            dataList: dataList,
+            selectedDate: DateTimeUtils.formatDateToString(new Date())
+        });
+
+
+    },
+
+    /**
+     * 响应日历上选中日期
+     * @param e
+     */
+    onSelectDateItem: function (e) {
+        this.selectDate(e);
+    },
+
+    /**
+     * 响应日期选择器，跳转到选择的月份
+     * @param e
+     */
+    onSelectMonthYear: function (e) {
+        console.log(e);
+
+        let dateArr = e.detail.value.split("-");
+
+        this.setData({
+            currentYear: parseInt(dateArr[0]),
+            currentMonth: parseInt(dateArr[1]),
+            currentDate: parseInt(dateArr[2]),
+            showPlanDetail: false
+        });
+        this.moveMonth("selected");
+    },
+
+    /**
+     * 响应到今天按钮
+     */
+    onToThisMonth: function (e) {
+        this.moveMonth("now");
+
+    },
+
+    /**
+     * 响应日历头部点击，重新显示日历
+     * @param e
+     */
+    onCalendarHead: function (e) {
+        this.setData({
+            showMonthView: false
+        });
+
+    },
+
+    /**
+     * 响应日历上下滑动
+     */
+    onVerticalSwiperChange: function (e) {
+        let current = parseInt(e.detail.current);
+        let lastCalenderId = this.data.lastCalendarId;
+
+        console.log("current: ", current, " lastCalenderId: ", lastCalenderId);
+
+        let isNextMonth = false;
+
+        // 判断是左滑还是右划，左滑表示上个月
+        switch (lastCalenderId) {
+            case 0:
+                if (current === 1)
+                    isNextMonth = true;
+                else if (current === 2)
+                    isNextMonth = false;
+                break;
+            case 1:
+                if (current === 0)
+                    isNextMonth = false;
+                else if (current === 2)
+                    isNextMonth = true;
+                break;
+            case 2:
+                if (current === 0)
+                    isNextMonth = true;
+                else if (current === 1)
+                    isNextMonth = false;
+                break;
+            default:
+                console.log("what the fuck!!!!!");
+                break;
+        }
+
+        if (isNextMonth) {
+            this.moveMonth("next");
+        } else {
+            this.moveMonth("last");
+        }
+
+        this.setData({
+            lastCalendarId: current
         });
     },
 
@@ -207,9 +418,9 @@ Page({
         });
 
         // 判断是否需要显示新建课程
-        let displaySetting = this.data.displaySetting;
+        let courseTabData = this.data.courseTabData;
         if (userInfoLocal.teacherCourseSet.length > 0) {
-            for (let item of displaySetting) {
+            for (let item of courseTabData) {
                 if (item.type === "add_new") {
                     item.display = true;
                 }
@@ -225,7 +436,7 @@ Page({
         this.setData({
             userInfo: userInfoLocal,
             userInfoLocal: userInfoLocal,
-            displaySetting: displaySetting,
+            courseTabData: courseTabData,
             hasUserInfo: true
         });
 

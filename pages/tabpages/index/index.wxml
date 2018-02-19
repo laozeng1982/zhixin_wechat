@@ -3,8 +3,8 @@
 <view class="container">
     <!-- Tab头 -->
     <view class="tab">
-        <block wx:for="{{tabData}}" wx:key="{{index}}">
-            <view class="tab-list {{currentTabIdx===index ? 'current-highlight': ''}}" data-current="{{index}}" bindtap="onTabSwitch">{{item.name}}</view>
+        <block wx:for="{{indexTabData}}" wx:key="{{index}}">
+            <view class="tab-list {{currentTabIdx===index ? 'current-highlight': ''}}" data-current="{{index}}" bindtap="onIndexTabSwitch">{{item.name}}</view>
         </block>
     </view>
 
@@ -13,11 +13,11 @@
     <!-- 以下是Tab内容 -->
 
     <!-- 1、课程tab -->
-    <view wx:if="{{tabData[0].selected}}" class='tab-item'>
+    <view wx:if="{{indexTabData[0].selected}}" class='tab-item'>
 
         <!-- 次级标签 -->
         <view class='course-tab-container'>
-            <label wx:for="{{displaySetting}}" wx:key="{{index}}">
+            <label wx:for="{{courseTabData}}" wx:key="{{index}}">
                 <view wx:if="{{item.display}}" id="{{item.type}}" class="course-tab-item {{item.selected?'':'unselected'}}" bindtap='onCourseTabItemSelected'>
                     {{item.name}}
                 </view>
@@ -25,7 +25,7 @@
         </view>
 
         <!-- 所有课程标签 -->
-        <view wx:if="{{displaySetting[0].selected}}" class='course-content'>
+        <view wx:if="{{courseTabData[0].selected}}" class='course-content'>
 
             <!-- 1.1、没有课程的时候 -->
             <view wx:if="{{userInfoLocal.teacherCourseSet.length === 0}}" class='course-content'>
@@ -40,11 +40,10 @@
             </view>
 
             <!-- 1.2、有课程，显示列表 -->
-
             <scroll-view wx:else class="scroll-view-container" scroll-y style="width: 100%">
-                <view wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container' bindtap='onCourseSelected'>
+                <view id='{{index}}' wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container' bindtap='onCourseSelected'>
                     <!-- 第一行 -->
-                    <view id='{{index}}' class='course-list-item-container'>
+                    <view class='course-list-item-container'>
                         <view class='course-list-item-name'>
                             课程名字：
                         </view>
@@ -53,7 +52,7 @@
                         </view>
                     </view>
                     <!-- 第二行 -->
-                    <view id='{{index}}' class='course-list-item-container'>
+                    <view class='course-list-item-container'>
                         <view class='course-list-item-name'>
                             上课时间：
                         </view>
@@ -62,7 +61,7 @@
                         </view>
                     </view>
                     <!-- 第三行 -->
-                    <view id='{{index}}' class='course-list-item-container'>
+                    <view class='course-list-item-container'>
                         <view class='course-list-item-name'>
                             上课地址：
                         </view>
@@ -73,13 +72,12 @@
                     <view class='gray-space-small'></view>
                 </view>
 
-                
             </scroll-view>
 
         </view>
 
         <!-- 点击每日课程 -->
-        <view wx:if="{{displaySetting[1].selected}}" class='course-content'>
+        <view wx:if="{{courseTabData[1].selected}}" class='course-content'>
             <!-- 日历控制 -->
             <view class="date-control-box" bindtap='onCalendarHead'>
                 <picker mode="date" value="{{selectedDate}}" start="2015-09-01" end="2099-12-31" bindchange="onSelectMonthYear">
@@ -102,18 +100,18 @@
             <!-- 日历头 -->
             <view class="calendar-panel" bindtap='onCalendarHead'>
                 <view class="calendar-box">
-                    <view class="calendar-weekday-head rest-day">日</view>
+                    <view class="calendar-weekday-head calendar-rest-day">日</view>
                     <view class="calendar-weekday-head">一</view>
                     <view class="calendar-weekday-head">二</view>
                     <view class="calendar-weekday-head">三</view>
                     <view class="calendar-weekday-head">四</view>
                     <view class="calendar-weekday-head">五</view>
-                    <view class="calendar-weekday-head rest-day">六</view>
+                    <view class="calendar-weekday-head calendar-rest-day">六</view>
                 </view>
             </view>
 
-            <!-- 默认日历列表 -->
-            <view class='plan-view-box' wx:if="{{!showPlanDetail}}">
+            <!-- 默认日历列表，按月显示日历 -->
+            <view class='weekday-view-box' wx:if="{{showMonthView}}">
                 <swiper class="calender-swiper" indicator-dots="{{false}}" vertical="true" circular="{{true}}" autoplay="{{false}}" bindchange="onVerticalSwiperChange">
                     <block wx:for="{{calendars}}" wx:key="{{index}}">
                         <swiper-item id="{{item}}">
@@ -143,10 +141,10 @@
                 </swiper>
             </view>
 
-            <!-- 当选中某一天是显示具体的计划 -->
-            <view class='plan-view-box' wx:if="{{showPlanDetail}}">
+            <!-- 当选中某一天，按周显示日历，同时显示这天的具体课程 -->
+            <view wx:else class='weekday-view-box'>
 
-                <!-- 正常的日历面板 -->
+                <!-- 按周显示的日历面板 -->
                 <view class="calendar-panel">
 
                     <!-- 日历中每天的显示，只循环当前选中这一周 -->
@@ -173,7 +171,7 @@
                 <!-- 当点击日历时，这里显示部位和动作信息 -->
                 <scroll-view class="scrollviewVertical_Preview" scroll-y="true">
                     <!--  循环每个部位 -->
-                    <view id="{{item.name}}" class='partContainerColumn' wx:for="{{selectedDatePlan}}" wx:key="{{index}}">
+                    <view id="{{item.name}}" class='partContainerColumn' wx:for="{{selectedDateCourse}}" wx:key="{{index}}">
                         <text class='textBig'>{{item.name}}</text>
                         <!-- 循环每个部位的动作 -->
                         <view id="{{item.name}}" class='actionContainer padding' wx:for="{{item.exerciseSet}}" wx:key="{{index}}">
@@ -194,23 +192,21 @@
             </view>
         </view>
 
-
-
     </view>
 
     <!-- 2、通知tab -->
-    <view wx:if="{{tabData[1].selected}}" class='tab-item'>
+    <view wx:if="{{indexTabData[1].selected}}" class='tab-item'>
 
 
 
     </view>
 
     <!-- 3、作业tab -->
-    <view wx:if="{{tabData[2].selected}}" class='tab-item'>
-        {{tabData[2].type}}
+    <view wx:if="{{indexTabData[2].selected}}" class='tab-item'>
+        {{indexTabData[2].type}}
         <button type='primary' bindtap='onReviewHomework'>批改作业Test</button>
         <view>
-            {{tabData[0].type}}
+            {{indexTabData[0].type}}
         </view>
         <button type='primary' bindtap='onReviewLesson'>评价课堂表现Test</button>
     </view>

@@ -316,7 +316,7 @@ Page({
         }
 
         // 后台创建或更新，并同步保存到本地
-        // app.Util.syncData(null, "user", data, userInfo);
+        // app.DateTimeUtils.syncData(null, "user", data, userInfo);
 
         wx.switchTab({
             url: tabUrl,

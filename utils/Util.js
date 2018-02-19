@@ -11,85 +11,6 @@ const BASE_URL = 'https://www.newpictown.com/';
 
 const Course = new DataStructure.Course();
 
-function formatTime(time) {
-    if (typeof time !== 'number' || time < 0) {
-        return time;
-    }
-
-    let hour = parseInt(time / 3600);
-    time = time % 3600;
-    let minute = parseInt(time / 60);
-    time = time % 60;
-    let second = time;
-
-    return ([hour, minute, second]).map(function (n) {
-        n = n.toString();
-        return n[1] ? n : '0' + n;
-    }).join(':');
-}
-
-
-/**
- * 将日期和时间转为指定格式，例如：2017-08-30 15:30:25
- * 参数：date，日期类（Date）
- */
-function formatTimeToString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    let hour = date.getHours();
-    let minute = date.getMinutes();
-    let second = date.getSeconds();
-
-    return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':');
-}
-
-/**
- * 将日期转为指定格式，例如：2017-01-01, 2017-08-30
- * 参数：date，日期类（Date）
- */
-function formatDateToString(date) {
-    let year = date.getFullYear();
-    let month = date.getMonth() + 1;
-    let day = date.getDate();
-
-    return [year, month, day].map(formatNumber).join('-');
-}
-
-/**
- * 给定年月日，取得当前时间
- * 参数year：年
- * 参数month：月，自然月
- * 参数day：当月第day日
- */
-function getDateFromNumbers(year, month, day) {
-    return new Date(Date.UTC(year, month - 1, day));
-}
-
-/**
- * 将字符串日期转换为日期类，得到对应的日期对象
- * 参数date：字符串表示的日期，比如 '2016-9-01'或者'2016/9/01'
- * 参数splicer：字符串中的分隔符
- */
-function getDateFromString(date, splicer) {
-    let year = date.split(splicer)[0];
-    let month = date.split(splicer)[1];
-    let day = date.split(splicer)[2];
-
-    return new Date(Date.UTC(year, month - 1, day));
-}
-
-/**
- * 格式化输出日期字符串，输出格式为：2017-08-30
- * 参数year：年
- * 参数month：月，自然月
- * 参数day：当月第day日
- */
-function formatStringDate(year, month, day) {
-    return [year, month, day].map(formatNumber).join('-');
-}
-
 /**
  * 格式化输出数字，固定位数
  * @param n，位数
@@ -105,99 +26,13 @@ function formatLocation(longitude, latitude) {
         latitude = parseFloat(latitude)
     }
 
-    longitude = longitude.toFixed(2)
-    latitude = latitude.toFixed(2)
+    longitude = longitude.toFixed(2);
+    latitude = latitude.toFixed(2);
 
     return {
         longitude: longitude.toString().split('.'),
         latitude: latitude.toString().split('.')
     }
-}
-
-/**
- * 检查当前选择日期与今天的关系
- * 过期，则返回：-1
- * 今天，则返回：0
- * 将来，则返回：1
- */
-function dateDirection(selectedDate) {
-    let direction = -1;
-
-    let distance = datesDistance(selectedDate, formatDateToString(new Date()));
-    if (distance > 0) {
-        direction = -1;
-    } else if (distance === 0) {
-        direction = 0;
-    } else {
-        direction = 1;
-    }
-
-    return direction;
-}
-
-/**
- * 检查当前选择日期与今天的关系
- * 返回end时间到start的天数，正数表示end时间靠后，反之亦然
- */
-function datesDistance(start, end) {
-    let distance;
-
-    let startTime = getDateFromString(start, '-').getTime() / (3600 * 24 * 1000);
-    let endTime = getDateFromString(end, '-').getTime() / (3600 * 24 * 1000);
-
-    distance = endTime - startTime;
-
-    return distance;
-}
-
-/**
- *
- * @param startDay
- * @param isNext
- * @param dayCount
- */
-function getMovedDate(startDay, isNext, dayCount) {
-    let selectedDayTimeMills;
-    let movedDayTimeMills;
-
-    // 判断参数时间类型
-    if (typeof startDay === "string") {
-        selectedDayTimeMills = getDateFromString(startDay, '-').getTime();
-    } else {
-        selectedDayTimeMills = startDay.getTime();
-    }
-
-    //时间改变一天，直接加上、或减去一天的毫秒数
-    if (isNext) {
-        movedDayTimeMills = selectedDayTimeMills + 3600 * 24 * 1000 * dayCount;
-    } else {
-        movedDayTimeMills = selectedDayTimeMills - 3600 * 24 * 1000 * dayCount;
-    }
-    let movedDayDate = new Date();
-    movedDayDate.setTime(movedDayTimeMills);
-    // console.log("move to ", movedDayDate + ".............");
-
-    // 根据输入返回
-    if (typeof startDay === "string") {
-        return formatDateToString(movedDayDate);
-    } else {
-        return movedDayDate;
-    }
-
-}
-
-/**
- *
- * @param startDate
- * @param checkDate
- * @param endDate
- */
-function checkDate(startDate, checkDate, endDate) {
-    let startDateTimeMills = getDateFromString(startDate, '-').getTime();
-    let checkDateTimeMills = getDateFromString(checkDate, '-').getTime();
-    let endDateTimeMills = getDateFromString(endDate, '-').getTime();
-
-    return startDateTimeMills <= checkDateTimeMills && checkDateTimeMills <= endDateTimeMills;
 }
 
 /**
@@ -221,74 +56,6 @@ function deepClone(obj) {
 
 function isEqual(a, b) {
     return _.isEqual(a, b);
-}
-
-/**
- * 功能：从选中的日期读取指定内容
- * 参数1：key，要读取的数据
- * 参数2：dataType，数据类型（Storage）
- * 返回：请求类型的数据
- * 调用关系：外部函数，开放接口
- */
-function loadData(dataType) {
-    // 读取该类型数据已存储的内容
-    let readInData = wx.getStorageSync(dataType.key);
-    // 当天请求的数据
-    let requestData = '';
-
-    // 根据类型来抽取需要的数据
-    // 如果没有这个记录，取的会是空值，则新建一个对应的项
-    if (readInData !== '') {
-        requestData = readInData;
-    } else {
-        switch (dataType.id) {
-            case 0:
-                // 0. UserInfo
-                requestData = new DataStructure.WeChatUser();
-                break;
-            case 1:
-                // 1. UserProfile
-                requestData = [];
-                break;
-            case 2:
-                // 2. UserPlanSet
-                requestData = [];
-
-                break;
-            case 3:
-                // 3. RealitySet
-                requestData = [];
-                break;
-            case 4:
-                // 4. SystemPlanSet
-                requestData = [];
-                break;
-            case 5:
-                // 5. PartsWithActions
-                // requestData = new DataStructure.artsWithActions();
-                break;
-            case 6:
-                // 6. SyncedTag
-                requestData = new settings.Settings();
-                break;
-            default:
-                break;
-        }
-    }
-
-    return requestData;
-}
-
-/**
- * 功能：存储数据
- * 参数1：dataType，数据类型（StrorageType）
- * 参数2：dataToSave，要存储的数据
- * 调用关系：外部函数，开放接口
- */
-function saveData(dataType, dataToSave) {
-    // 根据类型来判断是否需要替换其中的数据，还是直接覆盖
-    console.log("in saveData, targetToSave: ", dataToSave);
-    wx.setStorageSync(dataType.key, dataToSave);
 }
 
 /**
@@ -336,19 +103,6 @@ function syncWechatUserInfo(host) {
             console.log("failed: ", res);
         }
     });
-}
-
-function copyInfo(host, res) {
-    host.userInfoLocal.userUID = res.data.id;
-    host.userInfoLocal.birthday = res.data.dateOfBirth;
-    host.userInfoLocal.nickName = res.data.nickName;
-    host.userInfoLocal.gender = res.data.gender;
-    host.userInfoLocal.height = res.data.extendedInfoMap.height.value;
-    host.userInfoLocal.weight = res.data.extendedInfoMap.weight.value;
-    host.userInfoLocal.wechatOpenId = res.data.wechatMPOpenId;
-    host.userInfoLocal.wechatUnionId = res.data.wechatMPOpenId;
-    host.userInfoLocal.mobileNumber = res.data.mobileNumber;
-
 }
 
 /**
@@ -637,22 +391,11 @@ function updateData(type, data2Sever, data2Local) {
 
 
 module.exports = {
-    formatTime: formatTime,
-    formatTimeToString: formatTimeToString,
-    formatDateToString: formatDateToString,
-    getDateFromString: getDateFromString,
-    formatStringDate: formatStringDate,
     formatLocation: formatLocation,
     formatNumber: formatNumber,
-    dateDirection: dateDirection,
-    datesDistance: datesDistance,
-    getMovedDate: getMovedDate,
-    checkDate: checkDate,
     deepClone: deepClone,
     isEqual: isEqual,
     underscore: _,
-    loadData: loadData,
-    saveData: saveData,
     syncData: syncData,
 
 };

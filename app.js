@@ -1,6 +1,6 @@
 // app.js
 // 小程序入口
-import util from './utils/Util'
+import StorageUtils from './utils/StorageUtils'
 import settings from './datamodel/Settings'
 
 const Settings = new settings.Settings();
@@ -9,7 +9,7 @@ App({
     onLaunch: function () {
 
         // 先读取本地内容
-        let userInfoLocal = util.loadData(Settings.Storage.WeChatUser);
+        let userInfoLocal = StorageUtils.loadData(Settings.Storage.WeChatUser);
 
         // 登录
         // 等待服务器反应
@@ -84,7 +84,7 @@ App({
                                                     // 如果未注册，不返回id，去注册页面
                                                     if (typeof response.data.id === "undefined") {
                                                         // 先保存，然后在另外一个页面再调用localStorage
-                                                        util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
+                                                        StorageUtils.saveData(Settings.Storage.WeChatUser, userInfoLocal);
                                                         wx.hideLoading();
 
                                                         wx.redirectTo({
@@ -121,7 +121,7 @@ App({
 
                                                         userInfoLocal.authorities = authorities;
 
-                                                        util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
+                                                        StorageUtils.saveData(Settings.Storage.WeChatUser, userInfoLocal);
 
                                                         wx.hideLoading();
                                                     }
@@ -152,7 +152,7 @@ App({
 
                                                     userInfoLocal.authorities = authorities;
 
-                                                    util.saveData(Settings.Storage.WeChatUser, userInfoLocal);
+                                                    StorageUtils.saveData(Settings.Storage.WeChatUser, userInfoLocal);
                                                     wx.hideLoading();
                                                 }
 
@@ -190,7 +190,7 @@ App({
 
     },
 
-    Util: util,
+    Util: StorageUtils,
     Settings: Settings,    // 全局同步标志
     currentAuth: "",
 

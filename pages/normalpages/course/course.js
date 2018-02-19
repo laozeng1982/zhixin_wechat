@@ -2,6 +2,7 @@
 // 课程设置页
 
 import DataStructure from '../../../datamodel/DataStructure'
+import StorageUtils from '../../../utils/StorageUtils'
 
 const app = getApp();
 
@@ -174,7 +175,7 @@ Page({
         let currentCourseIdx = this.data.currentCourseIdx;   // 当前页面课程的索引
         let courseItems = this.data.courseItems;
         // 从本地读取数据，用来初始化页面显示课程
-        let userInfo = app.Util.loadData(app.Settings.Storage.WeChatUser);
+        let userInfo = StorageUtils.loadData(app.Settings.Storage.WeChatUser);
 
         // 1、根据页面进入入口，判断如何初始化，提取当前应该显示的课程
         if (options.model === "newCourse") {
@@ -184,7 +185,8 @@ Page({
                 currentCourse = new DataStructure.Course();
             } else {
                 // 当前有课程，直接弹出最后一个，保存的时候直接push，始终操作的是最后一个
-                currentCourse = userInfo.teacherCourseSet.pop();
+                // currentCourse = userInfo.teacherCourseSet.pop();
+                currentCourse = new DataStructure.Course();
             }
         } else {
             //1.2、修改已有新课程
@@ -371,7 +373,7 @@ Page({
         }
 
         // 4.2、保存
-        app.Util.saveData(app.Settings.Storage.WeChatUser, userInfo);
+        StorageUtils.saveData(app.Settings.Storage.WeChatUser, userInfo);
 
         wx.navigateBack({});
     },

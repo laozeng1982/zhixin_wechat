@@ -2,6 +2,8 @@
  * Inner Data Structure
  */
 
+import DateTimeUtils from '../utils/DateTimeUtils'
+
 /**
  * 用户信息汇总
  */
@@ -180,13 +182,13 @@ class Course {
         this.name = "";    //(string, optional),    （本课程名字，字符串，必须，默认：空）
         this.location = new Location(); // （本课程上课地址，字符串，必须，默认：空）
 
-        this.startDate = "";    //(Calendar, optional), （本课程开始日期，字符串，必须，默认：空）
-        this.endDate = "";    //(Calendar, optional),   （本课程结束日期，字符串，必须，默认：空）
+        this.startDate = "请选择";    //(Calendar, optional), （本课程开始日期，字符串，必须，默认：空）
+        this.endDate = "请选择";    //(Calendar, optional),   （本课程结束日期，字符串，必须，默认：空）
 
-        this.startTime = "";    //(string, optional),   每一次课的开始时间，必须，比如晚上19:00
+        this.startTime = "09:00";    //(string, optional),   每一次课的开始时间，必须，比如晚上19:00
         this.duration = -1;    //(integer, optional), （一次课的时间，整形，必填，默认：空）
 
-        this.recurringRule = "";    //(string, optional),   （本课程周期重复的规则，整形，必须，默认：空）
+        this.recurringRule = "请选择";    //(string, optional),   （本课程周期重复的规则，整形，必须，默认：空）
         this.recurringTimes = "";    //(integer, optional), （本课程重复的次数，整形，可选，默认：空）
 
         this.grade = "";    //(string, optional),   （本课程等级，字符串，可选，默认：空）
@@ -197,7 +199,7 @@ class Course {
 
         this.status = "";    //(string, optional) = ['Preparing', 'Started', 'Closed', 'Finished'], （当前状态，字符串，必须，默认：空）
 
-        this.totalStudentNumber = -1; // 整形，后台需要改，增加
+        this.totalStudentNumber = 10; // 整形，后台需要改，增加
         this.studentSet = [];    //(Array[WeChatUser], optional),   （学生列表，数组，可选，默认：空）
         this.teacherSet = [];    //(Array[WeChatUser], optional),   （教师列表，数组，可选，默认：空）
         this.scoreType = "";	// 分制，后台需要修改
