@@ -10,10 +10,11 @@
             <!-- 课程名设置 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[0].name}}
+                    {{courseItems.name.name}}
                 </view>
-                <view class='item-input'>
-                    <input id="{{courseItems[0].id}}" name="{{courseItems[0].id}}" type='text'  value='{{courseItems[0].component.value}}' placeholder='{{courseItems[0].tip}}'></input>
+                <!--  -->
+                <view class='item-input'> 
+                    <input id="{{courseItems.name.id}}" name="{{courseItems.name.id}}" type='text' value='{{courseItems.name.value}}' placeholder='{{courseItems.name.tip}}' bindinput='onInput'/>
                 </view>
 
             </view>
@@ -21,12 +22,12 @@
             <!-- 上课地址设置 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[1].name}}
+                    {{courseItems.address.name}}
                 </view>
 
                 <view class='item-picker'>
                     <view class='item-input'>
-                        <input id="{{courseItems[1].id}}" name="{{courseItems[1].id}}" value='{{selectedLocation.name}}' placeholder='{{courseItems[1].tip}}' />
+                        <input id="{{courseItems.address.id}}" name="{{courseItems.address.id}}" value='{{courseItems.address.value}}' placeholder='{{courseItems.address.tip}}' bindinput='onInput' />
                     </view>
                     <image class='image-arrow' src='../../image/right_arrow.png' bindtap='onChooseLocation'></image>
                 </view>
@@ -36,23 +37,23 @@
             <!-- 上课教室设置 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[2].name}}
+                    {{courseItems.room.name}}
                 </view>
                 <view class='item-input'>
-                    <input id="{{courseItems[2].id}}" name="{{courseItems[2].id}}" type='text' value='{{selectedLocation.room}} 'placeholder='{{courseItems[0].tip}}'> </input>
+                    <input id="{{courseItems.room.id}}" name="{{courseItems.room.id}}" type='text' value='{{courseItems.room.value}}' placeholder='{{courseItems.room.tip}}' bindinput='onInput'/>
                 </view>
             </view>
 
             <!-- 课程起止日期 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[3].name}}
+                    {{courseItems.startDate.name}}
                 </view>
                 <view class="item-box row">
 
-                    <picker id="{{courseItems[3].id}}" name="{{courseItems[3].id}}" mode='date' start='{{courseItems[3].component.start}}' value='{{courseItems[3].component.value}}' bindchange='onPickerChange'>
+                    <picker id="{{courseItems.startDate.id}}" name="{{courseItems.startDate.id}}" mode='date' start='{{courseItems.startDate.start}}' value='{{courseItems.startDate.value}}' bindchange='onPickerChange'>
                         <view class='item-picker'>
-                            <view class='item-picker-text'>{{courseItems[3].component.value}} </view>
+                            <view class='item-picker-text'>{{courseItems.startDate.value}} </view>
                         </view>
                     </picker>
 
@@ -60,9 +61,9 @@
                         <view class='item-picker-text'>到</view>
                     </view>
 
-                    <picker id="{{courseItems[4].id}}" name="{{courseItems[4].id}}" mode='date' start='{{courseItems[4].component.start}}' value='{{courseItems[4].component.value}}' bindchange='onPickerChange'>
+                    <picker id="{{courseItems.endDate.id}}" name="{{courseItems.endDate.id}}" mode='date' start='{{courseItems.endDate.start}}' value='{{courseItems.endDate.value}}' bindchange='onPickerChange'>
                         <view class='item-picker'>
-                            <view class='item-picker-text'>{{courseItems[4].component.value}}</view>
+                            <view class='item-picker-text'>{{courseItems.endDate.value}}</view>
                             <image class='image-arrow' src='../../image/down_arrow.png'></image>
                         </view>
                     </picker>
@@ -74,11 +75,11 @@
             <!-- 重复规则 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[5].name}}
+                    {{courseItems.recurringRule.name}}
                 </view>
 
-                <view id="{{courseItems[5].id}}" name="{{courseItems[5].id}}" class='item-picker' bindtap='onSetRecurringRules'>
-                    <view class='item-picker-text'>{{courseItems[5].component.value}}</view>
+                <view id="{{courseItems.recurringRule.id}}" name="{{courseItems.recurringRule.id}}" class='item-picker' bindtap='onSetRecurringRules'>
+                    <view class='item-picker-text'>{{courseItems.recurringRule.value}}</view>
                     <image class='image-arrow' src='../../image/right_arrow.png'></image>
                 </view>
 
@@ -87,12 +88,12 @@
             <!-- 每次课开始的时间 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[6].name}}
+                    {{courseItems.startTime.name}}
                 </view>
 
-                <picker id="{{courseItems[6].id}}" name="{{courseItems[6].id}}" mode='time' start='{{courseItems[6].component.start}}' value='{{courseItems[6].component.value}}' bindchange='onPickerChange'>
+                <picker id="{{courseItems.startTime.id}}" name="{{courseItems.startTime.id}}" mode='time' start='{{courseItems.startTime.start}}' value='{{courseItems.startTime.value}}' bindchange='onPickerChange'>
                     <view class='item-picker'>
-                        <view class='item-picker-text'>{{courseItems[6].component.value}}</view>
+                        <view class='item-picker-text'>{{courseItems.startTime.value}}</view>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
                     </view>
                 </picker>
@@ -101,14 +102,14 @@
             <!-- 每次课时间长度 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[7].name}}
+                    {{courseItems.duration.name}}
                 </view>
 
                 <!-- <view class='item-picker'> -->
-                    <input class='item-picker-text' id="{{courseItems[7].id}}" name="{{courseItems[7].id}}" value='{{timeList[timeListIdx]}}'> 分钟</input>
+                <input class='item-picker-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" value='{{timeList[timeListIdx]}}'> 分钟</input>
                 <!-- </view> -->
-                <picker id="{{courseItems[7].id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
-                    
+                <picker id="{{courseItems.duration.id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
+
                     <view class='item-picker'>
                         <image class='image-arrow' src='../../image/down_arrow.png'></image>
                     </view>
@@ -118,20 +119,20 @@
             <!-- 上课学生人数上限 -->
             <view class="item-box row">
                 <view class='item-name'>
-                    {{courseItems[8].name}}
+                    {{courseItems.totalStudentNumber.name}}
                 </view>
                 <view class='item-input'>
-                    <input id="{{courseItems[8].id}}" name="{{courseItems[8].id}}" type='number' value='{{courseItems[8].component.value}}' placeholder='{{courseItems[8].tip}}'> </input>
+                    <input id="{{courseItems.totalStudentNumber.id}}" name="{{courseItems.totalStudentNumber.id}}" type='number' value='{{courseItems.totalStudentNumber.value}}' placeholder='{{courseItems.totalStudentNumber.tip}}' bindinput='onInput'/>
                 </view>
             </view>
 
             <!-- 文本输入框 -->
             <view class="item-big-box column">
                 <view class='item-name'>
-                    {{courseItems[9].name}}
+                    {{courseItems.description.name}}
                 </view>
                 <view class='item-textarea'>
-                    <textarea id="{courseItems[9].id}}" name="{{courseItems[9].id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{courseItems[9].component.value}}' placeholder='{{courseItems[9].tip}}'></textarea>
+                    <textarea id="{courseItems.description.id}}" name="{{courseItems.description.id}}" class='decription-item-text' show-confirm-bar='{{false}}' type='text' value='{{courseItems.description.value}}' placeholder='{{courseItems.description.tip}}' bindinput='onInput'/>
                 </view>
             </view>
 

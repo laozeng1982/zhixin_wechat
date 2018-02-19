@@ -164,12 +164,13 @@ function getMovedDate(startDay, isNext, dayCount) {
  * @param endDate
  */
 function checkDate(startDate, checkDate, endDate) {
-    console.log(startDate,checkDate,endDate);
+
     let startDateTimeMills = getDateFromString(startDate, '-').getTime();
     let checkDateTimeMills = getDateFromString(checkDate, '-').getTime();
     let endDateTimeMills = getDateFromString(endDate, '-').getTime();
 
-    console.log(startDateTimeMills,checkDateTimeMills,endDateTimeMills);
+    // console.log(startDate,checkDate,endDate);
+    // console.log(startDateTimeMills,checkDateTimeMills,endDateTimeMills);
 
     return startDateTimeMills <= checkDateTimeMills && checkDateTimeMills <= endDateTimeMills;
 }

@@ -15,149 +15,93 @@ Page({
         options: {},
         currentCourse: {},
         currentCourseIdx: 0,
-        courseItems: [
-            {
+        courseItems: {
+            name: {
                 // 0
                 id: "name",
                 name: "课程名字*",
                 display: true,
                 tip: "请输入",
-                component: {
-                    name: "input",
-                    type: "text",
-                    mode: "",
-                    value: "",
-                    hasValue: false
-                },
+                value: "",
+
             },
-            {
+            address: {
                 // 1
                 id: "address",
                 name: "上课地址*",
                 display: true,
-                tip: "请选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "region",
-                    value: "请选择",
-                    hasValue: false
-                },
+                tip: "请输入或选择",
+                value: "请输入或选择",
             },
-            {
+            room: {
                 // 2
                 id: "room",
                 name: "教室地址*",
                 display: true,
-                tip: "请输入或选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "region",
-                    value: "请输入或选择",
-                    hasValue: false
-                },
+                tip: "请输入",
+                value: "请输入",
             },
-            {
+            startDate: {
                 // 3
                 id: "startDate",
                 name: "起止日期*",
                 display: true,
+                start: "",
                 tip: "请选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "date",
-                    value: "请选择",
-                    hasValue: false
-                },
+                value: "请选择",
             },
-            {
+            endDate: {
                 // 4
                 id: "endDate",
                 name: "起止日期*",
+                start: "",
                 display: true,
                 tip: "请选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "date",
-                    value: "请选择",
-                    hasValue: false
-                },
+                value: "请选择",
             },
-            {
+            recurringRule: {
                 // 5
                 id: "recurringRule",
                 name: "重复规则*",
                 display: true,
                 tip: "请选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "selector",
-                    value: "请选择",
-                    hasValue: false
-                },
+                value: "请选择",
             },
-            {
+            startTime: {
                 // 6
                 id: "startTime",
                 name: "每次课开始时间*",
+                start: "",
                 display: true,
                 tip: "请选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "time",
-                    value: "请选择",
-                    hasValue: false
-                },
+                value: "请选择",
             },
-            {
+            duration: {
                 // 7
                 id: "duration",
                 name: "课程时长*",
                 display: true,
                 tip: "请选择",
-                component: {
-                    name: "picker",
-                    type: "text",
-                    mode: "",
-                    value: "请选择",
-                    hasValue: false
-                },
+                value: "请选择",
             },
-            {
+            totalStudentNumber: {
                 // 8
                 id: "totalStudentNumber",
                 name: "上课学生人数上限*",
                 display: true,
                 tip: "请输入总人数",
-                component: {
-                    name: "text",
-                    type: "number",
-                    mode: "",
-                    value: "",
-                    hasValue: false
-                },
+                value: "",
             },
-            {
+            description: {
                 // 9
                 id: "description",
                 name: "课程描述",
                 display: true,
                 tip: "请简要介绍一下课程",
-                component: {
-                    name: "textarea",
-                    type: "text",
-                    mode: "",
-                    value: "",
-                    hasValue: false
-                },
+                value: "",
             },
 
-        ],
+        },
 
         // 以下用于控件临时显示
         timeList: [],
@@ -167,13 +111,13 @@ Page({
     },
 
     /**
-     * 初始化页面数据
+     *
+     * @param options
      */
-    initPageCourse: function (options) {
-        console.log("Course Page onShow call");
+    loadCourse: function (options) {
         let currentCourse = {};    // 当前页面要用的课程
         let currentCourseIdx = this.data.currentCourseIdx;   // 当前页面课程的索引
-        let courseItems = this.data.courseItems;
+
         // 从本地读取数据，用来初始化页面显示课程
         let userInfo = StorageUtils.loadData(app.Settings.Storage.WeChatUser);
 
@@ -202,25 +146,39 @@ Page({
         console.log("currentCourseIdx:", currentCourseIdx);
         console.log("currentCourse:", currentCourse);
 
+        this.setData({
+            userInfo: userInfo,
+            currentCourse: currentCourse,
+            currentCourseIdx: currentCourseIdx,
+        });
+    },
+
+    /**
+     * 初始化页面数据
+     */
+    initPageCourse: function () {
+        console.log("Course Page onShow call");
+
+        let currentCourse = this.data.currentCourse;
+
+        let courseItems = this.data.courseItems;
+
         // 2、根据课程初始化页面数据
         for (let item in currentCourse) {
-            for (let displayItem of courseItems)
-                if (displayItem.id === item) {
-                    displayItem.component.value = currentCourse[item];
+            for (let displayItem in courseItems)
+                if (displayItem === item) {
+                    courseItems[displayItem].value = currentCourse[item];
                 }
         }
 
         let selectedLocation = currentCourse.location;
 
+        courseItems["address"].value = currentCourse.location.address;
+        courseItems["room"].value = currentCourse.location.room;
+
         let timeList = [45, 50, 55, 60, 75, 90, 100, 120];
 
-        // for ()
-
         this.setData({
-            userInfo: userInfo,
-            currentCourse: currentCourse,
-            currentCourseIdx: currentCourseIdx,
-
             courseItems: courseItems,
             timeList: timeList,
             selectedLocation: selectedLocation,
@@ -241,22 +199,23 @@ Page({
         console.log(e.currentTarget.id, e.detail.value);
         let courseItems = this.data.courseItems;
         let timeListIdx = this.data.timeListIdx;
-        for (let item of courseItems) {
-            if (item.id === e.currentTarget.id) {
-                switch (item.id === "duration") {
+        for (let item in courseItems) {
+            if (item === e.currentTarget.id) {
+                switch (item) {
                     case "duration":
-                        item.component.value = this.data.timeList[parseInt(e.detail.value)];
+                        courseItems[item].value = this.data.timeList[parseInt(e.detail.value)];
                         timeListIdx = parseInt(e.detail.value);
                         break;
                     case "startDate":
-
+                        courseItems[item].value = e.detail.value;
                         break;
                     case "endDate":
+                        courseItems[item].value = e.detail.value;
                         break;
                     default:
-                        item.component.value = e.detail.value;
+                        // console.log("default");
+                        courseItems[item].value = e.detail.value;
                         break;
-
                 }
 
                 break;
@@ -269,23 +228,41 @@ Page({
         });
     },
 
+    onInput: function (e) {
+        // console.log(e.currentTarget.id, e.detail.value);
+        let courseItems = this.data.courseItems;
+
+        courseItems[e.currentTarget.id].value = e.detail.value;
+
+        this.setData({
+            courseItems: courseItems
+        });
+
+    },
+
     /**
      * 响应选择位置
      */
     onChooseLocation: function () {
         let host = this;
+        let selectedLocation = this.data.selectedLocation;
         let courseItems = this.data.courseItems;
+        console.log(this.data.courseItems);
 
         wx.chooseLocation({
             success: function (res) {
-                let selectedLocation = new DataStructure.Location();
                 selectedLocation.latitude = res.latitude;
                 selectedLocation.longitude = res.longitude;
                 selectedLocation.address = res.address;
                 selectedLocation.name = res.name;
 
+                courseItems.address.value = res.name;
+
+                console.log(courseItems);
+
                 host.setData({
-                    selectedLocation: selectedLocation
+                    selectedLocation: selectedLocation,
+                    courseItems: courseItems
                 });
 
                 console.log("Get Location:", host.data.selectedLocation);
@@ -343,9 +320,10 @@ Page({
             console.log(item, ":", e.detail.value[item]);
             if (item !== "description") {
                 if (e.detail.value[item] === "") {
-                    for (let courseItem of this.data.courseItems) {
-                        if (courseItem.id === item) {
-                            let tips = courseItem.name.split("*")[0];
+                    for (let courseItem in this.data.courseItems) {
+                        // console.log("courseItem", courseItem);
+                        if (courseItem === item) {
+                            let tips = this.data.courseItems[courseItem].name.split("*")[0];
                             wx.showModal({
                                 title: '缺少必要信息',
                                 content: "请输入" + tips,
@@ -385,6 +363,8 @@ Page({
         this.setData({
             options: options
         });
+
+        this.loadCourse(options);
     },
 
     /**

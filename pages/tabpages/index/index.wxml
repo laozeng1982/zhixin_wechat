@@ -111,7 +111,7 @@
             </view>
 
             <!-- 默认日历列表，按月显示日历 -->
-            <view class='weekday-view-box' wx:if="{{showMonthView}}">
+            <view wx:if="{{showMonthView}}" class='weekday-view-box'>
                 <swiper class="calender-swiper" indicator-dots="{{false}}" vertical="true" circular="{{true}}" autoplay="{{false}}" bindchange="onVerticalSwiperChange">
                     <block wx:for="{{calendars}}" wx:key="{{index}}">
                         <swiper-item id="{{item}}">

@@ -228,39 +228,47 @@ Page({
 
     /**
      * 移动月的操作，整月移动
+     * @param direction
+     * @param toDate
      */
-    moveMonth: function (isNext) {
-        let currentYear = this.data.currentYear;
-        let currentMonth = this.data.currentMonth;
-        let currentDate = this.data.currentDate;
+    moveMonth: function (direction, toDate) {
 
-        if (isNext === "next") {
-            currentYear = currentMonth + 1 === 13 ? currentYear + 1 : currentYear;
-            currentMonth = currentMonth + 1 === 13 ? 1 : currentMonth + 1;
-            currentDate = 1;
-        } else if (isNext === "last") {
-            currentYear = currentMonth - 1 ? currentYear : currentYear - 1;
-            currentMonth = currentMonth - 1 ? currentMonth - 1 : 12;
-            currentDate = 1;
-        } else if (isNext === "now") {
-            let now = new Date();
-            currentYear = now.getFullYear();
-            currentMonth = now.getMonth() + 1;
-            currentDate = now.getDate();
+        let currentYear = '';
+        let currentMonth = '';
+        let currentDate = '';
+
+        switch (direction) {
+            case "next":
+                currentYear = this.data.currentMonth + 1 === 13 ? this.data.currentYear + 1 : this.data.currentYear;
+                currentMonth = this.data.currentMonth + 1 === 13 ? 1 : this.data.currentMonth + 1;
+                currentDate = 1;
+                break;
+            case "last":
+                currentYear = this.data.currentMonth - 1 ? this.data.currentYear : this.data.currentYear - 1;
+                currentMonth = this.data.currentMonth - 1 ? this.data.currentMonth - 1 : 12;
+                currentDate = 1;
+                break;
+            case "selected":
+                currentYear = toDate.getFullYear();
+                currentMonth = toDate.getMonth() + 1;
+                currentDate = toDate.getDate();
+                break;
+            default:
+                break;
         }
 
         console.log("move to: ", currentYear, "年", currentMonth, "月", currentDate, "日");
-        let dataList = DateTimeUtils.getDateList(currentYear, currentMonth);
+
+        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth);
 
         this.setData({
             currentYear: currentYear,
             currentMonth: currentMonth,
             currentDate: currentDate,
             showMonthView: true,
-            dataList: dataList,
-            selectedDate: DateTimeUtils.formatDateToString(new Date())
+            dateList: dateList,
+            // selectedDate: DateTimeUtils.formatDateToString(new Date())
         });
-
 
     },
 
@@ -270,6 +278,7 @@ Page({
      */
     onSelectDateItem: function (e) {
         this.selectDate(e);
+
     },
 
     /**
@@ -277,24 +286,17 @@ Page({
      * @param e
      */
     onSelectMonthYear: function (e) {
-        console.log(e);
+        let toDate = DateTimeUtils.getDateFromString(e.detail.value, "-");
+        this.moveMonth("selected", toDate);
 
-        let dateArr = e.detail.value.split("-");
-
-        this.setData({
-            currentYear: parseInt(dateArr[0]),
-            currentMonth: parseInt(dateArr[1]),
-            currentDate: parseInt(dateArr[2]),
-            showPlanDetail: false
-        });
-        this.moveMonth("selected");
     },
 
     /**
      * 响应到今天按钮
      */
-    onToThisMonth: function (e) {
-        this.moveMonth("now");
+    onToThisMonth: function () {
+        let toDate = new Date();
+        this.moveMonth("selected", toDate);
 
     },
 
@@ -304,7 +306,7 @@ Page({
      */
     onCalendarHead: function (e) {
         this.setData({
-            showMonthView: false
+            showMonthView: true
         });
 
     },
@@ -316,7 +318,7 @@ Page({
         let current = parseInt(e.detail.current);
         let lastCalenderId = this.data.lastCalendarId;
 
-        console.log("current: ", current, " lastCalenderId: ", lastCalenderId);
+        // console.log("current: ", current, " lastCalenderId: ", lastCalenderId);
 
         let isNextMonth = false;
 
