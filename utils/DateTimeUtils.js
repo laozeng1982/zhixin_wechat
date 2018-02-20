@@ -380,41 +380,6 @@ function getDateList(year, month) {
     return dateList;
 }
 
-/**
- * 移动月的操作，整月移动
- */
-function moveMonth(isNext) {
-    // let currentYear = this.data.currentYear;
-    // let currentMonth = this.data.currentMonth;
-    // let currentDate = this.data.currentDate;
-    //
-    // if (isNext === "next") {
-    //     currentYear = currentMonth + 1 === 13 ? currentYear + 1 : currentYear;
-    //     currentMonth = currentMonth + 1 === 13 ? 1 : currentMonth + 1;
-    //     currentDate = 1;
-    // } else if (isNext === "last") {
-    //     currentYear = currentMonth - 1 ? currentYear : currentYear - 1;
-    //     currentMonth = currentMonth - 1 ? currentMonth - 1 : 12;
-    //     currentDate = 1;
-    // } else if (isNext === "now") {
-    //     let now = new Date();
-    //     currentYear = now.getFullYear();
-    //     currentMonth = now.getMonth() + 1;
-    //     currentDate = now.getDate();
-    // }
-    //
-    // console.log("move to: ", currentYear, "年", currentMonth, "月", currentDate, "日");
-    // this.setData({
-    //     currentYear: currentYear,
-    //     currentMonth: currentMonth,
-    //     currentDate: currentDate,
-    //     showPlanDetail: false,
-    //     selectedDate: app.Util.formatDateToString(new Date())
-    // });
-    //
-    // getDateList(currentYear, currentMonth);
-
-}
 
 module.exports = {
     formatNumber: formatNumber,

@@ -40,7 +40,7 @@
             </view>
 
             <!-- 1.2、有课程，显示列表 -->
-            <scroll-view wx:else class="scroll-view-container" scroll-y style="width: 100%">
+            <scroll-view wx:else class="scroll-view-container" scroll-y >
                 <view id='{{index}}' wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container' bindtap='onCourseSelected'>
                     <!-- 第一行 -->
                     <view class='course-list-item-container'>
@@ -123,14 +123,14 @@
 
                                         <!-- 日历上每天的日期 -->
                                         <view class='calender-date-item'>
-                                            <view class="{{item.value==selectedDate?'active_date':'nomal_date'}} {{!item.inThisMonth?'not_in_this_month_date':''}}">
+                                            <view class="{{item.value==selectedDate?'active-date':'nomal-date'}} {{item.inThisMonth?'':'not-in-this-month-date'}}">
                                                 {{item.date}}
                                             </view>
                                         </view>
 
                                         <!-- 日历每天下段标注 -->
-                                        <view class='calender-date-marker' wx:if="{{item.hasPlan}}">
-                                            {{item.planPartsStr}}
+                                        <view class='calender-date-marker' wx:if="{{item.hasCourse}}">
+                                            {{item.courseString}}
                                         </view>
 
                                     </view>
@@ -153,14 +153,14 @@
 
                             <!-- 日历上每天的日期 -->
                             <view class='calender-date-item'>
-                                <view class="{{item.value==selectedDate?'active_date':'nomal_date'}} {{!item.inThisMonth?'not_in_this_month_date':''}}">
+                                <view class="{{item.value==selectedDate?'active-date':'nomal-date'}} {{item.inThisMonth?'':'not-in-this-month-date'}}">
                                     {{item.date}}
                                 </view>
                             </view>
 
                             <!-- 日历每天下段标注 -->
-                            <view class='calender-date-marker' wx:if="{{item.hasPlan}}">
-                                {{item.planPartsStr}}
+                            <view class='calender-date-marker' wx:if="{{item.hasCourse}}">
+                                {{item.courseString}}
                             </view>
                         </view>
                     </view>

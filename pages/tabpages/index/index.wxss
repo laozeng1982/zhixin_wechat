@@ -89,8 +89,8 @@
 }
 
 .course-tab-item {
-    width: 230rpx;
-    margin-left: 40rpx;
+    width: 200rpx;
+     margin-left: 40rpx; 
     /* margin-right: 40rpx; */
 }
 
@@ -282,7 +282,8 @@
 }
 
 .weekday-label-days {
-    /* width: 14.28%; *//* position: relative; */
+    /* width: 14.28%; 
+     position: relative; */
     float: left;
     text-align: center;
     font-weight: 500;
@@ -325,10 +326,21 @@
 }
 
 .active-date {
-    background: #e64340;
-    color: #fff;
+    align-items: center;
+    width: 60rpx;
+    height: 60rpx;
+    z-index: 100;
     border-radius: 20%;
     border-bottom: 5rpx;
+    background: #e64340;
+    color: #fff;
+}
+
+.nomal-date {
+    align-items: center;
+    width: 60rpx;
+    height: 60rpx;
+    z-index: 100;
 }
 
 .not-in-this-month-date {
@@ -397,4 +409,20 @@
     /* background: #e64340;
     color: #fff;
     border-radius: 20%; */
+}
+
+.calender-date-marker {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 20rpx;
+}
+
+.calender-date-item {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
 }

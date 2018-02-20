@@ -82,9 +82,13 @@
                     {{courseItems.recurringRule.name}}
                 </view>
 
-                <view id="{{courseItems.recurringRule.id}}" name="{{courseItems.recurringRule.id}}" class='item-value' bindtap='onSetRecurringRules'>
-                    <view class='item-value-picker-text'>{{courseItems.recurringRule.value}}</view>
-                    <image class='image-arrow' src='../../image/right_arrow.png'></image>
+                <view class='item-value' bindtap='onSetRecurringRules'>
+                    <!-- 空白占位 -->
+                    <view class='item-value-picker-text' style='width:20rpx'></view>
+                    <view class='item-value-picker'>
+                        <view class='item-value-picker-text'>{{courseItems.recurringRule.value}}</view>
+                        <image class='image-arrow' src='../../image/right_arrow.png'></image>
+                    </view>
                 </view>
 
             </view>
@@ -95,12 +99,16 @@
                     {{courseItems.startTime.name}}
                 </view>
 
-                <picker id="{{courseItems.startTime.id}}" name="{{courseItems.startTime.id}}" mode='time' start='{{courseItems.startTime.start}}' value='{{courseItems.startTime.value}}' bindchange='onPickerChange'>
-                    <view class='item-value'>
-                        <view class='item-value-picker-text'>{{courseItems.startTime.value}}</view>
-                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
-                    </view>
-                </picker>
+                <view class='item-value'>
+                    <!-- 空白占位 -->
+                    <view class='item-value-picker-text' style='width:100rpx'></view>
+                    <picker id="{{courseItems.startTime.id}}" name="{{courseItems.startTime.id}}" mode='time' start='{{courseItems.startTime.start}}' value='{{courseItems.startTime.value}}' bindchange='onPickerChange'>
+                        <view class='item-value-picker'>
+                            <view class='item-value-picker-text'>{{courseItems.startTime.value}}</view>
+                            <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                        </view>
+                    </picker>
+                </view>
             </view>
 
             <!-- 每次课时间长度 -->
@@ -110,7 +118,7 @@
                 </view>
 
                 <view class='item-value'>
-                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" value='{{courseItems.duration.value}}' />
+                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{courseItems.duration.value}}' bindinput='onInput'/>
 
                     <picker id="{{courseItems.duration.id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
@@ -124,7 +132,6 @@
 
                     </picker>
                 </view>
-
 
             </view>
 

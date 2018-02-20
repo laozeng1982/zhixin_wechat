@@ -4,6 +4,7 @@
 import DataStructure from '../../../datamodel/DataStructure'
 import StorageUtils from '../../../utils/StorageUtils'
 import DateTimeUtils from '../../../utils/DateTimeUtils'
+import Util from '../../../utils/Util'
 
 const app = getApp();
 
@@ -50,7 +51,7 @@ Page({
                     value: "",
                 },
                 name: {
-                    id: "name",
+                    id: "address_name",
                     name: "上课地址*",
                     display: true,
                     tip: "请输入或选择",
@@ -93,7 +94,7 @@ Page({
             startTime: {
                 // 6
                 id: "startTime",
-                name: "每次课开始时间*",
+                name: "开始时间*",
                 start: "",
                 display: true,
                 tip: "请选择",
@@ -110,7 +111,7 @@ Page({
             totalStudentNumber: {
                 // 8
                 id: "totalStudentNumber",
-                name: "上课学生人数上限*",
+                name: "人数上限*",
                 display: true,
                 tip: "请输入总人数",
                 value: "",
@@ -207,7 +208,7 @@ Page({
 
             // 初始化重复规则
             app.tempData.recurringRule = currentCourse.recurringRule;
-            if (app.tempData.recurringRule.constructor === Array ) {
+            if (app.tempData.recurringRule.constructor === Array) {
                 if (app.tempData.recurringRule.length > 0) {
                     courseItems.recurringRule.value = "每" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChDate).join("、");
                 }
@@ -220,7 +221,7 @@ Page({
                 timeList: timeList,
             });
         } else {
-            if (app.tempData.recurringRule.constructor === Array ) {
+            if (app.tempData.recurringRule.constructor === Array) {
                 if (app.tempData.recurringRule.length > 0) {
                     courseItems.recurringRule.value = "每" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChDate).join("、");
                 }
@@ -279,7 +280,7 @@ Page({
         // console.log(e.currentTarget.id, e.detail.value);
         let courseItems = this.data.courseItems;
 
-        if (e.currentTarget.id === "address") {
+        if (e.currentTarget.id === "address_name") {
             courseItems.location.name.value = e.detail.value;
         } else if (e.currentTarget.id === "room") {
             courseItems.location.room.value = e.detail.value;
@@ -327,40 +328,39 @@ Page({
 
         let course = new DataStructure.Course();
 
+        let title = "缺少必要信息";
+        let content = "";
+
         // 1、先检查信息，直接根据courseItems来判断信息
         for (let item in courseItems) {
             console.log(item, ":", courseItems[item]);
-            if (item === "location") {
-                if (courseItems.location.name.value === "") {
-                    let tips = this.data.courseItems.location.name.name.split("*")[0];
-                    wx.showModal({
-                        title: '缺少必要信息',
-                        content: "请输入" + tips,
-                    });
-                    return;
-                }
-                if (courseItems.location.room.value === "") {
-                    let tips = this.data.courseItems.location.room.name.split("*")[0];
-                    wx.showModal({
-                        title: '缺少必要信息',
-                        content: "请输入" + tips,
-                    });
-                    return;
-                }
-            } else if (item !== "description") {
-                if (courseItems[item].value === "" || courseItems[item].value === "请选择") {
-                    for (let courseItem in this.data.courseItems) {
-                        if (courseItem === item) {
-                            let tips = this.data.courseItems[courseItem].name.split("*")[0];
-                            wx.showModal({
-                                title: '缺少必要信息',
-                                content: "请输入" + tips,
-                            });
-                            return;
-                        }
+
+            if (content !== "") {
+                Util.showModal(title, content);
+                return;
+            } else {
+                if (item === "location") {
+                    if (courseItems.location.name.value === "") {
+                        content = "请输入" + this.data.courseItems.location.name.name.split("*")[0];
+
+                    }
+                    if (courseItems.location.room.value === "") {
+                        content = "请输入" + this.data.courseItems.location.room.name.split("*")[0];
+                    }
+                } else if (item === "duration") {
+                    if (parseInt(courseItems.duration.value) <= 0) {
+                        content = "课程时长不能为零";
+                    }
+                } else if (item !== "description") {
+                    if (courseItems[item].value === "" ||
+                        courseItems[item].value === "请选择" ||
+                        courseItems[item].value === "请输入") {
+                        content = "请输入" + courseItems[item].name.split("*")[0];
+
                     }
                 }
             }
+
         }
 
         // 2、收集信息，有为空的即弹出信息提示用户

@@ -58,6 +58,13 @@ function isEqual(a, b) {
     return _.isEqual(a, b);
 }
 
+function showModal(title, content) {
+    wx.showModal({
+        title: title,
+        content: content,
+    });
+}
+
 /**
  * 同步爱撸铁设计的动作信息
  * @param host
@@ -396,6 +403,7 @@ module.exports = {
     deepClone: deepClone,
     isEqual: isEqual,
     underscore: _,
+    showModal: showModal,
     syncData: syncData,
 
 };

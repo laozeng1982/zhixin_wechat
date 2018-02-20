@@ -218,7 +218,7 @@ Page({
             }
         }
 
-        console.log("Selected Date's CourseSet: ", selectedDateCourse);
+        console.log("Selected Date's CourseSet: ", selectedDate.value, selectedDateCourse);
 
         this.setData({
             selectedDateCourse: selectedDateCourse,

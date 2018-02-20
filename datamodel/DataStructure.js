@@ -186,7 +186,7 @@ class Course {
         this.endDate = "请选择";    //(Calendar, optional),   （本课程结束日期，字符串，必须，默认：空）
 
         this.startTime = "09:00";    //(string, optional),   每一次课的开始时间，必须，比如晚上19:00
-        this.duration = -1;    //(integer, optional), （一次课的时间，整形，必填，默认：空）
+        this.duration = 45;    //(integer, optional), （一次课的时间，整形，必填，默认：空）
 
         this.recurringRule = "请选择";    //(string, optional),   （本课程周期重复的规则，整形，必须，默认：空）
         // this.recurringRuleString = "请选择";    // UI增加部分，仅作显示用
