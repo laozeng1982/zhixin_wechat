@@ -3,6 +3,7 @@
 
 import DataStructure from '../../../datamodel/DataStructure'
 import StorageUtils from '../../../utils/StorageUtils'
+import DateTimeUtils from '../../../utils/DateTimeUtils'
 
 const app = getApp();
 
@@ -25,21 +26,43 @@ Page({
                 value: "",
 
             },
-            address: {
+            location: {
                 // 1
-                id: "address",
-                name: "上课地址*",
-                display: true,
-                tip: "请输入或选择",
-                value: "请输入或选择",
-            },
-            room: {
-                // 2
-                id: "room",
-                name: "教室地址*",
-                display: true,
-                tip: "请输入",
-                value: "请输入",
+                latitude: {
+                    id: "latitude",
+                    name: "纬度",
+                    display: true,
+                    tip: "请输入或选择",
+                    value: "",
+                },
+                longitude: {
+                    id: "longitude",
+                    name: "经度",
+                    display: true,
+                    tip: "请输入或选择",
+                    value: "",
+                },
+                address: {
+                    id: "address",
+                    name: "详细地址*",
+                    display: true,
+                    tip: "请输入或选择",
+                    value: "",
+                },
+                name: {
+                    id: "name",
+                    name: "上课地址*",
+                    display: true,
+                    tip: "请输入或选择",
+                    value: "",
+                },
+                room: {
+                    id: "room",
+                    name: "教室地址*",
+                    display: true,
+                    tip: "请输入",
+                    value: "",
+                },
             },
             startDate: {
                 // 3
@@ -106,12 +129,14 @@ Page({
         // 以下用于控件临时显示
         timeList: [],
         timeListIdx: 0,
-        selectedLocation: {}
+        selectedLocation: {},
+
+        fromHide: false
 
     },
 
     /**
-     *
+     * 第一次进入该页面时，根据本地数据初始化
      * @param options
      */
     loadCourse: function (options) {
@@ -159,30 +184,52 @@ Page({
     initPageCourse: function () {
         console.log("Course Page onShow call");
 
-        let currentCourse = this.data.currentCourse;
-
+        // 如果是由次级页面跳转回来，则不需要重新加载数据
         let courseItems = this.data.courseItems;
 
-        // 2、根据课程初始化页面数据
-        for (let item in currentCourse) {
-            for (let displayItem in courseItems)
-                if (displayItem === item) {
-                    courseItems[displayItem].value = currentCourse[item];
+        if (!this.data.fromHide) {
+            let currentCourse = this.data.currentCourse;
+
+            // 2、根据课程初始化页面数据，需要分别处理上课地址和重复规律
+            for (let item in currentCourse) {
+                for (let displayItem in courseItems)
+                    if (displayItem === item && displayItem !== "location") {
+                        courseItems[displayItem].value = currentCourse[item];
+                    }
+            }
+
+            // 初始化上课地址和教室
+            courseItems.location.latitude.value = currentCourse.location.latitude;
+            courseItems.location.longitude.value = currentCourse.location.longitude;
+            courseItems.location.address.value = currentCourse.location.address;
+            courseItems.location.name.value = currentCourse.location.name;
+            courseItems.location.room.value = currentCourse.location.room;
+
+            // 初始化重复规则
+            app.tempData.recurringRule = currentCourse.recurringRule;
+            if (app.tempData.recurringRule.constructor === Array ) {
+                if (app.tempData.recurringRule.length > 0) {
+                    courseItems.recurringRule.value = "每" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChDate).join("、");
                 }
+            }
+
+            let timeList = [45, 50, 55, 60, 75, 90, 100, 120];
+
+            this.setData({
+                courseItems: courseItems,
+                timeList: timeList,
+            });
+        } else {
+            if (app.tempData.recurringRule.constructor === Array ) {
+                if (app.tempData.recurringRule.length > 0) {
+                    courseItems.recurringRule.value = "每" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChDate).join("、");
+                }
+            }
+            this.setData({
+                courseItems: courseItems,
+            });
         }
 
-        let selectedLocation = currentCourse.location;
-
-        courseItems["address"].value = currentCourse.location.address;
-        courseItems["room"].value = currentCourse.location.room;
-
-        let timeList = [45, 50, 55, 60, 75, 90, 100, 120];
-
-        this.setData({
-            courseItems: courseItems,
-            timeList: timeList,
-            selectedLocation: selectedLocation,
-        });
     },
 
     onSetRecurringRules: function (e) {
@@ -232,12 +279,19 @@ Page({
         // console.log(e.currentTarget.id, e.detail.value);
         let courseItems = this.data.courseItems;
 
-        courseItems[e.currentTarget.id].value = e.detail.value;
+        if (e.currentTarget.id === "address") {
+            courseItems.location.name.value = e.detail.value;
+        } else if (e.currentTarget.id === "room") {
+            courseItems.location.room.value = e.detail.value;
+        } else {
+            courseItems[e.currentTarget.id].value = e.detail.value;
+        }
 
         this.setData({
             courseItems: courseItems
         });
 
+        // console.log(courseItems);
     },
 
     /**
@@ -245,27 +299,20 @@ Page({
      */
     onChooseLocation: function () {
         let host = this;
-        let selectedLocation = this.data.selectedLocation;
         let courseItems = this.data.courseItems;
-        console.log(this.data.courseItems);
 
         wx.chooseLocation({
             success: function (res) {
-                selectedLocation.latitude = res.latitude;
-                selectedLocation.longitude = res.longitude;
-                selectedLocation.address = res.address;
-                selectedLocation.name = res.name;
-
-                courseItems.address.value = res.name;
-
-                console.log(courseItems);
+                courseItems.location.latitude.value = res.latitude;
+                courseItems.location.longitude.value = res.longitude;
+                courseItems.location.address.value = res.address;
+                courseItems.location.name.value = res.name;
 
                 host.setData({
-                    selectedLocation: selectedLocation,
                     courseItems: courseItems
                 });
 
-                console.log("Get Location:", host.data.selectedLocation);
+                console.log("Get Location:", courseItems.location);
             }
         });
 
@@ -275,53 +322,34 @@ Page({
      * 提交表单
      */
     onFormSubmit: function (e) {
-        console.log(e.detail.value);
+        let courseItems = this.data.courseItems;
+        console.log(courseItems);
+
         let course = new DataStructure.Course();
 
-        // 1、先收集信息，因为重复规则用的view控件，无法在e.detail.value中体现
-        for (let item in e.detail.value) {
-            console.log(item, ":", e.detail.value[item]);
-
-            // 如果有，直接添加
-            if (course.hasOwnProperty(item)) {
-                course[item] = e.detail.value[item];
-            } else if (item === "address") {
-                // 经纬度直接拷贝
-                let selectedLocation = this.data.selectedLocation;
-                course.location.latitude = selectedLocation.latitude;
-                course.location.longitude = selectedLocation.longitude;
-
-                // 如果用户手动输入，则需要拷贝输入的内容
-                if (selectedLocation.address === "") {
-                    course.location.address = e.detail.value[item];
-                } else {
-                    course.location.address = selectedLocation.address;
+        // 1、先检查信息，直接根据courseItems来判断信息
+        for (let item in courseItems) {
+            console.log(item, ":", courseItems[item]);
+            if (item === "location") {
+                if (courseItems.location.name.value === "") {
+                    let tips = this.data.courseItems.location.name.name.split("*")[0];
+                    wx.showModal({
+                        title: '缺少必要信息',
+                        content: "请输入" + tips,
+                    });
+                    return;
                 }
-
-                if (selectedLocation.name === "") {
-                    course.location.name = e.detail.value[item];
-                } else {
-                    course.location.name = selectedLocation.name;
+                if (courseItems.location.room.value === "") {
+                    let tips = this.data.courseItems.location.room.name.split("*")[0];
+                    wx.showModal({
+                        title: '缺少必要信息',
+                        content: "请输入" + tips,
+                    });
+                    return;
                 }
-
-            } else if (item === "room") {
-                course.location.room = e.detail.value[item];
-            }
-
-            if (item !== "description") {
-
-            }
-        }
-
-        console.log(course);
-
-        ///2、先检查信息，有为空的即弹出信息提示用户
-        for (let item in e.detail.value) {
-            console.log(item, ":", e.detail.value[item]);
-            if (item !== "description") {
-                if (e.detail.value[item] === "") {
+            } else if (item !== "description") {
+                if (courseItems[item].value === "" || courseItems[item].value === "请选择") {
                     for (let courseItem in this.data.courseItems) {
-                        // console.log("courseItem", courseItem);
                         if (courseItem === item) {
                             let tips = this.data.courseItems[courseItem].name.split("*")[0];
                             wx.showModal({
@@ -335,13 +363,35 @@ Page({
             }
         }
 
+        // 2、收集信息，有为空的即弹出信息提示用户
+        for (let item in courseItems) {
+            // 如果有，直接添加
+            if (course.hasOwnProperty(item)) {
+                if (item === "location") {
+                    // 经纬度直接拷贝
+                    course.location.latitude = courseItems[item].latitude.value;
+                    course.location.longitude = courseItems[item].longitude.value;
+                    course.location.address = courseItems[item].address.value;
+                    course.location.name = courseItems[item].name.value;
+                    course.location.room = courseItems[item].room.value;
+
+                } else if (item === "recurringRule") {
+                    course.recurringRule = app.tempData.recurringRule;
+                } else {
+                    course[item] = courseItems[item].value;
+                }
+            }
+        }
+
+        console.log(course);
+
         // 3、根据开课的时间来判断状态
         if (course.status === "") {
             course.status = "Preparing";
         }
 
         // 4.1、根据页面进入情况整理需要保存的UserInfo
-        let userInfo = wx.getStorageSync("WeChatUser");
+        let userInfo = StorageUtils.loadUserInfo();
         if (this.data.options.model === "newCourse") {
             // userInfo.teacherCourseSet.pop();
             userInfo.teacherCourseSet.push(course);
@@ -351,7 +401,7 @@ Page({
         }
 
         // 4.2、保存
-        StorageUtils.saveData(app.Settings.Storage.WeChatUser, userInfo);
+        StorageUtils.saveUserInfo(userInfo);
 
         wx.navigateBack({});
     },
@@ -378,7 +428,7 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        // 根据入口设置标签栏
+        // 1、根据入口设置标签栏
         let options = this.data.options;
         let coursePageTitle = "";
         if (options.model === "newCourse") {
@@ -391,7 +441,7 @@ Page({
             title: coursePageTitle,
         });
 
-        // 初始化页面
+        ///2、初始化页面
         this.initPageCourse(options);
 
         this.setData({
@@ -403,7 +453,10 @@ Page({
      * 生命周期函数--监听页面隐藏
      */
     onHide: function () {
-
+        console.log("onHide");
+        this.setData({
+            fromHide: true
+        });
     },
 
     /**

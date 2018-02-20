@@ -198,8 +198,7 @@ App({
     tempData: {
         unionId: "",
         currentCourseSubTab: "all_course",
-        recurringRulesArray: [],
-        recurringRulesString: "",
+        recurringRule: [],
         location: {}
     },
 

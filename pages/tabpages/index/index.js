@@ -151,10 +151,13 @@ Page({
 
         switch (e.currentTarget.id) {
             case "all_course":
+                app.tempData.currentCourseSubTab = "all_course";
                 break;
             case "everyday_lesson":
+                app.tempData.currentCourseSubTab = "everyday_lesson";
                 break;
             case "add_new":
+                app.tempData.currentCourseSubTab = "all_course";
                 this.createNewCourse();
                 break;
             default:
@@ -175,7 +178,7 @@ Page({
      * @param e
      */
     onCourseSelected: function (e) {
-        console.log(e);
+        // console.log(e);
         let url = '../../normalpages/course/course' + "?model=modifyCourseId_" + e.currentTarget.id;
 
         wx.navigateTo({
@@ -318,8 +321,6 @@ Page({
         let current = parseInt(e.detail.current);
         let lastCalenderId = this.data.lastCalendarId;
 
-        // console.log("current: ", current, " lastCalenderId: ", lastCalenderId);
-
         let isNextMonth = false;
 
         // 判断是左滑还是右划，左滑表示上个月
@@ -422,17 +423,17 @@ Page({
         // 判断是否需要显示新建课程
         let courseTabData = this.data.courseTabData;
         if (userInfoLocal.teacherCourseSet.length > 0) {
-            for (let item of courseTabData) {
-                if (item.type === "add_new") {
-                    item.display = true;
-                }
-                // 其他页面跳转回来时，当前显示哪一个次级Tab
-                if (item.type === "all_course" && app.tempData.currentCourseSubTab === "all_course") {
-                    item.selected = true;
-                } else if (item.type === "everyday_lesson" && app.tempData.currentCourseSubTab === "everyday_lesson") {
-                    item.selected = true;
-                }
+
+            // 其他页面跳转回来时，当前显示哪一个次级Tab
+            if (app.tempData.currentCourseSubTab === "all_course") {
+                courseTabData[0].selected = true;
+                courseTabData[1].selected = false;
+            } else if (app.tempData.currentCourseSubTab === "everyday_lesson") {
+                courseTabData[0].selected = false;
+                courseTabData[1].selected = true;
             }
+            courseTabData[2].display = true;
+
         }
 
         this.setData({

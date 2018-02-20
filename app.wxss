@@ -191,7 +191,7 @@ button {
     background: #fff;
     display: flex;
     font-size: 32rpx;
-    color: #888;
+    /* color: #888; */
     flex-direction: row;
     align-content: center;
     align-items: center;

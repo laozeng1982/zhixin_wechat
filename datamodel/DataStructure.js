@@ -189,6 +189,7 @@ class Course {
         this.duration = -1;    //(integer, optional), （一次课的时间，整形，必填，默认：空）
 
         this.recurringRule = "请选择";    //(string, optional),   （本课程周期重复的规则，整形，必须，默认：空）
+        // this.recurringRuleString = "请选择";    // UI增加部分，仅作显示用
         this.recurringTimes = "";    //(integer, optional), （本课程重复的次数，整形，可选，默认：空）
 
         this.grade = "";    //(string, optional),   （本课程等级，字符串，可选，默认：空）

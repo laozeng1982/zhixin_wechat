@@ -7,6 +7,48 @@ function formatNumber(n) {
     return n[1] ? n : '0' + n;
 }
 
+function transEnDate2ChDate(date) {
+
+    switch (date) {
+        case "Sun":
+            return "周日";
+        case "Mon":
+            return "周一";
+        case "Tue":
+            return "周二";
+        case "Wed":
+            return "周三";
+        case "Thu":
+            return "周四";
+        case "Fri":
+            return "周五";
+        case "Sat":
+            return "周六";
+    }
+
+}
+
+function transNumDate2ChDate(date) {
+
+    switch (date) {
+        case 0:
+            return "周日";
+        case 1:
+            return "周一";
+        case 2:
+            return "周二";
+        case 3:
+            return "周三";
+        case 4:
+            return "周四";
+        case 5:
+            return "周五";
+        case 6:
+            return "周六";
+    }
+
+}
+
 function formatTime(time) {
     if (typeof time !== 'number' || time < 0) {
         return time;
@@ -333,7 +375,7 @@ function getDateList(year, month) {
     //     dateList: dateList
     // });
 
-    console.log("dateList:", dateList);
+    // console.log("dateList:", dateList);
 
     return dateList;
 }
@@ -377,6 +419,8 @@ function moveMonth(isNext) {
 module.exports = {
     formatNumber: formatNumber,
     formatTime: formatTime,
+    transEnDate2ChDate: transEnDate2ChDate,
+    transNumDate2ChDate: transNumDate2ChDate,
     formatTimeToString: formatTimeToString,
     formatDateToString: formatDateToString,
     getDateFromString: getDateFromString,

@@ -1,4 +1,5 @@
 // pages/normalpages/set_recurring/set_recurring.js
+import StorageUtils from '../../../utils/StorageUtils'
 
 const app = getApp();
 
@@ -11,15 +12,27 @@ Page({
         weekVisual: [
             {id: 0, value: '日', longValue: "周日", name: "Sun", selected: false},
             {id: 1, value: '一', longValue: "周一", name: "Mon", selected: false},
-            {id: 2, value: '二', longValue: "周二", name: "Tues", selected: false},
+            {id: 2, value: '二', longValue: "周二", name: "Tue", selected: false},
             {id: 3, value: '三', longValue: "周三", name: "Wed", selected: false},
             {id: 4, value: '四', longValue: "周四", name: "Thu", selected: false},
             {id: 5, value: '五', longValue: "周五", name: "Fri", selected: false},
             {id: 6, value: '六', longValue: "周六", name: "Sat", selected: false}
         ],
 
-        selectedDateName: [],
+        selectedDateArray: [],
         selectedDateLongValue: []
+    },
+
+    initPageData: function () {
+        let weekVisual = this.data.weekVisual;
+        for (let item of weekVisual) {
+            item.selected = app.tempData.recurringRule.includes(item.name);
+
+        }
+
+        this.setData({
+            weekVisual: weekVisual
+        });
     },
 
     /**
@@ -29,30 +42,19 @@ Page({
      */
     onSelectDay: function (e) {
         let weekVisual = this.data.weekVisual;
-        let selectedDateName = [];
-        let selectedDateLongValue = [];
         let selectedDateIdx = parseInt(e.currentTarget.id);
 
-        console.log("selected: ", selectedDateIdx, ", ",
-            this.data.weekVisual[selectedDateIdx].name, ", ", this.data.weekVisual[selectedDateIdx].value);
+        // console.log("selected: ", selectedDateIdx, ", ",
+        //     this.data.weekVisual[selectedDateIdx].name, ", ", this.data.weekVisual[selectedDateIdx].value);
 
         // 高亮选中日期，提取选择日期
         for (let item of weekVisual) {
             if (item.id === selectedDateIdx) {
                 item.selected = !item.selected;
             }
-
-            if (item.selected) {
-                selectedDateName.push(item.name);
-                selectedDateLongValue.push(item.longValue);
-            }
         }
 
-        console.log("selectedDateName:", selectedDateName);
-
         this.setData({
-            selectedDateName: selectedDateName,
-            selectedDateLongValue: selectedDateLongValue,
             weekVisual: weekVisual,
         });
 
@@ -62,9 +64,20 @@ Page({
      * 确定，提取周期信息
      */
     onConfirm: function () {
-        let selectedDateName = this.data.selectedDateName;
-        let selectedDateLongValue = this.data.selectedDateLongValue;
-        app.tempData.recurringRulesString = selectedDateLongValue.join("、");
+        let weekVisual = this.data.weekVisual;
+        let selectedDateArray = [];
+        let selectedDateLongValue = [];
+
+        // 提取选择日期
+        for (let item of weekVisual) {
+            if (item.selected) {
+                selectedDateArray.push(item.name);
+                selectedDateLongValue.push(item.longValue);
+            }
+        }
+
+        app.tempData.recurringRule = selectedDateArray;
+        console.log(app.tempData.recurringRule, selectedDateLongValue);
         wx.navigateBack({});
     },
 
@@ -73,7 +86,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-
+        this.initPageData();
     },
 
     /**
