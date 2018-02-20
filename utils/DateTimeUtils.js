@@ -7,7 +7,7 @@ function formatNumber(n) {
     return n[1] ? n : '0' + n;
 }
 
-function transEnDate2ChDate(date) {
+function transEnDate2ChLongDate(date) {
 
     switch (date) {
         case "Sun":
@@ -24,6 +24,48 @@ function transEnDate2ChDate(date) {
             return "周五";
         case "Sat":
             return "周六";
+    }
+
+}
+
+function transEnDate2ChShortDate(date) {
+
+    switch (date) {
+        case "Sun":
+            return "日";
+        case "Mon":
+            return "一";
+        case "Tue":
+            return "二";
+        case "Wed":
+            return "三";
+        case "Thu":
+            return "四";
+        case "Fri":
+            return "五";
+        case "Sat":
+            return "六";
+    }
+
+}
+
+function transEnDate2NumDate(date) {
+
+    switch (date) {
+        case "Sun":
+            return 0;
+        case "Mon":
+            return 1;
+        case "Tue":
+            return 2;
+        case "Wed":
+            return 3;
+        case "Thu":
+            return 4;
+        case "Fri":
+            return 5;
+        case "Sat":
+            return 6;
     }
 
 }
@@ -45,6 +87,27 @@ function transNumDate2ChDate(date) {
             return "周五";
         case 6:
             return "周六";
+    }
+
+}
+
+function transNumDate2EnDate(date) {
+
+    switch (date) {
+        case 0:
+            return "Sun";
+        case 1:
+            return "Mon";
+        case 2:
+            return "Tue";
+        case 3:
+            return "Wed";
+        case 4:
+            return "Thu";
+        case 5:
+            return "Fri";
+        case 6:
+            return "Sat";
     }
 
 }
@@ -222,7 +285,7 @@ function checkDate(startDate, checkDate, endDate) {
  * 1、获取每个的显示列表
  * 2、搜索、标记日期状态
  */
-function getDateList(year, month) {
+function getDateList(year, month, courseSet) {
     let week;
     // 如果是闰年，则2月有29天
     let monthDaysCountArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -337,25 +400,27 @@ function getDateList(year, month) {
     }
 
     // 准备有课程日期的标注数据
-    // console.log(app.currentPlan);
-    // for (let week = 0; week < dateList.length; week++) {
-    //     for (let day = 0; day < dateList[week].length; day++) {
-    //         // 先判断这天是否在周期内
-    //         if (checkDate(app.currentPlan.fromDate, dateList[week][day].value, app.currentPlan.endDate)) {
-    //             let partArr = [];
-    //             for (let circleDay of app.currentPlan.circleDaySet) {
-    //                 if (circleDay.id === dateList[week][day].week) {
-    //                     dateList[week][day].hasCourse = true;
-    //                     dateList[week][day].courseArray.push(circleDay.name);
-    //                     for (let exercise of circleDay.exerciseSet) {
-    //                         partArr.push(exercise.action.partSet[0]);
-    //                     }
-    //                 }
-    //             }
-    //             dateList[week][day].courseString = app.Util.makePartString(partArr);
-    //         }
-    //     }
-    // }
+    console.log(courseSet);
+    let courseIdx = 0;
+    for (let course of courseSet) {
+        courseIdx++;
+        for (let week = 0; week < dateList.length; week++) {
+            for (let day = 0; day < dateList[week].length; day++) {
+                // 先判断这天是否在周期内
+                if (checkDate(course.startDate, dateList[week][day].value, course.endDate)) {
+
+                    if (course.recurringRule.includes(transNumDate2EnDate(dateList[week][day].week))) {
+                        // console.log(dateList[week][day].week, transNumDate2EnDate(dateList[week][day].week));
+                        dateList[week][day].hasCourse = true;
+                        dateList[week][day].courseArray.push(courseIdx);
+                    }
+
+                    dateList[week][day].courseString = dateList[week][day].courseArray.join("、");
+                }
+            }
+        }
+    }
+
 
     // 打印检验
     // console.log("log begins here~~~~~~~~~~~~~~~~~~~~~");
@@ -371,12 +436,6 @@ function getDateList(year, month) {
     //     }
     // }
 
-    // host.setData({
-    //     dateList: dateList
-    // });
-
-    // console.log("dateList:", dateList);
-
     return dateList;
 }
 
@@ -384,7 +443,8 @@ function getDateList(year, month) {
 module.exports = {
     formatNumber: formatNumber,
     formatTime: formatTime,
-    transEnDate2ChDate: transEnDate2ChDate,
+    transEnDate2ChLongDate: transEnDate2ChLongDate,
+    transEnDate2ChShortDate: transEnDate2ChShortDate,
     transNumDate2ChDate: transNumDate2ChDate,
     formatTimeToString: formatTimeToString,
     formatDateToString: formatDateToString,

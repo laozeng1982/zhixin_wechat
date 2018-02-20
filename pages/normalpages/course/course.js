@@ -127,10 +127,24 @@ Page({
 
         },
 
+        // 以下用于重复规则设置
+        showRecurringRule: false,
+        weekVisual: [
+            {id: 0, value: '日', longValue: "周日", name: "Sun", selected: false},
+            {id: 1, value: '一', longValue: "周一", name: "Mon", selected: false},
+            {id: 2, value: '二', longValue: "周二", name: "Tue", selected: false},
+            {id: 3, value: '三', longValue: "周三", name: "Wed", selected: false},
+            {id: 4, value: '四', longValue: "周四", name: "Thu", selected: false},
+            {id: 5, value: '五', longValue: "周五", name: "Fri", selected: false},
+            {id: 6, value: '六', longValue: "周六", name: "Sat", selected: false}
+        ],
+
+        selectedDateArray: [],
+        selectedDateLongValue: [],
+
         // 以下用于控件临时显示
         timeList: [],
         timeListIdx: 0,
-        selectedLocation: {},
 
         fromHide: false
 
@@ -210,7 +224,7 @@ Page({
             app.tempData.recurringRule = currentCourse.recurringRule;
             if (app.tempData.recurringRule.constructor === Array) {
                 if (app.tempData.recurringRule.length > 0) {
-                    courseItems.recurringRule.value = "每" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChDate).join("、");
+                    courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
                 }
             }
 
@@ -223,7 +237,7 @@ Page({
         } else {
             if (app.tempData.recurringRule.constructor === Array) {
                 if (app.tempData.recurringRule.length > 0) {
-                    courseItems.recurringRule.value = "每" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChDate).join("、");
+                    courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
                 }
             }
             this.setData({
@@ -233,10 +247,49 @@ Page({
 
     },
 
-    onSetRecurringRules: function (e) {
-        wx.navigateTo({
-            url: '../set_recurring/set_recurring',
+    onSelecRecurringDay: function (e) {
+        let weekVisual = this.data.weekVisual;
+        let selectedDateIdx = parseInt(e.currentTarget.id);
+        let selectedDateArray = [];
+        let selectedDateLongValue = [];
+        let courseItems = this.data.courseItems;
+
+        // 高亮选中日期，提取选择日期
+        for (let item of weekVisual) {
+            if (item.id === selectedDateIdx) {
+                item.selected = !item.selected;
+            }
+
+            if (item.selected) {
+                selectedDateArray.push(item.name);
+                selectedDateLongValue.push(item.longValue);
+            }
+        }
+
+        app.tempData.recurringRule = selectedDateArray;
+
+        if (app.tempData.recurringRule.constructor === Array) {
+            if (app.tempData.recurringRule.length > 0) {
+                courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
+            }
+        }
+
+        this.setData({
+            weekVisual: weekVisual,
+            courseItems: courseItems
         });
+
+    },
+
+    onSetRecurringRules: function (e) {
+        let showRecurringRule = !this.data.showRecurringRule;
+
+        this.setData({
+            showRecurringRule: showRecurringRule
+        });
+        // wx.navigateTo({
+        //     url: '../set_recurring/set_recurring',
+        // });
     },
 
     /**

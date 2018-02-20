@@ -44,9 +44,6 @@ Page({
         let weekVisual = this.data.weekVisual;
         let selectedDateIdx = parseInt(e.currentTarget.id);
 
-        // console.log("selected: ", selectedDateIdx, ", ",
-        //     this.data.weekVisual[selectedDateIdx].name, ", ", this.data.weekVisual[selectedDateIdx].value);
-
         // 高亮选中日期，提取选择日期
         for (let item of weekVisual) {
             if (item.id === selectedDateIdx) {

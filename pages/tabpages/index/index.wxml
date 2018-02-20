@@ -17,11 +17,22 @@
 
         <!-- 次级标签 -->
         <view class='course-tab-container'>
-            <label wx:for="{{courseTabData}}" wx:key="{{index}}">
-                <view wx:if="{{item.display}}" id="{{item.type}}" class="course-tab-item {{item.selected?'':'unselected'}}" bindtap='onCourseTabItemSelected'>
-                    {{item.name}}
+            <!-- 左边 -->
+            <view class='course-tab-left'>
+                <view wx:if="{{courseTabData[0].display}}" id="{{courseTabData[0].type}}" class="course-tab-item-left {{courseTabData[0].selected?'':'unselected'}}" bindtap='onCourseTabItemSelected'>
+                    {{courseTabData[0].name}}({{userInfo.teacherCourseSet.length}})
                 </view>
-            </label>
+                <view class="course-tab-item-split"> | </view>
+                <view wx:if="{{courseTabData[1].display}}" id="{{courseTabData[1].type}}" class="course-tab-item-left {{courseTabData[1].selected?'':'unselected'}}" bindtap='onCourseTabItemSelected'>
+                    {{courseTabData[1].name}}
+                </view>
+            </view>
+            <view class='course-tab-right'>
+                <view wx:if="{{courseTabData[2].display}}" id="{{courseTabData[2].type}}" class="course-tab-item-right {{courseTabData[2].selected?'':'unselected'}}" bindtap='onCourseTabItemSelected'>
+                    {{courseTabData[2].name}}
+                </view>
+            </view>
+
         </view>
 
         <!-- 所有课程标签 -->
@@ -40,34 +51,33 @@
             </view>
 
             <!-- 1.2、有课程，显示列表 -->
-            <scroll-view wx:else class="scroll-view-container" scroll-y >
-                <view id='{{index}}' wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container' bindtap='onCourseSelected'>
+            <scroll-view wx:else class="scroll-view-container" scroll-y>
+                <view wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container'>
                     <!-- 第一行 -->
-                    <view class='course-list-item-container'>
+                    <view id='{{index}}' class='course-list-item-container' bindtap='onCourseSelected'>
                         <view class='course-list-item-name'>
-                            课程名字：
-                        </view>
-                        <view class='course-list-item-value'>
                             {{item.name}}
+                        </view>
+                        <view class='course-list-item-details'>
+                            详情 >
                         </view>
                     </view>
                     <!-- 第二行 -->
-                    <view class='course-list-item-container'>
-                        <view class='course-list-item-name'>
-                            上课时间：
-                        </view>
-                        <view class='course-list-item-value'>
-                            {{item.startTime}}
-                        </view>
-                    </view>
-                    <!-- 第三行 -->
-                    <view class='course-list-item-container'>
-                        <view class='course-list-item-name'>
-                            上课地址：
-                        </view>
-                        <view class='course-list-item-value'>
-                            {{item.location.address}}
-                        </view>
+                    <view id='{{index}}' class='course-list-item-container'>
+
+                        <button class='course-list-item-action' open-type='share' bindtap='onForwardCourse'>
+                            <image class='forward-image' src='../../image/forward.png'></image>
+                            <view>
+                                邀请学生加入课程
+                            </view>
+                        </button>
+
+                        <button class='course-list-item-action' open-type='share' bindtap='onInviteTeacher'>
+                            <image class='forward-image' src='../../image/forward.png'></image>
+                            <view>
+                                邀请教师共同管理
+                            </view>
+                        </button>
                     </view>
                     <view class='gray-space-small'></view>
                 </view>
@@ -123,7 +133,7 @@
 
                                         <!-- 日历上每天的日期 -->
                                         <view class='calender-date-item'>
-                                            <view class="{{item.value==selectedDate?'active-date':'nomal-date'}} {{item.inThisMonth?'':'not-in-this-month-date'}}">
+                                            <view class="{{item.inThisMonth?'':'not-in-this-month-date'}} {{item.value==selectedDate?'active-date':'nomal-date'}}">
                                                 {{item.date}}
                                             </view>
                                         </view>
@@ -153,7 +163,7 @@
 
                             <!-- 日历上每天的日期 -->
                             <view class='calender-date-item'>
-                                <view class="{{item.value==selectedDate?'active-date':'nomal-date'}} {{item.inThisMonth?'':'not-in-this-month-date'}}">
+                                <view class="{{item.inThisMonth?'':'not-in-this-month-date'}} {{item.value==selectedDate?'active-date':'nomal-date'}}">
                                     {{item.date}}
                                 </view>
                             </view>
@@ -168,28 +178,48 @@
 
                 <view class='gray-space-small'></view>
 
-                <!-- 当点击日历时，这里显示部位和动作信息 -->
-                <scroll-view class="scrollviewVertical_Preview" scroll-y="true">
-                    <!--  循环每个部位 -->
-                    <view id="{{item.name}}" class='partContainerColumn' wx:for="{{selectedDateCourse}}" wx:key="{{index}}">
-                        <text class='textBig'>{{item.name}}</text>
-                        <!-- 循环每个部位的动作 -->
-                        <view id="{{item.name}}" class='actionContainer padding' wx:for="{{item.exerciseSet}}" wx:key="{{index}}">
-                            <!-- 图片占位 -->
-                            <image class='actionImage' src="../../{{item.action.imageUrl}}"></image>
-
-                            <view class='actionItem'>
-                                <view class='header'>
-                                    <view>{{item.action.name}}</view>
-                                </view>
+                <!-- 当点击日历时，当天的具体课程 -->
+                <view wx:if="{{selectedDateCourse.length>0}}" class='course-content'>
+                    <view id='{{index}}' wx:for='{{selectedDateCourse}}' wx:key='{{index}}' class='course-content-container' bindtap='onLessonSelected'>
+                        <!-- 第一行 -->
+                        <view class='course-list-item-container'>
+                            <view class='lesson-list-item-name'>
+                                课程名字：
+                            </view>
+                            <view class='lesson-list-item-value'>
+                                {{item.name}}
+                            </view>
+                        </view>
+                        <!-- 第二行 -->
+                        <view class='course-list-item-container'>
+                            <view class='lesson-list-item-name'>
+                                上课时间：
+                            </view>
+                            <view class='lesson-list-item-value'>
+                                {{item.startTime}}
+                            </view>
+                        </view>
+                        <!-- 第三行 -->
+                        <view class='course-list-item-container'>
+                            <view class='lesson-list-item-name'>
+                                上课地址：
+                            </view>
+                            <view class='lesson-list-item-value'>
+                                {{item.location.name}}
                             </view>
                         </view>
                         <view class='gray-space-small'></view>
                     </view>
+                </view>
 
-                </scroll-view>
-
+                <view wx:else class='course-content'>
+                    <image class='image-coffee' src='../../image/coffee.png'/>
+                    <view>
+                        今天没有课哦~~~
+                    </view>
+                </view>
             </view>
+
         </view>
 
     </view>

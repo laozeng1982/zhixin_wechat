@@ -179,7 +179,7 @@ button {
     display: flex;
     align-items: center;
     width: 400rpx;
-     padding-right: 80rpx; 
+    padding-right: 80rpx;
     text-align: right;
     font-size: 32rpx;
     justify-content: flex-end;
@@ -187,7 +187,7 @@ button {
 
 .item-textarea {
     padding-left: 60rpx;
-    height: 200rpx;
+    height: 150rpx;
     background: #fff;
     display: flex;
     font-size: 32rpx;
@@ -335,4 +335,10 @@ button {
     font-size: 32rpx;
     flex-direction: row;
     align-content: center;
+}
+
+.btn-area {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

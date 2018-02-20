@@ -1,7 +1,7 @@
 <!--pages/course/course.wxml-->
 <view class="container">
 
-    <view class='gray-space'></view>
+    <view class='gray-space-small'></view>
 
     <!-- bindreset="onFormReset" -->
     <form class='form-container' bindsubmit="onFormSubmit">
@@ -58,17 +58,16 @@
                     <picker id="{{courseItems.startDate.id}}" name="{{courseItems.startDate.id}}" mode='date' start='{{courseItems.startDate.start}}' value='{{courseItems.startDate.value}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
                             <view class='item-value-picker-text'>{{courseItems.startDate.value}} </view>
+                            <!-- <image class='image-arrow' src='../../image/down_arrow.png'></image> -->
                         </view>
                     </picker>
 
-                    <!-- <view class='item-value-picker'> -->
-                    <view class='item-value-picker-text'>到</view>
-                    <!-- </view> -->
+                    <view class=''>到</view>
 
                     <picker id="{{courseItems.endDate.id}}" name="{{courseItems.endDate.id}}" mode='date' start='{{courseItems.endDate.start}}' value='{{courseItems.endDate.value}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>
                             <view class='item-value-picker-text'>{{courseItems.endDate.value}}</view>
-                            <image class='image-arrow' src='../../image/down_arrow.png'></image>
+                            <!-- <image class='image-arrow' src='../../image/down_arrow.png'></image> -->
                         </view>
                     </picker>
 
@@ -87,10 +86,17 @@
                     <view class='item-value-picker-text' style='width:20rpx'></view>
                     <view class='item-value-picker'>
                         <view class='item-value-picker-text'>{{courseItems.recurringRule.value}}</view>
-                        <image class='image-arrow' src='../../image/right_arrow.png'></image>
+                        <image class='image-arrow' src='../../image/down_arrow.png'></image>
                     </view>
                 </view>
+            </view>
 
+            <view class="item-box row" wx:if="{{showRecurringRule}}">
+                <view class="day-selector" >
+                    <view class="day-box" wx:for="{{weekVisual}}" wx:key="{{index}}" id="{{item.id}}" data-date="{{item}}" bindtap="onSelecRecurringDay">
+                        <view class="day-item {{item.selected?'day-item-selected':''}}">{{item.value}}</view>
+                    </view>
+                </view>
             </view>
 
             <!-- 每次课开始的时间 -->
@@ -118,7 +124,7 @@
                 </view>
 
                 <view class='item-value'>
-                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{courseItems.duration.value}}' bindinput='onInput'/>
+                    <input class='item-input-text' id="{{courseItems.duration.id}}" name="{{courseItems.duration.id}}" type='number' value='{{courseItems.duration.value}}' bindinput='onInput' />
 
                     <picker id="{{courseItems.duration.id}}" mode='selector' value="{{timeListIdx}}" range='{{timeList}}' bindchange='onPickerChange'>
                         <view class='item-value-picker'>

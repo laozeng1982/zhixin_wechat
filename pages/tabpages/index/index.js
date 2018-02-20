@@ -51,7 +51,7 @@ Page({
             },
             {
                 type: "add_new",
-                name: "创建课程",
+                name: "创建",
                 selected: true,
                 display: false
             }
@@ -98,7 +98,8 @@ Page({
         let currentMonth = today.getMonth() + 1;
         let currentDate = today.getDate();
 
-        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth);
+
+        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth, userInfo.teacherCourseSet);
 
         this.setData({
             today: today,
@@ -178,12 +179,21 @@ Page({
      * @param e
      */
     onCourseSelected: function (e) {
-        // console.log(e);
+        console.log(e);
         let url = '../../normalpages/course/course' + "?model=modifyCourseId_" + e.currentTarget.id;
 
         wx.navigateTo({
             url: url,
         });
+    },
+
+    onForwardCourse: function (e) {
+        console.log(e);
+    },
+
+    onInviteTeacher: function (e) {
+        console.log(e);
+
     },
 
     /**
@@ -196,6 +206,7 @@ Page({
         let selectedDate = e.currentTarget.dataset.date;
         let selectedWeek = [];
 
+        // 根据选中日期，选中周
         for (let week of this.data.dateList) {
             for (let day of week) {
                 if (day.value === selectedDate.value) {
@@ -212,10 +223,8 @@ Page({
 
         let userInfo = StorageUtils.loadUserInfo();
 
-        for (let course of userInfo.teacherCourseSet) {
-            if (DateTimeUtils.checkDate(course.startDate, selectedDate.value, course.endDate)) {
-                selectedDateCourse.push(course);
-            }
+        for (let idx of selectedDate.courseArray) {
+            selectedDateCourse.push(userInfo.teacherCourseSet[idx - 1]);
         }
 
         console.log("Selected Date's CourseSet: ", selectedDate.value, selectedDateCourse);
@@ -224,9 +233,16 @@ Page({
             selectedDateCourse: selectedDateCourse,
             selectedDate: selectedDate.value,
             selectedWeek: selectedWeek,
-            showMonthView: selectedDateCourse.length <= 0
+            showMonthView: false
         });
 
+    },
+
+    onLessonSelected: function (e) {
+        console.log("Selected course:", e.currentTarget.id);
+        wx.navigateTo({
+            url: '../../normalpages/lesson/lesson',
+        })
     },
 
     /**
@@ -262,7 +278,9 @@ Page({
 
         console.log("move to: ", currentYear, "年", currentMonth, "月", currentDate, "日");
 
-        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth);
+        let userInfo = StorageUtils.loadUserInfo();
+
+        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth, userInfo.teacherCourseSet);
 
         this.setData({
             currentYear: currentYear,
@@ -477,7 +495,7 @@ Page({
      * 用户点击右上角分享
      */
     onShareAppMessage: function () {
-
+        console.log("sharing");
     }
 
 })

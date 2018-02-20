@@ -150,7 +150,6 @@ Page({
                     case "parent":
                         roleSet.push({id: 4});
                         break;
-
                     default:
                         break;
                 }
@@ -169,7 +168,6 @@ Page({
         userInfo.dateOfBirth = e.detail.value.dateOfBirth;
 
         // 1.5、收集其他信息
-
         if (typeof e.detail.value.cnName !== 'undefined' && e.detail.value.cnName !== '') {
             userInfo.cnName = e.detail.value.cnName;
         }
@@ -183,20 +181,33 @@ Page({
             userInfo.email = e.detail.value.email;
         }
 
-        // 准备提交到后端服务器上的数据
-        let userData = {
-            nickName: userInfo.nickName,
-            cnName: userInfo.cnName,
-            enName: userInfo.enName,
-            gender: userInfo.gender,
-            dateOfBirth: userInfo.dateOfBirth,
-            mobileNumber: userInfo.mobileNumber,
-            email: userInfo.email,
-            roleSet: roleSet,
-            weChatInfo: {
-                unionId: app.tempData.unionId
-            }
-        };
+        // 准备提交到后端服务器上的数据，为空的数据不能上传
+        let userData;
+        if (this.data.options.model === "register") {
+            userData = {
+                nickName: userInfo.nickName,
+                gender: userInfo.gender,
+                roleSet: roleSet,
+                weChatInfo: {
+                    unionId: app.tempData.unionId
+                }
+            };
+        } else {
+            userData = {
+                nickName: userInfo.nickName,
+                cnName: userInfo.cnName,
+                enName: userInfo.enName,
+                gender: userInfo.gender,
+                dateOfBirth: userInfo.dateOfBirth,
+                mobileNumber: userInfo.mobileNumber,
+                email: userInfo.email,
+                roleSet: roleSet,
+                weChatInfo: {
+                    unionId: app.tempData.unionId
+                }
+            };
+        }
+ 
 
         // 准备跳转页面及保存数据
         let tabUrl = '';

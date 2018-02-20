@@ -2,16 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4bb6752d-29ce-4efe-b011-19cd7f3a8e0b" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/package.json" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/datamodel/DataStructure.js" afterPath="$PROJECT_DIR$/datamodel/DataStructure.js" />
+      <change beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
+      <change beforePath="$PROJECT_DIR$/app.wxss" afterPath="$PROJECT_DIR$/app.wxss" />
+      <change beforePath="$PROJECT_DIR$/pages/image/left_arrow_100.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pages/image/right_arrow_100.png" afterPath="" />
       <change beforePath="$PROJECT_DIR$/pages/normalpages/course/course.js" afterPath="$PROJECT_DIR$/pages/normalpages/course/course.js" />
       <change beforePath="$PROJECT_DIR$/pages/normalpages/course/course.wxml" afterPath="$PROJECT_DIR$/pages/normalpages/course/course.wxml" />
       <change beforePath="$PROJECT_DIR$/pages/normalpages/course/course.wxss" afterPath="$PROJECT_DIR$/pages/normalpages/course/course.wxss" />
+      <change beforePath="$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js" afterPath="$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js" />
+      <change beforePath="$PROJECT_DIR$/pages/normalpages/userinfo/userinfo.js" afterPath="$PROJECT_DIR$/pages/normalpages/userinfo/userinfo.js" />
       <change beforePath="$PROJECT_DIR$/pages/tabpages/index/index.js" afterPath="$PROJECT_DIR$/pages/tabpages/index/index.js" />
       <change beforePath="$PROJECT_DIR$/pages/tabpages/index/index.wxml" afterPath="$PROJECT_DIR$/pages/tabpages/index/index.wxml" />
       <change beforePath="$PROJECT_DIR$/pages/tabpages/index/index.wxss" afterPath="$PROJECT_DIR$/pages/tabpages/index/index.wxss" />
       <change beforePath="$PROJECT_DIR$/utils/DateTimeUtils.js" afterPath="$PROJECT_DIR$/utils/DateTimeUtils.js" />
-      <change beforePath="$PROJECT_DIR$/utils/Util.js" afterPath="$PROJECT_DIR$/utils/Util.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -28,22 +33,21 @@
       <file leaf-file-name="course.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/course/course.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="341" column="42" lean-forward="true" selection-start-line="341" selection-start-column="42" selection-end-line="341" selection-end-column="42" />
-              <folding>
-                <element signature="e#36#96#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-60">
+              <caret line="263" column="50" lean-forward="true" selection-start-line="263" selection-start-column="50" selection-end-line="263" selection-end-column="50" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pages/tabpages/index/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="222" column="22" lean-forward="true" selection-start-line="222" selection-start-column="22" selection-end-line="222" selection-end-column="22" />
+            <state relative-caret-position="556">
+              <caret line="240" column="20" lean-forward="false" selection-start-line="240" selection-start-column="4" selection-end-line="240" selection-end-column="20" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+                <element signature="e#1861#2629#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -52,8 +56,8 @@
       <file leaf-file-name="set_recurring.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="79" column="69" lean-forward="false" selection-start-line="79" selection-start-column="69" selection-end-line="79" selection-end-column="69" />
+            <state relative-caret-position="105">
+              <caret line="35" column="6" lean-forward="true" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -62,8 +66,8 @@
       <file leaf-file-name="DataStructure.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datamodel/DataStructure.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2646">
-              <caret line="195" column="0" lean-forward="true" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
+            <state relative-caret-position="740">
+              <caret line="196" column="0" lean-forward="false" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -72,8 +76,8 @@
       <file leaf-file-name="Util.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/Util.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7636">
-              <caret line="405" column="25" lean-forward="false" selection-start-line="405" selection-start-column="25" selection-end-line="405" selection-end-column="25" />
+            <state relative-caret-position="740">
+              <caret line="409" column="0" lean-forward="false" selection-start-line="409" selection-start-column="0" selection-end-line="409" selection-end-column="0" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="e#50#104#0" expanded="true" />
@@ -85,8 +89,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4200">
-              <caret line="202" column="6" lean-forward="true" selection-start-line="202" selection-start-column="6" selection-end-line="202" selection-end-column="6" />
+            <state relative-caret-position="322">
+              <caret line="82" column="28" lean-forward="true" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
               <folding>
                 <element signature="e#19#66#0" expanded="true" />
               </folding>
@@ -94,11 +98,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DateTimeUtils.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="651">
+              <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DateTimeUtils.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/utils/DateTimeUtils.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="298" column="25" lean-forward="true" selection-start-line="298" selection-start-column="25" selection-end-line="298" selection-end-column="25" />
+            <state relative-caret-position="3092">
+              <caret line="425" column="0" lean-forward="false" selection-start-line="425" selection-start-column="0" selection-end-line="436" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -132,6 +146,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="package_json" />
       </list>
     </option>
   </component>
@@ -163,6 +178,7 @@
       <find>selectedLocation</find>
       <find>currentCourseSubTab</find>
       <find>selectedDateName</find>
+      <find>getDateL</find>
     </findStrings>
     <replaceStrings>
       <replace>this.id = -1;</replace>
@@ -214,13 +230,14 @@
         <option value="$PROJECT_DIR$/utils/DateTimeTools.js" />
         <option value="$PROJECT_DIR$/utils/StorageTools.js" />
         <option value="$PROJECT_DIR$/utils/StorageUtils.js" />
-        <option value="$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js" />
-        <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/utils/Util.js" />
         <option value="$PROJECT_DIR$/datamodel/DataStructure.js" />
+        <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js" />
         <option value="$PROJECT_DIR$/pages/normalpages/course/course.js" />
-        <option value="$PROJECT_DIR$/pages/tabpages/index/index.js" />
         <option value="$PROJECT_DIR$/utils/DateTimeUtils.js" />
+        <option value="$PROJECT_DIR$/pages/tabpages/index/index.js" />
       </list>
     </option>
   </component>
@@ -251,6 +268,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -291,7 +309,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -440,16 +457,17 @@
       <workItem from="1519046773493" duration="9396000" />
       <workItem from="1519092826737" duration="11891000" />
       <workItem from="1519113852300" duration="4278000" />
+      <workItem from="1519122477943" duration="10513000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="218645000" />
+    <option name="totallyTimeSpent" value="229158000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="1672" y="-8" width="1696" height="1026" extended-state="6" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.262685" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26210654" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23444976" sideWeight="0.50422835" order="7" side_tool="true" content_ui="tabs" />
@@ -481,16 +499,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pages/tabpages/index/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1092">
-          <caret line="53" column="31" lean-forward="false" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/tabpages/setting/userinfo/userinfo.js" />
     <entry file="file://$PROJECT_DIR$/pages/tabpages/index/index.wxml">
       <provider selected="true" editor-type-id="text-editor">
@@ -711,7 +719,7 @@
         <state relative-caret-position="403">
           <caret line="275" column="9" lean-forward="true" selection-start-line="275" selection-start-column="9" selection-end-line="275" selection-end-column="9" />
           <folding>
-            <element signature="e#2930#7577#0" expanded="false" />
+            <element signature="e#2930#7996#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -751,56 +759,28 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4200">
-          <caret line="202" column="6" lean-forward="true" selection-start-line="202" selection-start-column="6" selection-end-line="202" selection-end-column="6" />
+        <state relative-caret-position="322">
+          <caret line="82" column="28" lean-forward="true" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
           <folding>
             <element signature="e#19#66#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="79" column="69" lean-forward="false" selection-start-line="79" selection-start-column="69" selection-end-line="79" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/normalpages/course/course.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="341" column="42" lean-forward="true" selection-start-line="341" selection-start-column="42" selection-end-line="341" selection-end-column="42" />
-          <folding>
-            <element signature="e#36#96#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/tabpages/index/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="222" column="22" lean-forward="true" selection-start-line="222" selection-start-column="22" selection-end-line="222" selection-end-column="22" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datamodel/DataStructure.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2646">
-          <caret line="195" column="0" lean-forward="true" selection-start-line="195" selection-start-column="0" selection-end-line="195" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/Util.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7636">
-          <caret line="405" column="25" lean-forward="false" selection-start-line="405" selection-start-column="25" selection-end-line="405" selection-end-column="25" />
+        <state relative-caret-position="740">
+          <caret line="409" column="0" lean-forward="false" selection-start-line="409" selection-start-column="0" selection-end-line="409" selection-end-column="0" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="e#50#104#0" expanded="true" />
@@ -808,11 +788,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/datamodel/DataStructure.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="740">
+          <caret line="196" column="0" lean-forward="false" selection-start-line="196" selection-start-column="0" selection-end-line="196" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/normalpages/set_recurring/set_recurring.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="35" column="6" lean-forward="true" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/normalpages/course/course.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <caret line="263" column="50" lean-forward="true" selection-start-line="263" selection-start-column="50" selection-end-line="263" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/utils/DateTimeUtils.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="298" column="25" lean-forward="true" selection-start-line="298" selection-start-column="25" selection-end-line="298" selection-end-column="25" />
+        <state relative-caret-position="3092">
+          <caret line="425" column="0" lean-forward="false" selection-start-line="425" selection-start-column="0" selection-end-line="436" selection-end-column="8" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/tabpages/index/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="556">
+          <caret line="240" column="20" lean-forward="false" selection-start-line="240" selection-start-column="4" selection-end-line="240" selection-end-column="20" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#1861#2629#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
