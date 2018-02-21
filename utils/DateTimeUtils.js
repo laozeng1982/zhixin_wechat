@@ -70,7 +70,7 @@ function transEnDate2NumDate(date) {
 
 }
 
-function transNumDate2ChDate(date) {
+function transNumDate2ChLongDate(date) {
 
     switch (date) {
         case 0:
@@ -87,6 +87,26 @@ function transNumDate2ChDate(date) {
             return "周五";
         case 6:
             return "周六";
+    }
+
+}
+
+function transNumDate2ChShortDate(date) {
+    switch (date) {
+        case 0:
+            return "日";
+        case 1:
+            return "一";
+        case 2:
+            return "二";
+        case 3:
+            return "三";
+        case 4:
+            return "四";
+        case 5:
+            return "五";
+        case 6:
+            return "六";
     }
 
 }
@@ -320,8 +340,8 @@ function getDateList(year, month, courseSet) {
                     week: idx,
                     selected: false,
                     hasCourse: false,
-                    courseArray: [],
-                    courseString: '',
+                    courseIdArray: [],
+                    courseIdString: '',
                     inThisMonth: false
                 });
             }
@@ -338,8 +358,8 @@ function getDateList(year, month, courseSet) {
                     week: week + blank - firstDayOfWeek,
                     selected: false,
                     hasCourse: false,
-                    courseArray: [],
-                    courseString: '',
+                    courseIdArray: [],
+                    courseIdString: '',
                     inThisMonth: false
                 });
             }
@@ -353,8 +373,8 @@ function getDateList(year, month, courseSet) {
             week: week,
             selected: false,
             hasCourse: false,
-            courseArray: [],
-            courseString: '',
+            courseIdArray: [],
+            courseIdString: '',
             inThisMonth: true
         });
 
@@ -374,8 +394,8 @@ function getDateList(year, month, courseSet) {
                     week: week + i + 1 <= 6 ? week + i + 1 : i,
                     selected: false,
                     hasCourse: false,
-                    courseArray: [],
-                    courseString: '',
+                    courseIdArray: [],
+                    courseIdString: '',
                     inThisMonth: false
                 });
             }
@@ -390,8 +410,8 @@ function getDateList(year, month, courseSet) {
                         week: i,
                         selected: false,
                         hasCourse: false,
-                        courseArray: [],
-                        courseString: '',
+                        courseIdArray: [],
+                        courseIdString: '',
                         inThisMonth: false
                     });
                 }
@@ -400,7 +420,7 @@ function getDateList(year, month, courseSet) {
     }
 
     // 准备有课程日期的标注数据
-    console.log(courseSet);
+    // console.log(courseSet);
     let courseIdx = 0;
     for (let course of courseSet) {
         courseIdx++;
@@ -412,15 +432,14 @@ function getDateList(year, month, courseSet) {
                     if (course.recurringRule.includes(transNumDate2EnDate(dateList[week][day].week))) {
                         // console.log(dateList[week][day].week, transNumDate2EnDate(dateList[week][day].week));
                         dateList[week][day].hasCourse = true;
-                        dateList[week][day].courseArray.push(courseIdx);
+                        dateList[week][day].courseIdArray.push(courseIdx);
                     }
 
-                    dateList[week][day].courseString = dateList[week][day].courseArray.join("、");
+                    dateList[week][day].courseIdString = dateList[week][day].courseIdArray.join("、");
                 }
             }
         }
     }
-
 
     // 打印检验
     // console.log("log begins here~~~~~~~~~~~~~~~~~~~~~");
@@ -431,7 +450,7 @@ function getDateList(year, month, courseSet) {
     //             , ", ", dateList[week][day].week
     //             , ", selected", dateList[week][day].selected
     //             , ", hasCourse", dateList[week][day].hasCourse
-    //             , ", courseString", dateList[week][day].courseString.toString()
+    //             , ", courseIdString", dateList[week][day].courseIdString.toString()
     //             , ", inThisMonth", dateList[week][day].inThisMonth);
     //     }
     // }
@@ -445,7 +464,8 @@ module.exports = {
     formatTime: formatTime,
     transEnDate2ChLongDate: transEnDate2ChLongDate,
     transEnDate2ChShortDate: transEnDate2ChShortDate,
-    transNumDate2ChDate: transNumDate2ChDate,
+    transNumDate2ChLongDate: transNumDate2ChLongDate,
+    transNumDate2ChShortDate: transNumDate2ChShortDate,
     formatTimeToString: formatTimeToString,
     formatDateToString: formatDateToString,
     getDateFromString: getDateFromString,

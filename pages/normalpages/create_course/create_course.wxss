@@ -1,4 +1,4 @@
-/* pages/course/course.wxss */
+/* pages/normalpages/create_course/create_course.wxss */
 
 .item-box {
     width: 100%;

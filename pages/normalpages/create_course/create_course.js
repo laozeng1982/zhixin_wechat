@@ -1,5 +1,5 @@
-// pages/course/course.js
-// 课程设置页
+// pages/normalpages/create_course/create_course.js
+// 创建课程页
 
 import DataStructure from '../../../datamodel/DataStructure'
 import StorageUtils from '../../../utils/StorageUtils'
@@ -14,7 +14,6 @@ Page({
      * 页面的初始数据
      */
     data: {
-        options: {},
         currentCourse: {},
         currentCourseIdx: 0,
         courseItems: {
@@ -152,36 +151,19 @@ Page({
 
     /**
      * 第一次进入该页面时，根据本地数据初始化
-     * @param options
+     *
      */
-    loadCourse: function (options) {
-        let currentCourse = {};    // 当前页面要用的课程
+    loadCourse: function () {
         let currentCourseIdx = this.data.currentCourseIdx;   // 当前页面课程的索引
 
         // 从本地读取数据，用来初始化页面显示课程
         let userInfo = StorageUtils.loadData(app.Settings.Storage.WeChatUser);
 
         // 1、根据页面进入入口，判断如何初始化，提取当前应该显示的课程
-        if (options.model === "newCourse") {
-            // 1.1、创建新课程
-            if (userInfo.teacherCourseSet.length === 0) {
-                // 当前没有课程
-                currentCourse = new DataStructure.Course();
-            } else {
-                // 当前有课程，直接弹出最后一个，保存的时候直接push，始终操作的是最后一个
-                // currentCourse = userInfo.teacherCourseSet.pop();
-                currentCourse = new DataStructure.Course();
-            }
-        } else {
-            //1.2、修改已有新课程
-            // 解析课程id
-            console.log(options);
-            currentCourseIdx = parseInt(options.model.split("_")[1]);
 
-            // 直接提取
-            currentCourse = userInfo.teacherCourseSet[currentCourseIdx];
+        // 当前没有课程
+        let currentCourse = new DataStructure.Course();
 
-        }
 
         console.log("currentCourseIdx:", currentCourseIdx);
         console.log("currentCourse:", currentCourse);
@@ -247,7 +229,7 @@ Page({
 
     },
 
-    onSelecRecurringDay: function (e) {
+    onSelectRecurringDay: function (e) {
         let weekVisual = this.data.weekVisual;
         let selectedDateIdx = parseInt(e.currentTarget.id);
         let selectedDateArray = [];
@@ -445,13 +427,9 @@ Page({
 
         // 4.1、根据页面进入情况整理需要保存的UserInfo
         let userInfo = StorageUtils.loadUserInfo();
-        if (this.data.options.model === "newCourse") {
-            // userInfo.teacherCourseSet.pop();
-            userInfo.teacherCourseSet.push(course);
-        } else {
-            let currentCourseIdx = this.data.currentCourseIdx;
-            userInfo.teacherCourseSet.splice(currentCourseIdx, 1, course);
-        }
+
+        userInfo.teacherCourseSet.push(course);
+
 
         // 4.2、保存
         StorageUtils.saveUserInfo(userInfo);
@@ -463,11 +441,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        this.setData({
-            options: options
-        });
-
-        this.loadCourse(options);
+        this.loadCourse();
     },
 
     /**
@@ -481,25 +455,10 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        // 1、根据入口设置标签栏
-        let options = this.data.options;
-        let coursePageTitle = "";
-        if (options.model === "newCourse") {
-            coursePageTitle = '创建新课程';
-        } else {
-            coursePageTitle = '修改课程';
-        }
+        // 初始化页面
+        this.initPageCourse();
 
-        wx.setNavigationBarTitle({
-            title: coursePageTitle,
-        });
 
-        ///2、初始化页面
-        this.initPageCourse(options);
-
-        this.setData({
-            options: options
-        });
     },
 
     /**

@@ -102,24 +102,26 @@ App({
                                                             }
                                                         }
 
-                                                        let authorities = [];
-                                                        for (let item of response.data.roleSet) {
-                                                            switch (item.id) {
-                                                                case 2:
-                                                                    authorities.push("teacher");
-                                                                    break;
-                                                                case 3:
-                                                                    authorities.push("student");
-                                                                    break;
-                                                                case 4:
-                                                                    authorities.push("parent");
-                                                                    break;
-                                                                default:
-                                                                    break;
+                                                        if (typeof response.data.roleSet !== "undefined") {
+                                                            let authorities = [];
+                                                            for (let item of response.data.roleSet) {
+                                                                switch (item.id) {
+                                                                    case 2:
+                                                                        authorities.push("teacher");
+                                                                        break;
+                                                                    case 3:
+                                                                        authorities.push("student");
+                                                                        break;
+                                                                    case 4:
+                                                                        authorities.push("parent");
+                                                                        break;
+                                                                    default:
+                                                                        break;
+                                                                }
                                                             }
-                                                        }
 
-                                                        userInfoLocal.authorities = authorities;
+                                                            userInfoLocal.authorities = authorities;
+                                                        }
 
                                                         StorageUtils.saveData(Settings.Storage.WeChatUser, userInfoLocal);
 

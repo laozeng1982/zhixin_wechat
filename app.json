@@ -2,7 +2,8 @@
     "pages": [
         "pages/tabpages/index/index",
         "pages/tabpages/setting/setting",
-        "pages/normalpages/course/course",
+        "pages/normalpages/create_course/create_course",
+        "pages/normalpages/modify_course/modify_course",
         "pages/normalpages/userinfo/userinfo",
         "pages/normalpages/lesson/lesson",
         "pages/normalpages/set_homework/set_homework",

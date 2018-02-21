@@ -54,7 +54,7 @@
             <scroll-view wx:else class="scroll-view-container" scroll-y>
                 <view wx:for='{{userInfo.teacherCourseSet}}' wx:key='{{index}}' class='course-content-container'>
                     <!-- 第一行 -->
-                    <view id='{{index}}' class='course-list-item-container' bindtap='onCourseSelected'>
+                    <view id='{{index}}' class='course-list-item-container' bindtap='onSelectCourse'>
                         <view class='course-list-item-name'>
                             {{item.name}}
                         </view>
@@ -65,14 +65,14 @@
                     <!-- 第二行 -->
                     <view id='{{index}}' class='course-list-item-container'>
 
-                        <button class='course-list-item-action' open-type='share' bindtap='onForwardCourse'>
+                        <button id='{{index}}' class='course-list-item-action' open-type='share' bindtap='onForwardCourse'>
                             <image class='forward-image' src='../../image/forward.png'></image>
                             <view>
                                 邀请学生加入课程
                             </view>
                         </button>
 
-                        <button class='course-list-item-action' open-type='share' bindtap='onInviteTeacher'>
+                        <button id='{{index}}' class='course-list-item-action' open-type='share' bindtap='onInviteTeacher'>
                             <image class='forward-image' src='../../image/forward.png'></image>
                             <view>
                                 邀请教师共同管理
@@ -140,7 +140,7 @@
 
                                         <!-- 日历每天下段标注 -->
                                         <view class='calender-date-marker' wx:if="{{item.hasCourse}}">
-                                            {{item.courseString}}
+                                            {{item.courseIdString}}
                                         </view>
 
                                     </view>
@@ -170,7 +170,7 @@
 
                             <!-- 日历每天下段标注 -->
                             <view class='calender-date-marker' wx:if="{{item.hasCourse}}">
-                                {{item.courseString}}
+                                {{item.courseIdString}}
                             </view>
                         </view>
                     </view>
@@ -180,14 +180,14 @@
 
                 <!-- 当点击日历时，当天的具体课程 -->
                 <view wx:if="{{selectedDateCourse.length>0}}" class='course-content'>
-                    <view id='{{index}}' wx:for='{{selectedDateCourse}}' wx:key='{{index}}' class='course-content-container' bindtap='onLessonSelected'>
+                    <view id='{{item.idx}}' wx:for='{{selectedDateCourse}}' wx:key='{{index}}' class='course-content-container' bindtap='onSelectLesson'>
                         <!-- 第一行 -->
                         <view class='course-list-item-container'>
                             <view class='lesson-list-item-name'>
                                 课程名字：
                             </view>
                             <view class='lesson-list-item-value'>
-                                {{item.name}}
+                                {{item.course.name}}
                             </view>
                         </view>
                         <!-- 第二行 -->
@@ -196,7 +196,7 @@
                                 上课时间：
                             </view>
                             <view class='lesson-list-item-value'>
-                                {{item.startTime}}
+                                {{item.course.startTime}}
                             </view>
                         </view>
                         <!-- 第三行 -->
@@ -205,7 +205,7 @@
                                 上课地址：
                             </view>
                             <view class='lesson-list-item-value'>
-                                {{item.location.name}}
+                                {{item.course.location.name}}
                             </view>
                         </view>
                         <view class='gray-space-small'></view>
@@ -213,7 +213,7 @@
                 </view>
 
                 <view wx:else class='course-content'>
-                    <image class='image-coffee' src='../../image/coffee.png'/>
+                    <image class='image-coffee' src='../../image/coffee.png' />
                     <view>
                         今天没有课哦~~~
                     </view>

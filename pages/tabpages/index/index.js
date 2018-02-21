@@ -113,7 +113,7 @@ Page({
 
     createNewCourse: function () {
         wx.navigateTo({
-            url: '../../normalpages/course/course' + "?model=newCourse",
+            url: '../../normalpages/create_course/create_course',
         });
     },
 
@@ -178,9 +178,9 @@ Page({
      * 课程页面，选择课程，带入课程的索引，跳转课程修改页面
      * @param e
      */
-    onCourseSelected: function (e) {
+    onSelectCourse: function (e) {
         console.log(e);
-        let url = '../../normalpages/course/course' + "?model=modifyCourseId_" + e.currentTarget.id;
+        let url = '../../normalpages/modify_course/modify_course' + "?model=courseId_" + e.currentTarget.id;
 
         wx.navigateTo({
             url: url,
@@ -188,11 +188,12 @@ Page({
     },
 
     onForwardCourse: function (e) {
-        console.log(e);
+        // console.log(e);
+
     },
 
     onInviteTeacher: function (e) {
-        console.log(e);
+        // console.log(e);
 
     },
 
@@ -223,8 +224,8 @@ Page({
 
         let userInfo = StorageUtils.loadUserInfo();
 
-        for (let idx of selectedDate.courseArray) {
-            selectedDateCourse.push(userInfo.teacherCourseSet[idx - 1]);
+        for (let id of selectedDate.courseIdArray) {
+            selectedDateCourse.push({idx: id - 1, course: userInfo.teacherCourseSet[id - 1]});
         }
 
         console.log("Selected Date's CourseSet: ", selectedDate.value, selectedDateCourse);
@@ -238,10 +239,19 @@ Page({
 
     },
 
-    onLessonSelected: function (e) {
+    /**
+     * 每日课程页面，选择当天的课，带入课程的索引和修改的日期，跳转课程修改页面
+     * @param e
+     */
+    onSelectLesson: function (e) {
         console.log("Selected course:", e.currentTarget.id);
+
+        let url = '../../normalpages/modify_course/modify_course' +
+            "?model=courseId_" + e.currentTarget.id +
+            ":onDate_" + this.data.selectedDate;
+
         wx.navigateTo({
-            url: '../../normalpages/lesson/lesson',
+            url: url,
         })
     },
 
@@ -398,7 +408,26 @@ Page({
     /**
      * 生命周期函数--监听页面加载
      */
-    onLoad: function () {
+    onLoad: function (options) {
+        // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket。
+        // shareTicket 是获取转发目标群信息的票据，只有拥有 shareTicket 才能拿到群信息，用户每次转发都会生成对应唯一的shareTicket 。
+        wx.showShareMenu({
+            withShareTicket: true
+        });
+
+        /** 判断场景值，1044 为转发场景，包含shareTicket 参数 */
+        if (options.scene == 1044) {
+            wx.getShareInfo({
+                shareTicket: opt.shareTicket,
+                success: function (res) {
+                    var encryptedData = res.encryptedData;
+                    var iv = res.iv;
+                    console.log("getShareInfo:", res);
+                }
+            })
+        }
+
+        console.log("options:", options);
 
     },
 
@@ -494,8 +523,48 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function () {
+    onShareAppMessage: function (res) {
         console.log("sharing");
+
+
+        let shareMsg = {
+            title: "我的",
+            path: "/pages/tabpages/index/index"
+        };
+
+        if (res.from === 'button') {
+            // 来自页面内转发按钮
+            console.log("res.target:", res.target);
+            let courseIdx = res.target.id;
+            let userInfo = StorageUtils.loadUserInfo();
+            shareMsg.title = userInfo.nickName + "的" + userInfo.teacherCourseSet[courseIdx].name;
+            shareMsg.path = "/pages/tabpages/index/index" + "?course=" + courseIdx;
+        }
+
+        console.log(shareMsg);
+        return {
+            title: shareMsg.title,
+            path: shareMsg.path,
+            success: function (res) {
+                let shareTickets = res.shareTickets;
+                if (shareTickets.length == 0) {
+                    return false;
+                }
+                console.log("shareTickets:", shareTickets);
+
+                wx.getShareInfo({
+                    shareTicket: shareTickets[0],
+                    success: function (res) {
+                        let encryptedData = res.encryptedData;
+                        let iv = res.iv;
+                        console.log("shared res:", res);
+                    }
+                })
+            },
+            fail: function (res) {
+                // 转发失败
+            }
+        }
     }
 
 })
