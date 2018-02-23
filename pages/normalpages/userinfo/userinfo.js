@@ -1,6 +1,9 @@
 // pages/userinfo/userinfo.js
 // 用户资料页，可以复用，首次进入，为注册页面精简信息，从个人设置页面，为全信息
 
+import DataStructure from '../../../datamodel/DataStructure'
+import StorageUtils from '../../../utils/StorageUtils'
+
 const app = getApp();
 
 Page({
@@ -37,7 +40,7 @@ Page({
      */
     initPageUserInfo: function () {
 
-        let userInfo = app.Util.loadData(app.Settings.Storage.WeChatUser);
+        let userInfo = StorageUtils.loadUserInfo();
         let authorities = this.data.authorities;
         let genderIdx = 0;
 

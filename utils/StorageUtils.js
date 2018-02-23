@@ -14,51 +14,56 @@ const Settings = new settings.Settings();
  */
 function loadData(dataType) {
     // 读取该类型数据已存储的内容
-    let readInData = wx.getStorageSync(dataType.key);
-    // 当天请求的数据
-    let requestData = '';
+    try {
+        let readInData = wx.getStorageSync(dataType.key);
+        // 当天请求的数据
+        let requestData = '';
 
-    // 根据类型来抽取需要的数据
-    // 如果没有这个记录，取的会是空值，则新建一个对应的项
-    if (readInData !== '') {
-        requestData = readInData;
-    } else {
-        switch (dataType.id) {
-            case 0:
-                // 0. UserInfo
-                requestData = new DataStructure.WeChatUser();
-                break;
-            case 1:
-                // 1. UserProfile
-                requestData = [];
-                break;
-            case 2:
-                // 2. UserPlanSet
-                requestData = [];
+        // 根据类型来抽取需要的数据
+        // 如果没有这个记录，取的会是空值，则新建一个对应的项
+        if (readInData !== '') {
+            requestData = readInData;
+        } else {
+            switch (dataType.id) {
+                case 0:
+                    // 0. UserInfo
+                    requestData = new DataStructure.WeChatUser();
+                    break;
+                case 1:
+                    // 1. UserProfile
+                    requestData = [];
+                    break;
+                case 2:
+                    // 2. UserPlanSet
+                    requestData = [];
 
-                break;
-            case 3:
-                // 3. RealitySet
-                requestData = [];
-                break;
-            case 4:
-                // 4. SystemPlanSet
-                requestData = [];
-                break;
-            case 5:
-                // 5. PartsWithActions
-                // requestData = new DataStructure.artsWithActions();
-                break;
-            case 6:
-                // 6. SyncedTag
-                requestData = new settings.Settings();
-                break;
-            default:
-                break;
+                    break;
+                case 3:
+                    // 3. RealitySet
+                    requestData = [];
+                    break;
+                case 4:
+                    // 4. SystemPlanSet
+                    requestData = [];
+                    break;
+                case 5:
+                    // 5. PartsWithActions
+                    // requestData = new DataStructure.artsWithActions();
+                    break;
+                case 6:
+                    // 6. SyncedTag
+                    requestData = new settings.Settings();
+                    break;
+                default:
+                    break;
+            }
         }
+
+        return requestData;
+    } catch (e) {
+        loadData(dataType);
     }
 
-    return requestData;
 }
 
 /**
@@ -69,8 +74,13 @@ function loadData(dataType) {
  */
 function saveData(dataType, dataToSave) {
     // 根据类型来判断是否需要替换其中的数据，还是直接覆盖
-    console.log("in saveData, targetToSave: ", dataToSave);
-    wx.setStorageSync(dataType.key, dataToSave);
+    try {
+        console.log("in saveData, targetToSave: ", dataToSave);
+        wx.setStorageSync(dataType.key, dataToSave);
+    } catch (e) {
+        saveData(dataType, dataToSave);
+    }
+
 }
 
 function loadUserInfo() {

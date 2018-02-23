@@ -1,10 +1,11 @@
 //index.js
-//获取应用实例
 
-import DataStructure from '../../../datamodel/DataStructure'
 import DateTimeUtils from '../../../utils/DateTimeUtils'
 import StorageUtils from '../../../utils/StorageUtils'
 
+import pageUtils from 'pageUtils'
+
+// 获取应用实例
 const app = getApp();
 
 Page({
@@ -56,9 +57,10 @@ Page({
                 display: false
             }
         ],
+        selectedCourseIdx: 0,
 
         // 以下是控制每日课程的显示
-        showMonthView: true,
+        showWeekView: true,
 
         today: '',
         todayMonth: '',
@@ -69,7 +71,6 @@ Page({
         currentMonth: '',
         currentDate: '',
 
-
         // 保存当月的日期
         dateList: [],
 
@@ -77,51 +78,19 @@ Page({
         calendars: [1, 2, 3],
         lastCalendarId: 0,
         duration: 1000,
+
+        // 布告栏数据
+        currentNoticeSet: [],
+
+
     },
 
     /**
-     * 生成tab页面
-     */
-    makeTabData: function (role) {
-
-        let indexTabData = this.data.indexTabData;
-
-        if (role !== "teacher") {
-            indexTabData[1].name = "通知";
-            indexTabData[2].name = "作业回复";
-        }
-
-        let userInfo = StorageUtils.loadUserInfo();
-
-        let today = new Date();
-        let currentYear = today.getFullYear();
-        let currentMonth = today.getMonth() + 1;
-        let currentDate = today.getDate();
-
-
-        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth, userInfo.teacherCourseSet);
-
-        this.setData({
-            today: today,
-            currentYear: currentYear,
-            currentMonth: currentMonth,
-            currentDate: currentDate,
-            dateList: dateList,
-            indexTabData: indexTabData
-        });
-    },
-
-    createNewCourse: function () {
-        wx.navigateTo({
-            url: '../../normalpages/create_course/create_course',
-        });
-    },
-
-    /**
-     * 处理切换主Tab事件
+     * 主页
+     * 响应切换主Tab事件
      * @param e
      */
-    onIndexTabSwitch: function (e) {
+    onSwitchIndexTab: function (e) {
         let currentTabIdx = e.currentTarget.dataset.current;
         let indexTabData = this.data.indexTabData;
 
@@ -136,14 +105,16 @@ Page({
     },
 
     /**
-     *
+     * 课程页面Tab
+     * 响应课程Tab下各个子Tab的点击
      * @param e
      */
-    onCourseTabItemSelected: function (e) {
+    onSelectCourseTabItem: function (e) {
         console.log("selected:", e.currentTarget.id);
         let courseTabData = this.data.courseTabData;
         for (let item of courseTabData) {
             if (item.type === "add_new") {
+                // 当显示创建的时候，始终高亮创建选项
                 item.selected = true;
             } else {
                 item.selected = item.type === e.currentTarget.id;
@@ -159,7 +130,7 @@ Page({
                 break;
             case "add_new":
                 app.tempData.currentCourseSubTab = "all_course";
-                this.createNewCourse();
+                pageUtils.createNewCourse(this);
                 break;
             default:
                 break;
@@ -170,182 +141,121 @@ Page({
         });
     },
 
+    /**
+     * 课程页面Tab
+     * 响应创建新课程
+     * @param e
+     */
     onCreatedNewCourse: function (e) {
-        this.createNewCourse();
+        pageUtils.createNewCourse(this);
     },
 
     /**
-     * 课程页面，选择课程，带入课程的索引，跳转课程修改页面
+     * 课程页面Tab
+     * 响应课程Tab中选择课程，带入课程的索引，跳转课程修改页面
      * @param e
      */
     onSelectCourse: function (e) {
         console.log(e);
-        let url = '../../normalpages/modify_course/modify_course' + "?model=courseId_" + e.currentTarget.id;
+        let url = '../../normalpages/modify_course/modify_course' + "?courseId=" + e.currentTarget.id;
 
         wx.navigateTo({
             url: url,
         });
     },
 
-    onForwardCourse: function (e) {
-        // console.log(e);
-
-    },
-
-    onInviteTeacher: function (e) {
-        // console.log(e);
-
-    },
-
     /**
-     * 日历控制的核心函数
+     * 课程页面Tab
+     * 响应转发课程
      * @param e
      */
-    selectDate: function (e) {
-        console.log(e.currentTarget.dataset.date);
-
-        let selectedDate = e.currentTarget.dataset.date;
-        let selectedWeek = [];
-
-        // 根据选中日期，选中周
-        for (let week of this.data.dateList) {
-            for (let day of week) {
-                if (day.value === selectedDate.value) {
-                    selectedWeek = week;
-                    break;
-                }
-            }
-        }
-
-        let selectedDateCourse = [];
-
-        // 读取每个课程，如果这个课程包含了当前选中日期，则显示
-        // 这里需要使用重组后Course
-
-        let userInfo = StorageUtils.loadUserInfo();
-
-        for (let id of selectedDate.courseIdArray) {
-            selectedDateCourse.push({idx: id - 1, course: userInfo.teacherCourseSet[id - 1]});
-        }
-
-        console.log("Selected Date's CourseSet: ", selectedDate.value, selectedDateCourse);
-
+    onForwardCourse: function (e) {
         this.setData({
-            selectedDateCourse: selectedDateCourse,
-            selectedDate: selectedDate.value,
-            selectedWeek: selectedWeek,
-            showMonthView: false
+            selectedCourseIdx: parseInt(e.currentTarget.id)
         });
+        console.log("onForwardCourse, selectedCourseIdx:", parseInt(e.currentTarget.id));
 
     },
 
     /**
-     * 每日课程页面，选择当天的课，带入课程的索引和修改的日期，跳转课程修改页面
+     * 课程页面Tab
+     * 响应邀请其他老师共同管理
+     * @param e
+     */
+    onInviteTeacher: function (e) {
+        console.log("onInviteTeacher, e:", e);
+        this.setData({
+            selectedCourseIdx: parseInt(e.currentTarget.id)
+        });
+        console.log("onForwardCourse, selectedCourseIdx:", parseInt(e.currentTarget.id));
+    },
+
+    /**
+     *
+     * 课程页面Tab，每日课程子Tab页面
+     * 响应选择当天的课，带入课程的索引和修改的日期，跳转课程修改页面
      * @param e
      */
     onSelectLesson: function (e) {
         console.log("Selected course:", e.currentTarget.id);
 
         let url = '../../normalpages/modify_course/modify_course' +
-            "?model=courseId_" + e.currentTarget.id +
-            ":onDate_" + this.data.selectedDate;
+            "?courseId=" + e.currentTarget.id + "&" +
+            "date=" + this.data.selectedDate;
 
         wx.navigateTo({
             url: url,
-        })
-    },
-
-    /**
-     * 移动月的操作，整月移动
-     * @param direction
-     * @param toDate
-     */
-    moveMonth: function (direction, toDate) {
-
-        let currentYear = '';
-        let currentMonth = '';
-        let currentDate = '';
-
-        switch (direction) {
-            case "next":
-                currentYear = this.data.currentMonth + 1 === 13 ? this.data.currentYear + 1 : this.data.currentYear;
-                currentMonth = this.data.currentMonth + 1 === 13 ? 1 : this.data.currentMonth + 1;
-                currentDate = 1;
-                break;
-            case "last":
-                currentYear = this.data.currentMonth - 1 ? this.data.currentYear : this.data.currentYear - 1;
-                currentMonth = this.data.currentMonth - 1 ? this.data.currentMonth - 1 : 12;
-                currentDate = 1;
-                break;
-            case "selected":
-                currentYear = toDate.getFullYear();
-                currentMonth = toDate.getMonth() + 1;
-                currentDate = toDate.getDate();
-                break;
-            default:
-                break;
-        }
-
-        console.log("move to: ", currentYear, "年", currentMonth, "月", currentDate, "日");
-
-        let userInfo = StorageUtils.loadUserInfo();
-
-        let dateList = DateTimeUtils.getDateList(currentYear, currentMonth, userInfo.teacherCourseSet);
-
-        this.setData({
-            currentYear: currentYear,
-            currentMonth: currentMonth,
-            currentDate: currentDate,
-            showMonthView: true,
-            dateList: dateList,
-            // selectedDate: DateTimeUtils.formatDateToString(new Date())
         });
-
     },
 
     /**
+     * 课程页面Tab，每日课程子Tab页面
      * 响应日历上选中日期
      * @param e
      */
     onSelectDateItem: function (e) {
-        this.selectDate(e);
+        pageUtils.selectDate(this, e);
 
     },
 
     /**
+     * 课程页面Tab，每日课程子Tab页面
      * 响应日期选择器，跳转到选择的月份
      * @param e
      */
     onSelectMonthYear: function (e) {
         let toDate = DateTimeUtils.getDateFromString(e.detail.value, "-");
-        this.moveMonth("selected", toDate);
+        pageUtils.handleMonth(this, "selected", toDate);
 
     },
 
     /**
-     * 响应到今天按钮
+     * 课程页面Tab，每日课程子Tab页面
+     * 响应到本月按钮
      */
     onToThisMonth: function () {
         let toDate = new Date();
-        this.moveMonth("selected", toDate);
+        pageUtils.handleMonth(this, "selected", toDate);
 
     },
 
     /**
+     * 课程页面Tab，每日课程子Tab页面
      * 响应日历头部点击，重新显示日历
      * @param e
      */
     onCalendarHead: function (e) {
         this.setData({
-            showMonthView: true
+            showWeekView: false
         });
 
     },
 
     /**
+     * 课程页面Tab，每日课程子Tab页面
      * 响应日历上下滑动
      */
-    onVerticalSwiperChange: function (e) {
+    onChangeVerticalSwiper: function (e) {
         let current = parseInt(e.detail.current);
         let lastCalenderId = this.data.lastCalendarId;
 
@@ -377,9 +287,9 @@ Page({
         }
 
         if (isNextMonth) {
-            this.moveMonth("next");
+            pageUtils.handleMonth(this, "next");
         } else {
-            this.moveMonth("last");
+            pageUtils.handleMonth(this, "last");
         }
 
         this.setData({
@@ -388,7 +298,17 @@ Page({
     },
 
     /**
-     * 评价某堂课
+     * 布告栏页面Tab
+     * 响应创建新通知
+     * @param e
+     */
+    onCreatedNewNotice: function (e) {
+        pageUtils.createNewNotice(this);
+    },
+
+    /**
+     * 作业查收Tab
+     * 响应评价某堂课
      */
     onReviewLesson: function (e) {
         wx.navigateTo({
@@ -397,7 +317,8 @@ Page({
     },
 
     /**
-     * 评价某次作业
+     * 暂时放在这里
+     * 响应评价某次作业
      */
     onReviewHomework: function (e) {
         wx.navigateTo({
@@ -415,19 +336,19 @@ Page({
             withShareTicket: true
         });
 
-        /** 判断场景值，1044 为转发场景，包含shareTicket 参数 */
-        if (options.scene == 1044) {
+        // 判断场景值，1044 为转发场景，包含shareTicket 参数
+        if (options.scene === 1044) {
             wx.getShareInfo({
                 shareTicket: opt.shareTicket,
                 success: function (res) {
-                    var encryptedData = res.encryptedData;
-                    var iv = res.iv;
-                    console.log("getShareInfo:", res);
+                    let encryptedData = res.encryptedData;
+                    let iv = res.iv;
+                    console.log("index page, getShareInfo:", res);
                 }
-            })
+            });
         }
 
-        console.log("options:", options);
+        console.log("index page onLoad, options:", options);
 
     },
 
@@ -442,7 +363,8 @@ Page({
      * 生命周期函数--监听页面显示
      */
     onShow: function () {
-        let userInfoLocal = app.Util.loadData(app.Settings.Storage.WeChatUser);
+
+        let userInfoLocal = StorageUtils.loadUserInfo();
         app.currentAuth = userInfoLocal.currentAuth;
         let roleName = "";
 
@@ -460,7 +382,7 @@ Page({
                 break;
         }
 
-        this.makeTabData(userInfoLocal.currentAuth);
+        pageUtils.initTabData(this, userInfoLocal.currentAuth);
 
         let indexPageTitle = roleName + '首页';
         wx.setNavigationBarTitle({
@@ -523,48 +445,69 @@ Page({
     /**
      * 用户点击右上角分享
      */
-    onShareAppMessage: function (res) {
-        console.log("sharing");
-
+    onShareAppMessage: function (options) {
+        console.log("start share, options:", options);
 
         let shareMsg = {
-            title: "我的",
-            path: "/pages/tabpages/index/index"
+            title: "",
+            path: ""
         };
 
-        if (res.from === 'button') {
+        let userInfo = StorageUtils.loadUserInfo();
+
+        let baseUrl = "/pages/normalpages/modify_course/modify_course";
+
+        // // 稍等半秒，等获取courseIdx
+        // setTimeout(function () {
+        if (options.from === 'button') {
             // 来自页面内转发按钮
-            console.log("res.target:", res.target);
-            let courseIdx = res.target.id;
-            let userInfo = StorageUtils.loadUserInfo();
-            shareMsg.title = userInfo.nickName + "的" + userInfo.teacherCourseSet[courseIdx].name;
-            shareMsg.path = "/pages/tabpages/index/index" + "?course=" + courseIdx;
+            console.log("options.target:", options.target);
+            let courseIdx = options.target.id;
+            shareMsg.title = userInfo.nickName + "分享的" + userInfo.teacherCourseSet[courseIdx].name;
+            shareMsg.path = baseUrl + "?courseIdx=" + courseIdx;
+        } else {
+            shareMsg.title = userInfo.nickName + "分享的知新小程序";
+            shareMsg.path = baseUrl;
         }
 
-        console.log(shareMsg);
+        console.log("shareMsg:", shareMsg);
+
+        // 自定义的转发字段
         return {
             title: shareMsg.title,
             path: shareMsg.path,
             success: function (res) {
                 let shareTickets = res.shareTickets;
-                if (shareTickets.length == 0) {
+                if (shareTickets.length === 0) {
                     return false;
                 }
-                console.log("shareTickets:", shareTickets);
+                console.log("share success, shareTickets:", shareTickets);
+
+                wx.showShareMenu({
+                    withShareTicket: true
+                });
 
                 wx.getShareInfo({
                     shareTicket: shareTickets[0],
                     success: function (res) {
                         let encryptedData = res.encryptedData;
                         let iv = res.iv;
-                        console.log("shared res:", res);
+                        console.log("getShareInfo success, res:", res);
+                    },
+                    fail: function (res) {
+                        // 转发失败
+                        console.log("getShareInfo failed, res:,", res);
                     }
-                })
+                });
             },
             fail: function (res) {
                 // 转发失败
+                console.log("share failed, res:", res);
             }
         }
+
+        // }, 1000);
+
     }
 
 })

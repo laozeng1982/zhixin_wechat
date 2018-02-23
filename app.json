@@ -15,7 +15,9 @@
         "pages/normalpages/config/config",
         "pages/normalpages/feedback/feedback",
         "pages/normalpages/set_location/set_location",
-        "pages/normalpages/set_recurring/set_recurring"
+        "pages/normalpages/set_recurring/set_recurring",
+        "pages/normalpages/create_notice/create_notice",
+        "pages/normalpages/modify_notice/modify_notice"
     ],
     "window": {
         "navigationBarBackgroundColor": "#000000",

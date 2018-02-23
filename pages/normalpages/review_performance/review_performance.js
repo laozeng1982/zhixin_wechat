@@ -1,8 +1,7 @@
 // pages/normalpages/review_homework/review_homework.js
-// 评价页面
+// 评价作业和课堂表现页面
 
 import Media from '../../../utils/Media'
-
 
 Page({
 

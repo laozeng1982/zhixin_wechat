@@ -65,6 +65,45 @@ function showModal(title, content) {
     });
 }
 
+//第一种状态的底部  
+function editTabBar() {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+        _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.globalData.tabBar;
+    for (var i = 0; i < tabBar.list.length; i++) {
+        tabBar.list[i].active = false;
+        if (tabBar.list[i].pagePath == _pagePath) {
+            tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+        }
+    }
+    _curPage.setData({
+        tabBar: tabBar
+    });
+}
+//第二种状态的底部  
+function editTabBar2() {
+    var _curPageArr = getCurrentPages();
+    var _curPage = _curPageArr[_curPageArr.length - 1];
+    var _pagePath = _curPage.__route__;
+    if (_pagePath.indexOf('/') != 0) {
+        _pagePath = '/' + _pagePath;
+    }
+    var tabBar = this.globalData.tabBar2;
+    for (var i = 0; i < tabBar.list.length; i++) {
+        tabBar.list[i].active = false;
+        if (tabBar.list[i].pagePath == _pagePath) {
+            tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
+        }
+    }
+    _curPage.setData({
+        tabBar: tabBar
+    });
+}
+
 /**
  * 同步爱撸铁设计的动作信息
  * @param host
@@ -135,39 +174,39 @@ function syncUserInfo(host, type, data2Sever, data2Local) {
                             // 2、根据OpenId获取服务器上用户信息
                             if (typeof openId !== 'undefined' || openId !== '') {
                                 wx.request({
-                                        url: urls.user.byOpenId(openId),
-                                        method: 'GET',
-                                        success: function (res) {
-                                            if (typeof res.data.id !== 'undefined') {
-                                                console.log("in syncData, res.data:", res.data);
-                                                copyInfo(host, res);
-                                                console.log("in syncData, host.userInfoLocal:", host.userInfoLocal);
-                                                saveData(Settings.Storage.UserInfo, host.userInfoLocal);
-                                            } else {
-                                                console.log("in syncData, host.userInfoLocal:", host.userInfoLocal);
-                                                host.userInfoLocal.wechatOpenId = openId;
-                                                console.log("in syncData, user didn't register on server!");
-                                                wx.showModal({
-                                                    title: 'Error',
-                                                    content: '还未注册，去注册？',
-                                                    success: function (res) {
-                                                        if (res.confirm) {
-                                                            // 去注册
-                                                            wx.redirectTo({
-                                                                url: '/pages/settings/userinfo/userinfo?model=newUser',
-                                                            });
-                                                        } else if (res.cancel) {
-                                                            console.log('用户取消UserUID');
-                                                        }
+                                    url: urls.user.byOpenId(openId),
+                                    method: 'GET',
+                                    success: function (res) {
+                                        if (typeof res.data.id !== 'undefined') {
+                                            console.log("in syncData, res.data:", res.data);
+                                            copyInfo(host, res);
+                                            console.log("in syncData, host.userInfoLocal:", host.userInfoLocal);
+                                            saveData(Settings.Storage.UserInfo, host.userInfoLocal);
+                                        } else {
+                                            console.log("in syncData, host.userInfoLocal:", host.userInfoLocal);
+                                            host.userInfoLocal.wechatOpenId = openId;
+                                            console.log("in syncData, user didn't register on server!");
+                                            wx.showModal({
+                                                title: 'Error',
+                                                content: '还未注册，去注册？',
+                                                success: function (res) {
+                                                    if (res.confirm) {
+                                                        // 去注册
+                                                        wx.redirectTo({
+                                                            url: '/pages/settings/userinfo/userinfo?model=newUser',
+                                                        });
+                                                    } else if (res.cancel) {
+                                                        console.log('用户取消UserUID');
                                                     }
-                                                });
+                                                }
+                                            });
 
-                                            }
-                                        },
-                                        fail: function (res) {
-                                            console.log("Get user id fail: ", res.data);
                                         }
+                                    },
+                                    fail: function (res) {
+                                        console.log("Get user id fail: ", res.data);
                                     }
+                                }
                                 );
                             } else {
                                 console.log("Get OpenId fail: ", res.data);
@@ -290,51 +329,51 @@ function createData(type, data2Sever, data2Local) {
         title: '同步数据',
     });
     wx.request({
-            url: BASE_URL + type + "/",
-            method: 'POST',
-            data: data2Sever,
-            success: function (res) {
-                if (typeof res.data.id !== 'undefined') {
-                    console.log("return id:", res.data.id);
-                    switch (type) {
-                        case "user":
-                            data2Local.userUID = parseInt(res.data.id);
-                            saveData(Settings.Storage.UserInfo, data2Local);
-                            console.log("data2Local: ", data2Local);
-                            console.log("create user successful, res.data:", res.data);
-                            wx.hideLoading();
-                            break;
-                        case "plan":
-                            data2Sever.id = res.data.id;
-                            data2Local.push(data2Sever);
-                            saveData(Settings.Storage.UserPlanSet, data2Local);
-                            console.log("create plan successful, res.data:", res.data);
-                            wx.hideLoading();
-                            wx.switchTab({
-                                url: '../../index/index',
-                            });
-                            break;
-                        case "reality":
-                            data2Sever.id = res.data.id;
-                            data2Local.push(data2Sever);
-                            saveData(Settings.Storage.RealitySet, data2Local);
-                            wx.hideLoading();
-                            console.log("create reality successful, res.data:", res.data);
-                            break;
-                        default:
-                            console.log("in createData, wrong type!");
-                            break;
-                    }
+        url: BASE_URL + type + "/",
+        method: 'POST',
+        data: data2Sever,
+        success: function (res) {
+            if (typeof res.data.id !== 'undefined') {
+                console.log("return id:", res.data.id);
+                switch (type) {
+                    case "user":
+                        data2Local.userUID = parseInt(res.data.id);
+                        saveData(Settings.Storage.UserInfo, data2Local);
+                        console.log("data2Local: ", data2Local);
+                        console.log("create user successful, res.data:", res.data);
+                        wx.hideLoading();
+                        break;
+                    case "plan":
+                        data2Sever.id = res.data.id;
+                        data2Local.push(data2Sever);
+                        saveData(Settings.Storage.UserPlanSet, data2Local);
+                        console.log("create plan successful, res.data:", res.data);
+                        wx.hideLoading();
+                        wx.switchTab({
+                            url: '../../index/index',
+                        });
+                        break;
+                    case "reality":
+                        data2Sever.id = res.data.id;
+                        data2Local.push(data2Sever);
+                        saveData(Settings.Storage.RealitySet, data2Local);
+                        wx.hideLoading();
+                        console.log("create reality successful, res.data:", res.data);
+                        break;
+                    default:
+                        console.log("in createData, wrong type!");
+                        break;
                 }
-            },
-            fail: function (res) {
-                wx.hideLoading();
-                wx.switchTab({
-                    url: '../../index/index',
-                });
-                console.log("create fail: ", res.data);
             }
+        },
+        fail: function (res) {
+            wx.hideLoading();
+            wx.switchTab({
+                url: '../../index/index',
+            });
+            console.log("create fail: ", res.data);
         }
+    }
     );
 }
 
@@ -350,48 +389,48 @@ function updateData(type, data2Sever, data2Local) {
         title: '同步数据',
     });
     wx.request({
-            url: BASE_URL + type + "/",
-            method: 'PUT',
-            data: data2Sever,
-            success: function (res) {
-                if (typeof res.data.id !== 'undefined') {
-                    switch (type) {
-                        case "user":
-                            console.log("update user success: ", res.data);
-                            saveData(Settings.Storage.UserInfo, data2Local);
-                            break;
-                        case "plan":
-                            let newPlanId = res.data.id;
-                            data2Sever.id = newPlanId;
-                            data2Local.push(data2Sever);
+        url: BASE_URL + type + "/",
+        method: 'PUT',
+        data: data2Sever,
+        success: function (res) {
+            if (typeof res.data.id !== 'undefined') {
+                switch (type) {
+                    case "user":
+                        console.log("update user success: ", res.data);
+                        saveData(Settings.Storage.UserInfo, data2Local);
+                        break;
+                    case "plan":
+                        let newPlanId = res.data.id;
+                        data2Sever.id = newPlanId;
+                        data2Local.push(data2Sever);
 
-                            saveData(Settings.Storage.UserPlanSet, data2Local);
-                            console.log("update plan successful, res.data:", res.data);
-                            wx.hideLoading();
-                            wx.switchTab({
-                                url: '../../index/index',
-                            });
-                            break;
-                        case "reality":
-                            let newRealityId = res.data.id;
-                            data2Sever.id = newRealityId;
-                            data2Local.push(data2Sever);
+                        saveData(Settings.Storage.UserPlanSet, data2Local);
+                        console.log("update plan successful, res.data:", res.data);
+                        wx.hideLoading();
+                        wx.switchTab({
+                            url: '../../index/index',
+                        });
+                        break;
+                    case "reality":
+                        let newRealityId = res.data.id;
+                        data2Sever.id = newRealityId;
+                        data2Local.push(data2Sever);
 
-                            saveData(Settings.Storage.RealitySet, data2Local);
-                            console.log("update reality successful, res.data:", res.data);
-                            wx.hideLoading();
-                            break;
-                        default:
-                            console.log("in createData, wrong type");
-                            break;
-                    }
+                        saveData(Settings.Storage.RealitySet, data2Local);
+                        console.log("update reality successful, res.data:", res.data);
+                        wx.hideLoading();
+                        break;
+                    default:
+                        console.log("in createData, wrong type");
+                        break;
                 }
-
-            },
-            fail: function (res) {
-                console.log("update", type, "fail: ", res.data);
             }
+
+        },
+        fail: function (res) {
+            console.log("update", type, "fail: ", res.data);
         }
+    }
     );
 
 }

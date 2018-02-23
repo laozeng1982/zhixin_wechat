@@ -302,10 +302,168 @@ function checkDate(startDate, checkDate, endDate) {
 
 /**
  * 最核心的函数
- * 1、获取每个的显示列表
+ * 1、获取每月的显示列表
  * 2、搜索、标记日期状态
  */
-function getDateList(year, month, courseSet) {
+function getMonthDateList(year, month, courseSet) {
+    let week;
+    // 如果是闰年，则2月有29天
+    let monthDaysCountArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    if (parseInt(year) % 4 === 0 && parseInt(year) % 100 !== 0) {
+        console.log(parseInt(year) % 4, "and ", parseInt(year) % 100);
+        monthDaysCountArr[1] = 29;
+    }
+
+    //第几个月；下标从0开始，实际月份需要加1
+    let dateList = [];
+    dateList[0] = [];
+
+    //第几个星期
+    let weekIndex = 0;
+    let firstDayOfWeek = new Date(Date.UTC(year, month - 1, 1)).getDay();
+    let hasDoneFirstWeek = false;
+    // console.log(firstDayOfWeek);
+    let lastYear = month - 1 > 0 ? year : year - 1;
+    let lastMonth = month - 1 > 0 ? month - 1 : 12;
+    let nextYear = month + 1 === 13 ? year + 1 : year;
+    let nextMonth = month + 1 === 13 ? 1 : month + 1;
+    for (let idx = 0; idx < monthDaysCountArr[month - 1]; idx++) {
+        week = new Date(Date.UTC(year, month - 1, idx + 1)).getDay();
+        // 补齐每个月前面的日子，计算上个月的尾巴
+        if (firstDayOfWeek === 0 && !hasDoneFirstWeek) {
+            for (let idx = 0; idx < 7; idx++) {
+                let date = monthDaysCountArr[lastMonth - 1] + idx - 6;
+                dateList[weekIndex].push({
+                    value: formatStringDate(lastYear, lastMonth, date),
+                    date: date,
+                    week: idx,
+                    selected: false,
+                    hasCourse: false,
+                    courseIdArray: [],
+                    courseIdString: '',
+                    inThisMonth: false
+                });
+            }
+            weekIndex++;
+            dateList[weekIndex] = [];
+            hasDoneFirstWeek = true;
+
+        } else if (!hasDoneFirstWeek) {
+            for (let blank = 0; blank < firstDayOfWeek; blank++) {
+                let date = monthDaysCountArr[lastMonth - 1] + blank + 1 - firstDayOfWeek;
+                dateList[weekIndex].push({
+                    value: formatStringDate(lastYear, lastMonth, date),
+                    date: date,
+                    week: week + blank - firstDayOfWeek,
+                    selected: false,
+                    hasCourse: false,
+                    courseIdArray: [],
+                    courseIdString: '',
+                    inThisMonth: false
+                });
+            }
+            hasDoneFirstWeek = true;
+        }
+
+        // 每个月的日子
+        dateList[weekIndex].push({
+            value: formatStringDate(year, month, (idx + 1)),
+            date: idx + 1,
+            week: week,
+            selected: false,
+            hasCourse: false,
+            courseIdArray: [],
+            courseIdString: '',
+            inThisMonth: true
+        });
+
+
+        if (week === 6) {
+            weekIndex++;
+            dateList[weekIndex] = [];
+        }
+
+        // 补齐每个月最后面的日子，计算下个月的头
+        if (idx === monthDaysCountArr[month - 1] - 1) {
+            let rest = 7 - dateList[weekIndex].length;
+            for (let i = 0; i < rest; i++) {
+                dateList[weekIndex].push({
+                    value: formatStringDate(nextYear, nextMonth, (i + 1)),
+                    date: i + 1,
+                    week: week + i + 1 <= 6 ? week + i + 1 : i,
+                    selected: false,
+                    hasCourse: false,
+                    courseIdArray: [],
+                    courseIdString: '',
+                    inThisMonth: false
+                });
+            }
+
+            if (weekIndex !== 5) {
+                weekIndex = 5;
+                dateList[weekIndex] = [];
+                for (let i = 0; i < 7; i++) {
+                    dateList[weekIndex].push({
+                        value: formatStringDate(nextYear, nextMonth, (rest + i + 1)),
+                        date: rest + i + 1,
+                        week: i,
+                        selected: false,
+                        hasCourse: false,
+                        courseIdArray: [],
+                        courseIdString: '',
+                        inThisMonth: false
+                    });
+                }
+            }
+        }
+    }
+
+    // 准备有课程日期的标注数据
+    // console.log(courseSet);
+    let courseIdx = 0;
+    for (let course of courseSet) {
+        courseIdx++;
+        for (let week = 0; week < dateList.length; week++) {
+            for (let day = 0; day < dateList[week].length; day++) {
+                // 先判断这天是否在周期内
+                if (checkDate(course.startDate, dateList[week][day].value, course.endDate)) {
+
+                    if (course.recurringRule.includes(transNumDate2EnDate(dateList[week][day].week))) {
+                        // console.log(dateList[week][day].week, transNumDate2EnDate(dateList[week][day].week));
+                        dateList[week][day].hasCourse = true;
+                        dateList[week][day].courseIdArray.push(courseIdx);
+                    }
+
+                    dateList[week][day].courseIdString = dateList[week][day].courseIdArray.join("、");
+                }
+            }
+        }
+    }
+
+    // 打印检验
+    // console.log("log begins here~~~~~~~~~~~~~~~~~~~~~");
+    // for (let week = 0; week < dateList.length; week++) {
+    //     for (let day = 0; day < dateList[week].length; day++) {
+    //         console.log("dateList[", week, "][", day, "], is: ", dateList[week][day].value
+    //             , ", ", dateList[week][day].date
+    //             , ", ", dateList[week][day].week
+    //             , ", selected", dateList[week][day].selected
+    //             , ", hasCourse", dateList[week][day].hasCourse
+    //             , ", courseIdString", dateList[week][day].courseIdString.toString()
+    //             , ", inThisMonth", dateList[week][day].inThisMonth);
+    //     }
+    // }
+
+    return dateList;
+}
+
+/**
+ * 最核心的函数
+ * 1、获取每周的显示列表
+ * 2、搜索、标记日期状态
+ */
+function getWeekDateList(year, month, courseSet) {
     let week;
     // 如果是闰年，则2月有29天
     let monthDaysCountArr = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -474,5 +632,6 @@ module.exports = {
     datesDistance: datesDistance,
     getMovedDate: getMovedDate,
     checkDate: checkDate,
-    getDateList: getDateList
+    getMonthDateList: getMonthDateList,
+    getWeekDateList: getWeekDateList
 };

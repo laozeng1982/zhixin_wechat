@@ -4,6 +4,7 @@
 import DataStructure from '../../../datamodel/DataStructure'
 import StorageUtils from '../../../utils/StorageUtils'
 import DateTimeUtils from '../../../utils/DateTimeUtils'
+import pageUtils from './pageUtils'
 import Util from '../../../utils/Util'
 
 const app = getApp();
@@ -162,101 +163,6 @@ Page({
         timeListIdx: 0,
 
         fromHide: false
-
-    },
-
-    /**
-     * 第一次进入该页面时，根据本地数据初始化
-     * @param options
-     */
-    loadCourse: function (options) {
-        let currentCourse = {};    // 当前页面要用的课程
-
-        // 从本地读取数据，用来初始化页面显示课程
-        let userInfo = StorageUtils.loadUserInfo();
-
-        // 修改已有新课程
-        // 解析课程id
-        console.log(options);
-        let currentCourseIdx = parseInt(options.model.split("_")[1]);
-
-        if (currentCourseIdx >= 0 && currentCourseIdx <= userInfo.teacherCourseSet.length - 1) {
-            // 直接提取
-            currentCourse = userInfo.teacherCourseSet[currentCourseIdx];
-        } else {
-            console.log("wrong model!");
-            return;
-        }
-
-        let weekVisual = this.data.weekVisual;
-
-        for (let item of weekVisual) {
-            item.selected = currentCourse.recurringRule.includes(item.name);
-
-        }
-
-        console.log("currentCourseIdx:", currentCourseIdx);
-        console.log("currentCourse:", currentCourse);
-
-        this.setData({
-            userInfo: userInfo,
-            currentCourse: currentCourse,
-            currentCourseIdx: currentCourseIdx,
-            weekVisual: weekVisual
-        });
-    },
-
-    /**
-     * 初始化页面数据
-     */
-    initPageCourse: function () {
-        console.log("Course Page onShow call");
-
-        // 如果是由次级页面跳转回来，则不需要重新加载数据
-        let courseItems = this.data.courseItems;
-
-        if (!this.data.fromHide) {
-            let currentCourse = this.data.currentCourse;
-
-            // 2、根据课程初始化页面数据，需要分别处理上课地址和重复规律
-            for (let item in currentCourse) {
-                for (let displayItem in courseItems)
-                    if (displayItem === item && displayItem !== "location") {
-                        courseItems[displayItem].value = currentCourse[item];
-                    }
-            }
-
-            // 初始化上课地址和教室
-            courseItems.location.latitude.value = currentCourse.location.latitude;
-            courseItems.location.longitude.value = currentCourse.location.longitude;
-            courseItems.location.address.value = currentCourse.location.address;
-            courseItems.location.name.value = currentCourse.location.name;
-            courseItems.location.room.value = currentCourse.location.room;
-
-            // 初始化重复规则
-            app.tempData.recurringRule = currentCourse.recurringRule;
-            if (app.tempData.recurringRule.constructor === Array) {
-                if (app.tempData.recurringRule.length > 0) {
-                    courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
-                }
-            }
-
-            let timeList = [45, 50, 55, 60, 75, 90, 100, 120];
-
-            this.setData({
-                courseItems: courseItems,
-                timeList: timeList,
-            });
-        } else {
-            if (app.tempData.recurringRule.constructor === Array) {
-                if (app.tempData.recurringRule.length > 0) {
-                    courseItems.recurringRule.value = "每周" + app.tempData.recurringRule.map(DateTimeUtils.transEnDate2ChShortDate).join("、");
-                }
-            }
-            this.setData({
-                courseItems: courseItems,
-            });
-        }
 
     },
 
@@ -487,29 +393,9 @@ Page({
      */
     onLoad: function (options) {
 
+        pageUtils.initTabData(this, options);
+        // pageUtils.loadCourse(options);
 
-        this.loadCourse(options);
-
-        // 根据页面传来的参数来决定优先激活哪个Tab
-        let models = options.model.split(":");
-        let currentTabIdx = this.data.currentTabIdx;
-        let tabData = this.data.tabData;
-
-        if (models.length > 1) {
-            currentTabIdx = 1;
-            tabData[0].selected =  false;
-            tabData[1].selected =  true;
-
-        } else {
-            currentTabIdx = 0;
-            tabData[0].selected =  true;
-            tabData[1].selected =  false;
-        }
-
-        this.setData({
-            currentTabIdx: currentTabIdx,
-            options: options
-        });
     },
 
     /**
@@ -524,8 +410,7 @@ Page({
      */
     onShow: function () {
         // 初始化页面
-        this.initPageCourse();
-
+        pageUtils.initPageCourse(this);
 
     },
 

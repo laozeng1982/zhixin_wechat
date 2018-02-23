@@ -1,5 +1,5 @@
 //setting.js
-const util = require('../../../utils/Util.js');
+import StorageUtils from '../../../utils/StorageUtils'
 
 const app = getApp();
 
@@ -23,6 +23,11 @@ Page({
             },
             {
                 list_tool: [
+                    {
+                        img: "../../image/information_64px.png",
+                        name: "已购服务",
+                        url: "../../normalpages/set_notice/set_notice"
+                    },
                     {
                         img: "../../image/information_64px.png",
                         name: "通知推送",
@@ -65,7 +70,7 @@ Page({
      */
     onLoad: function () {
         this.setData({
-            userInfo: app.Util.loadData(app.Settings.Storage.WeChatUser),
+            userInfo: StorageUtils.loadUserInfo(),
         });
     },
 
