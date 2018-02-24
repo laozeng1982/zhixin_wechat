@@ -1,8 +1,8 @@
 /**
  * 初始化页面数据
  */
-import DateTimeUtils from "../../../utils/DateTimeUtils";
-import StorageUtils from "../../../utils/StorageUtils";
+import DateTimeUtils from "../../../../utils/DateTimeUtils";
+import StorageUtils from "../../../../utils/StorageUtils";
 
 const app = getApp();
 

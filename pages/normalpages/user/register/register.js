@@ -1,8 +1,8 @@
 // pages/userinfo/userinfo.js
 // 用户资料页，可以复用，首次进入，为注册页面精简信息，从个人设置页面，为全信息
 
-import DataStructure from '../../../datamodel/DataStructure'
-import StorageUtils from '../../../utils/StorageUtils'
+import DataStructure from '../../../../datamodel/DataStructure'
+import StorageUtils from '../../../../utils/StorageUtils'
 
 const app = getApp();
 
@@ -24,8 +24,8 @@ Page({
             email: false,
             authorities: true
         },
-        genderChArray: ["男", "女", "不确定"],
-        genderEnArray: ["Male", "Female", "Unknown"],
+        genderChArray: ["男", "女"],
+        genderEnArray: ["Male", "Female"],
         authorities: [
             {name: 'teacher', value: '老师', checked: false, description: '发布课程、通知开课、考勤管理、发布作业以及点评'},
             {name: 'student', value: '学生', checked: false, description: '加入课程、查看课程、老师评价、上传作业'},
@@ -56,8 +56,6 @@ Page({
             genderIdx = 0;
         } else if (userInfo.gender === 'Female') {
             genderIdx = 1;
-        } else if (userInfo.gender === 'Unknown') {
-            genderIdx = 2;
         } else {
             genderIdx = 0;
             userInfo.gender = 'Male';
@@ -238,7 +236,7 @@ Page({
             });
 
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
-            tabUrl = '../../tabpages/index/index';
+            tabUrl = '../../tabpages/student/student';
         } else {
             // 由更新页面进入，页面设置完成，跳转到设置
             console.log(app.tempData.request_header);

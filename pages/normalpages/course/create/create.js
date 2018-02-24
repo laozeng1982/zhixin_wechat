@@ -1,10 +1,10 @@
 // pages/normalpages/create_course/create_course.js
 // 创建课程页
 
-import DataStructure from '../../../datamodel/DataStructure'
-import StorageUtils from '../../../utils/StorageUtils'
-import DateTimeUtils from '../../../utils/DateTimeUtils'
-import Util from '../../../utils/Util'
+import DataStructure from '../../../../datamodel/DataStructure'
+import StorageUtils from '../../../../utils/StorageUtils'
+import DateTimeUtils from '../../../../utils/DateTimeUtils'
+import Util from '../../../../utils/Util'
 
 const app = getApp();
 

@@ -65,45 +65,6 @@ function showModal(title, content) {
     });
 }
 
-//第一种状态的底部  
-function editTabBar() {
-    var _curPageArr = getCurrentPages();
-    var _curPage = _curPageArr[_curPageArr.length - 1];
-    var _pagePath = _curPage.__route__;
-    if (_pagePath.indexOf('/') != 0) {
-        _pagePath = '/' + _pagePath;
-    }
-    var tabBar = this.globalData.tabBar;
-    for (var i = 0; i < tabBar.list.length; i++) {
-        tabBar.list[i].active = false;
-        if (tabBar.list[i].pagePath == _pagePath) {
-            tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
-        }
-    }
-    _curPage.setData({
-        tabBar: tabBar
-    });
-}
-//第二种状态的底部  
-function editTabBar2() {
-    var _curPageArr = getCurrentPages();
-    var _curPage = _curPageArr[_curPageArr.length - 1];
-    var _pagePath = _curPage.__route__;
-    if (_pagePath.indexOf('/') != 0) {
-        _pagePath = '/' + _pagePath;
-    }
-    var tabBar = this.globalData.tabBar2;
-    for (var i = 0; i < tabBar.list.length; i++) {
-        tabBar.list[i].active = false;
-        if (tabBar.list[i].pagePath == _pagePath) {
-            tabBar.list[i].active = true;//根据页面地址设置当前页面状态    
-        }
-    }
-    _curPage.setData({
-        tabBar: tabBar
-    });
-}
-
 /**
  * 同步爱撸铁设计的动作信息
  * @param host
@@ -193,7 +154,7 @@ function syncUserInfo(host, type, data2Sever, data2Local) {
                                                     if (res.confirm) {
                                                         // 去注册
                                                         wx.redirectTo({
-                                                            url: '/pages/settings/userinfo/userinfo?model=newUser',
+                                                            url: '/pages/settings/modify/modify?model=newUser',
                                                         });
                                                     } else if (res.cancel) {
                                                         console.log('用户取消UserUID');
@@ -350,7 +311,7 @@ function createData(type, data2Sever, data2Local) {
                         console.log("create plan successful, res.data:", res.data);
                         wx.hideLoading();
                         wx.switchTab({
-                            url: '../../index/index',
+                            url: '../../student/student',
                         });
                         break;
                     case "reality":
@@ -369,7 +330,7 @@ function createData(type, data2Sever, data2Local) {
         fail: function (res) {
             wx.hideLoading();
             wx.switchTab({
-                url: '../../index/index',
+                url: '../../student/student',
             });
             console.log("create fail: ", res.data);
         }
@@ -408,7 +369,7 @@ function updateData(type, data2Sever, data2Local) {
                         console.log("update plan successful, res.data:", res.data);
                         wx.hideLoading();
                         wx.switchTab({
-                            url: '../../index/index',
+                            url: '../../student/student',
                         });
                         break;
                     case "reality":

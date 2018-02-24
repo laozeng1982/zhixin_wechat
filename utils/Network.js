@@ -7,6 +7,9 @@ import Settings from '../datamodel/Settings'
 const BASE_URL = "https://www.yongrui.wang/WeChatMiniProgram/";
 const Setting = new Settings.Settings();
 
+// TODO
+// 增加Promise
+
 /**
  * 使用GET方法获取数据
  * @param type
@@ -38,7 +41,7 @@ function getData(type, key) {
                             console.log("create plan successful, res.data:", res.data);
                             wx.hideLoading();
                             wx.switchTab({
-                                url: '../../index/index',
+                                url: '../../student/student',
                             });
                             break;
                         case "reality":
@@ -57,7 +60,7 @@ function getData(type, key) {
             fail: function (res) {
                 wx.hideLoading();
                 wx.switchTab({
-                    url: '../../index/index',
+                    url: '../../student/student',
                 });
                 console.log("create fail: ", res.data);
             }
@@ -98,7 +101,7 @@ function postData(type, data2Sever, data2Local) {
                             console.log("create plan successful, res.data:", res.data);
                             wx.hideLoading();
                             wx.switchTab({
-                                url: '../../index/index',
+                                url: '../../student/student',
                             });
                             break;
                         case "reality":
@@ -117,7 +120,7 @@ function postData(type, data2Sever, data2Local) {
             fail: function (res) {
                 wx.hideLoading();
                 wx.switchTab({
-                    url: '../../index/index',
+                    url: '../../student/student',
                 });
                 console.log("create fail: ", res.data);
             }
@@ -156,7 +159,7 @@ function putData(type, data2Sever, data2Local) {
                             console.log("update plan successful, res.data:", res.data);
                             wx.hideLoading();
                             wx.switchTab({
-                                url: '../../index/index',
+                                url: '../../student/student',
                             });
                             break;
                         case "reality":
@@ -264,7 +267,7 @@ function syncUserInfo(self) {
                                                     wx.hideLoading();
 
                                                     wx.redirectTo({
-                                                        url: '/pages/normalpages/userinfo/userinfo' + '?model=register',
+                                                        url: '/pages/normalpages/modify/modify' + '?model=register',
                                                     });
                                                 } else {
                                                     // 如果返回id，表示本地删除过小程序，找回用户信息，在获取了用户id之后，更新用户信息，这步必须的。

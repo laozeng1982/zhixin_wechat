@@ -1,3 +1,5 @@
+/* 顶部Tab */
+
 .tab {
     height: 10%;
     width: 100%;
@@ -38,4 +40,29 @@
     align-content: center;
     align-items: center;
     justify-content: space-around;
+}
+
+/* 底部Tab */
+
+.menu-item {
+    float: left;
+    text-align: center;
+    padding-top: 8px;
+}
+
+.img {
+    width: 23px;
+    height: 23px;
+    display: block;
+    margin: auto;
+}
+
+.clear {
+    clear: both;
+}
+
+.tab-bar {
+    position: fixed;
+    width: 100%;
+    padding: 0px 2%;
 }

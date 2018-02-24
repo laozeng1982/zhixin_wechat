@@ -27,10 +27,10 @@ function initTabData(self, role) {
     let currentMonth = today.getMonth() + 1;
     let currentDate = today.getDate();
 
-    let selectedDate = DateTimeUtils.formatDate(today);
+    let selectedDate = DateTimeUtils.formatTimeToString(today);
     let selectedWeek = [];
 
-    let dateList = DateTimeUtils.getMonthList(currentYear, currentMonth, userInfo.teacherCourseSet);
+    let dateList = DateTimeUtils.getMonthDateList(currentYear, currentMonth, userInfo.teacherCourseSet);
 
     self.setData({
         today: today,
@@ -70,13 +70,13 @@ function initPageHomework(self) {
 
 function createNewCourse(self) {
     wx.navigateTo({
-        url: '../../normalpages/create_course/create_course',
+        url: '../../normalpages/create/create',
     });
 }
 
 function createNewNotice(self) {
     wx.navigateTo({
-        url: '../../normalpages/create_notice/create_notice',
+        url: '../../normalpages/create/create',
     });
 }
 

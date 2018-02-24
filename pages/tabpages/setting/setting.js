@@ -6,19 +6,21 @@ const app = getApp();
 Page({
     data: {
         userInfo: {},
+        bottom_tabBar: app.bottom_tabBar,
+
         list: [
             {
                 list_tool: [
                     {
                         img: "../../image/friend_64px.png",
                         name: "个人信息",
-                        url: "../../normalpages/userinfo/userinfo"
+                        url: "../../normalpages/user/modify/modify"
                     },
-                    {
-                        img: "../../image/writing_64px.png",
-                        name: "切换角色",
-                        url: "../../normalpages/set_role/set_role"
-                    },
+                    // {
+                    //     img: "../../image/writing_64px.png",
+                    //     name: "切换角色",
+                    //     url: "../../normalpages/set_role/set_role"
+                    // },
                 ]
             },
             {
@@ -69,7 +71,10 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function () {
+        app.bottom_tabBar.changeTab();
+
         this.setData({
+            bottom_tabBar: app.bottom_tabBar,
             userInfo: StorageUtils.loadUserInfo(),
         });
     },

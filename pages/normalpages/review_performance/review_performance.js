@@ -306,7 +306,7 @@ Page({
 
         if (this.data.options.model === "homework") {
             // 由新建页面进入，创建用户信息，页面设置完成，跳转到首页
-            tabUrl = '../../tabpages/index/index';
+            tabUrl = '../../tabpages/student/student';
 
         } else {
             // 由更新页面进入，页面设置完成，跳转到设置

@@ -1,11 +1,11 @@
 // pages/normalpages/modify_course/modify_course.js
 // 修改课程页
 
-import DataStructure from '../../../datamodel/DataStructure'
-import StorageUtils from '../../../utils/StorageUtils'
-import DateTimeUtils from '../../../utils/DateTimeUtils'
+import DataStructure from '../../../../datamodel/DataStructure'
+import StorageUtils from '../../../../utils/StorageUtils'
+import DateTimeUtils from '../../../../utils/DateTimeUtils'
 import pageUtils from './pageUtils'
-import Util from '../../../utils/Util'
+import Util from '../../../../utils/Util'
 
 const app = getApp();
 

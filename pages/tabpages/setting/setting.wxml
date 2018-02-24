@@ -1,4 +1,7 @@
 <!--setting.wxml-->
+
+<import src="../../common/bottom_tabbar.wxml" />
+
 <view class="container">
     <scroll-view class='setting-page-scroll' scroll-y="true">
 
@@ -30,4 +33,6 @@
         </view>
 
     </scroll-view>
+
+    <template is="bottom_tabBar" data="{{bottom_tabBar}}"/>
 </view>

@@ -13,6 +13,7 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
+       
         // 首页Tab
         indexTabData: [
             {
@@ -81,7 +82,6 @@ Page({
 
         // 布告栏数据
         currentNoticeSet: [],
-
 
     },
 
@@ -330,6 +330,7 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
+        app.bottom_tabBar.changeTab();
         // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket。
         // shareTicket 是获取转发目标群信息的票据，只有拥有 shareTicket 才能拿到群信息，用户每次转发都会生成对应唯一的shareTicket 。
         wx.showShareMenu({
@@ -343,12 +344,16 @@ Page({
                 success: function (res) {
                     let encryptedData = res.encryptedData;
                     let iv = res.iv;
-                    console.log("index page, getShareInfo:", res);
+                    console.log("student page, getShareInfo:", res);
                 }
             });
         }
 
-        console.log("index page onLoad, options:", options);
+        console.log("student page onLoad, options:", options);
+
+        this.setData({
+            bottom_tabBar: app.bottom_tabBar,
+        });
 
     },
 

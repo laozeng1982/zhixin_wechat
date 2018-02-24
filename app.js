@@ -2,6 +2,7 @@
 // 小程序入口
 
 import NetWork from './utils/Network'
+import TabBar from '/pages/common/BottomTabBar.js'
 
 App({
     onLaunch: function (options) {
@@ -24,11 +25,14 @@ App({
         // 登录，同步用户数据
         NetWork.syncUserInfo(this);
 
+
     },
 
     onShow: function () {
         console.log("App.onShow");
     },
+
+    bottom_tabBar: new TabBar.BottomTabBar(),
 
     currentAuth: "",
 
