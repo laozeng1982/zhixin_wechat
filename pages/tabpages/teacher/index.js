@@ -3,86 +3,15 @@
 import DateTimeUtils from '../../../utils/DateTimeUtils'
 import StorageUtils from '../../../utils/StorageUtils'
 
-import pageUtils from 'pageUtils'
+import PageUtils from './PageUtils'
 
 // 获取应用实例
 const app = getApp();
 
 Page({
     data: {
-        userInfo: {},
-        hasUserInfo: false,
-        canIUse: wx.canIUse('button.open-type.getUserInfo'),
+        pageData: {},
         bottom_tabBar: app.bottom_tabBar,
-        // 首页Tab
-        indexTabData: [
-            {
-                type: "course",
-                name: "课程",
-                data: [],
-                selected: true
-            },
-            {
-                type: "notice",
-                name: "布告栏",
-                data: [],
-                selected: false
-            },
-            {
-                type: "homework",
-                name: "作业查收",
-                data: [],
-                selected: false
-            }
-        ],
-        currentTabIdx: 0,
-
-        // 课程页面的Tab
-        courseTabData: [
-            {
-                type: "all_course",
-                name: "所有课程",
-                selected: true,
-                display: true
-            },
-            {
-                type: "everyday_lesson",
-                name: "每日课程",
-                selected: false,
-                display: true
-            },
-            {
-                type: "add_new",
-                name: "创建",
-                selected: true,
-                display: false
-            }
-        ],
-        selectedCourseIdx: 0,
-
-        // 以下是控制每日课程的显示
-        showWeekView: true,
-
-        today: '',
-        todayMonth: '',
-        todayYear: '',
-        selectedDate: '',
-        selectedWeek: '',
-        currentYear: '',
-        currentMonth: '',
-        currentDate: '',
-
-        // 保存当月的日期
-        dateList: [],
-
-        // 日历滑动
-        calendars: [1, 2, 3],
-        lastCalendarId: 0,
-        duration: 1000,
-
-        // 布告栏数据
-        currentNoticeSet: [],
-
     },
 
     /**
@@ -91,8 +20,9 @@ Page({
      * @param e
      */
     onSwitchIndexTab: function (e) {
+        console.log(e);
         let currentTabIdx = e.currentTarget.dataset.current;
-        let indexTabData = this.data.indexTabData;
+        let indexTabData = this.data.pageData.indexTabData;
 
         for (let idx = 0; idx < indexTabData.length; idx++) {
             indexTabData[idx].selected = (idx === currentTabIdx);
@@ -111,7 +41,7 @@ Page({
      */
     onSelectCourseTabItem: function (e) {
         console.log("selected:", e.currentTarget.id);
-        let courseTabData = this.data.courseTabData;
+        let courseTabData = this.data.pageData.courseTabData;
         for (let item of courseTabData) {
             if (item.type === "add_new") {
                 // 当显示创建的时候，始终高亮创建选项
@@ -199,9 +129,9 @@ Page({
     onSelectLesson: function (e) {
         console.log("Selected course:", e.currentTarget.id);
 
-        let url = '../../normalpages/modify_course/modify_course' +
+        let url = '../../normalpages/course/course/course' +
             "?courseId=" + e.currentTarget.id + "&" +
-            "date=" + this.data.selectedDate;
+            "date=" + this.data.pageData.selectedDate;
 
         wx.navigateTo({
             url: url,
@@ -257,7 +187,7 @@ Page({
      */
     onChangeVerticalSwiper: function (e) {
         let current = parseInt(e.detail.current);
-        let lastCalenderId = this.data.lastCalendarId;
+        let lastCalenderId = this.data.pageData.lastCalendarId;
 
         let isNextMonth = false;
 
@@ -330,14 +260,16 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function (options) {
-        // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket。
+        console.log("teacher page onLoad, options:", options);
+
         // shareTicket 是获取转发目标群信息的票据，只有拥有 shareTicket 才能拿到群信息，用户每次转发都会生成对应唯一的shareTicket 。
+        // withShareTicket 为 true 时，表示允许转发时是否携带 shareTicket。
         app.bottom_tabBar.changeTab();
         wx.showShareMenu({
             withShareTicket: true
         });
 
-        // 判断场景值，1044 为转发场景，包含shareTicket 参数
+        // // 判断场景值，1044 为转发场景，包含shareTicket 参数
         if (options.scene === 1044) {
             wx.getShareInfo({
                 shareTicket: opt.shareTicket,
@@ -353,6 +285,12 @@ Page({
         this.setData({
             bottom_tabBar: app.bottom_tabBar,
         });
+
+        let pageUtils = new PageUtils.PageUtils();
+
+        pageUtils.initTabData();
+        pageUtils.update(this);
+
     },
 
     /**
@@ -367,53 +305,57 @@ Page({
      */
     onShow: function () {
 
-        let userInfoLocal = StorageUtils.loadUserInfo();
-        app.currentAuth = userInfoLocal.currentAuth;
-        let roleName = "";
+        // this.setData({
+        //     pageData: pageUtils.makePageData(),
+        // });
 
-        switch (userInfoLocal.currentAuth) {
-            case "teacher":
-                roleName = "老师";
-                break;
-            case "parent":
-                roleName = "家长";
-                break;
-            case "student":
-                roleName = "学生";
-                break;
-            default:
-                break;
-        }
-
-        pageUtils.initTabData(this, userInfoLocal.currentAuth);
-
-        let indexPageTitle = roleName + '首页';
-        wx.setNavigationBarTitle({
-            title: indexPageTitle,
-        });
-
-        // 判断是否需要显示新建课程
-        let courseTabData = this.data.courseTabData;
-        if (userInfoLocal.teacherCourseSet.length > 0) {
-
-            // 其他页面跳转回来时，当前显示哪一个次级Tab
-            if (app.tempData.currentCourseSubTab === "all_course") {
-                courseTabData[0].selected = true;
-                courseTabData[1].selected = false;
-            } else if (app.tempData.currentCourseSubTab === "everyday_lesson") {
-                courseTabData[0].selected = false;
-                courseTabData[1].selected = true;
-            }
-            courseTabData[2].display = true;
-
-        }
-
-        this.setData({
-            userInfo: userInfoLocal,
-            userInfoLocal: userInfoLocal,
-            courseTabData: courseTabData,
-            hasUserInfo: true
-        });
+        // let userInfoLocal = StorageUtils.loadUserInfo();
+        // app.currentAuth = userInfoLocal.currentAuth;
+        // let roleName = "";
+        //
+        // switch (userInfoLocal.currentAuth) {
+        //     case "teacher":
+        //         roleName = "老师";
+        //         break;
+        //     case "parent":
+        //         roleName = "家长";
+        //         break;
+        //     case "student":
+        //         roleName = "学生";
+        //         break;
+        //     default:
+        //         break;
+        // }
+        //
+        // pageUtils.initTabData(this, userInfoLocal.currentAuth);
+        //
+        // let indexPageTitle = roleName + '首页';
+        // wx.setNavigationBarTitle({
+        //     title: indexPageTitle,
+        // });
+        //
+        // // 判断是否需要显示新建课程
+        // let courseTabData = this.data.pageData.courseTabData;
+        // if (userInfoLocal.teacherCourseSet.length > 0) {
+        //
+        //     // 其他页面跳转回来时，当前显示哪一个次级Tab
+        //     if (app.tempData.currentCourseSubTab === "all_course") {
+        //         courseTabData[0].selected = true;
+        //         courseTabData[1].selected = false;
+        //     } else if (app.tempData.currentCourseSubTab === "everyday_lesson") {
+        //         courseTabData[0].selected = false;
+        //         courseTabData[1].selected = true;
+        //     }
+        //     courseTabData[2].display = true;
+        //
+        // }
+        //
+        // this.setData({
+        //     userInfo: userInfoLocal,
+        //     userInfoLocal: userInfoLocal,
+        //     courseTabData: courseTabData,
+        //     hasUserInfo: true
+        // });
 
     },
 

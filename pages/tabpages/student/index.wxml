@@ -260,5 +260,7 @@
         <button type='primary' bindtap='onReviewLesson'>评价课堂表现Test</button>
     </view>
 
-    <template is="bottom_tabBar" data="{{bottom_tabBar}}"/>
+   
 </view>
+
+ <template is="bottom_tabBar" data="{{bottom_tabBar}}"/>
